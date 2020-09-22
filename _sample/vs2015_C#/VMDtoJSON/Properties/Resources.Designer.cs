@@ -59,25 +59,5 @@ namespace VMDtoJSON.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
-        /// </summary>
-        internal static System.Drawing.Icon hotplug {
-            get {
-                object obj = ResourceManager.GetObject("hotplug", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
-        /// </summary>
-        internal static System.Drawing.Icon video {
-            get {
-                object obj = ResourceManager.GetObject("video", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
     }
 }

@@ -66,11 +66,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="..\..\..\src\CS\Common\CommonFunction.cs" />
     <Compile Include="..\..\..\src\CS\Common\CommonLogger.cs" />
     <Compile Include="..\..\..\src\CS\Common\CommonStructure.cs" />
@@ -81,10 +76,15 @@
     <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_IK.cs" />
     <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Illumination.cs" />
     <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Motion.cs" />
-    <Compile Include="src\Format\VMD_Format_Struct_SelfShadow.cs" />
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_SelfShadow.cs" />
     <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Skin.cs" />
     <Compile Include="..\..\..\src\CS\VMDtoJSON.cs" />
     <Compile Include="..\..\..\src\CS\VMDtoJSON_Converter.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
