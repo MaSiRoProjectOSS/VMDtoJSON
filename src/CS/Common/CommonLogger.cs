@@ -47,7 +47,15 @@ namespace MaSiRoProject.Common
         /// <summary>
         /// ログレベルの指定
         /// </summary>
+#if DEBUG
+
         public static LEVEL OutputBorderLevel = LEVEL.DEBUG;
+
+#else
+
+        public static LEVEL OutputBorderLevel = LEVEL.INFO;
+
+#endif
 
         /// <summary>
         /// ログ出力

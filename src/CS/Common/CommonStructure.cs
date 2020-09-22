@@ -95,6 +95,58 @@
     }
 
     /// <summary>
+    /// 回転軸をまとめたクラス
+    /// </summary>
+    public class AxisOfRotation<T>
+    {
+        /// <summary>
+        /// Roll
+        /// </summary>
+        public T Roll;
+
+        /// <summary>
+        /// Pitch
+        /// </summary>
+        public T Pitch;
+
+        /// <summary>
+        /// Yaw
+        /// </summary>
+        public T Yaw;
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="roll">Roll</param>
+        /// <param name="pitch">Pitch</param>
+        /// <param name="yaw">Yaw</param>
+        public AxisOfRotation(T roll, T pitch, T yaw)
+        {
+            this.Set(roll, pitch, yaw);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public AxisOfRotation()
+        {
+        }
+
+        /// <summary>
+        /// 設定関数
+        /// </summary>
+        /// <param name="roll">Roll</param>
+        /// <param name="pitch">Pitch</param>
+        /// <param name="yaw">Yaw</param>
+        public void Set(T roll, T pitch, T yaw)
+        {
+            this.Roll = roll;
+            this.Pitch = pitch;
+            this.Yaw = yaw;
+        }
+    }
+
+    /// <summary>
     /// X軸とY軸とZ軸をまとめたクラス
     /// </summary>
     public class Position<T>
@@ -120,7 +172,6 @@
         /// <param name="x">X軸</param>
         /// <param name="y">Y軸</param>
         /// <param name="z">Z軸</param>
-        /// <param name="z">Z軸（デフォルト:0）</param>
         public Position(T x, T y, T z)
         {
             this.Set(x, y, z);
