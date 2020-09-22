@@ -66,7 +66,7 @@ namespace MaSiRoProject
             /// <remarks>
             ///     X軸は符号が反転しているので注意
             /// </remarks>
-            public Position<float> Rotation = new Position<float>();
+            public AxisOfRotation<float> Rotation = new AxisOfRotation<float>();
 
             /// <summary>
             ///  補完データ

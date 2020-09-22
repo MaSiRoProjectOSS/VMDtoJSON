@@ -7,7 +7,7 @@ namespace MaSiRoProject
         public VMDtoJSON_Converter(string[] args)
         {
             bool flag_help = false;
-            bool flag_version = true;
+            bool flag_version = false;
             string input_filename = string.Empty;
             string output_filename = string.Empty;
 
@@ -38,7 +38,7 @@ namespace MaSiRoProject
                     // 出力ファイルパス
                     if (i + 1 < args.Length)
                     {
-                        input_filename = args[i + 1];
+                        output_filename = args[i + 1];
 
                         i = i + 1;
                     }
@@ -96,8 +96,6 @@ namespace MaSiRoProject
             ////////////////////////
             if (true == flag_version)
             {
-                CommonLogger.Log(CommonLogger.LEVEL.INFO, "==================");
-
                 CommonLogger.Log(CommonLogger.LEVEL.INFO, System.Windows.Forms.Application.ProductName
                     + " Ver." + System.Windows.Forms.Application.ProductVersion
                     + System.Environment.NewLine
@@ -107,6 +105,14 @@ namespace MaSiRoProject
             {
                 if (!string.Empty.Equals(input_filename))
                 {
+                    CommonLogger.Log(CommonLogger.LEVEL.INFO, "==================");
+                    if (true != flag_version)
+                    {
+                        CommonLogger.Log(CommonLogger.LEVEL.INFO, System.Windows.Forms.Application.ProductName
+                            + " Ver." + System.Windows.Forms.Application.ProductVersion
+                            + System.Environment.NewLine
+                            );
+                    }
                     vmdtojson.Convert(input_filename);
                     if (!string.Empty.Equals(output_filename))
                     {
@@ -120,7 +126,10 @@ namespace MaSiRoProject
                 }
                 else
                 {
-                    CommonLogger.Log(CommonLogger.LEVEL.ERROR, "NOT found VMD FILE.");
+                    if (true != flag_version)
+                    {
+                        CommonLogger.Log(CommonLogger.LEVEL.ERROR, "NOT found VMD FILE.");
+                    }
                 }
             }
             else

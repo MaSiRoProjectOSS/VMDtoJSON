@@ -72,7 +72,7 @@ namespace MaSiRoProject
             /// <remarks>
             ///     MMDで表示されている値
             /// </remarks>
-            public Position<float> Euler = new Position<float>();
+            public AxisOfRotation<float> Euler = new AxisOfRotation<float>();
 
             /// <summary>
             /// 補間パラメタ

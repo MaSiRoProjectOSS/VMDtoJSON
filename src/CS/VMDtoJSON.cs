@@ -28,6 +28,11 @@ namespace MaSiRoProject
         /// </summary>
         private const int DECIMALS_ROTATION = 1;
 
+        /// <summary>
+        /// 少数点の有効な桁数 [ROTATION] with Motion
+        /// </summary>
+        private const int DECIMALS_ROTATION_MOTION = 1;
+
         #endregion 出力設定
 
         #region 文字コード
@@ -357,16 +362,12 @@ namespace MaSiRoProject
                                      + this.VMD_Data.Motion.Data[i].Quaternion.Y + ", "
                                      + this.VMD_Data.Motion.Data[i].Quaternion.Z + ", "
                                      + this.VMD_Data.Motion.Data[i].Quaternion.W
-                                     + "]" + ( minimumJson ? "" : Environment.NewLine ));
-#if false
-
-                // TODO : 未対応
+                                     + "]," + ( minimumJson ? "" : Environment.NewLine ));
                 sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Euler\": ["
-                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Motion.Data[i].Euler.X) + ", "
-                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Motion.Data[i].Euler.Y) + ", "
-                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Motion.Data[i].Euler.Z)
+                                     + this.GetRound(DECIMALS_ROTATION_MOTION, this.VMD_Data.Motion.Data[i].Euler.Roll) + ", "
+                                     + this.GetRound(DECIMALS_ROTATION_MOTION, this.VMD_Data.Motion.Data[i].Euler.Pitch) + ", "
+                                     + this.GetRound(DECIMALS_ROTATION_MOTION, this.VMD_Data.Motion.Data[i].Euler.Yaw)
                                      + "]" + ( minimumJson ? "" : Environment.NewLine ));
-#endif
                 sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
                 sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Interpolation\": {" + ( minimumJson ? "" : Environment.NewLine ));
                 sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"X\": {" +
@@ -572,9 +573,9 @@ namespace MaSiRoProject
                                      + this.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.Z)
                                      + "]," + ( minimumJson ? "" : Environment.NewLine ));
                 sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Rotation\": ["
-                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Camera.Data[i].Rotation.X) + ", "
-                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Camera.Data[i].Rotation.Y) + ", "
-                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Camera.Data[i].Rotation.Z)
+                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Camera.Data[i].Rotation.Roll) + ", "
+                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Camera.Data[i].Rotation.Pitch) + ", "
+                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Camera.Data[i].Rotation.Yaw)
                                      + "]," + ( minimumJson ? "" : Environment.NewLine ));
                 sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Interpolation\": {" + ( minimumJson ? "" : Environment.NewLine ));
                 sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"X\": {" +
@@ -1119,11 +1120,20 @@ namespace MaSiRoProject
         /// <param name="value">Quaternion</param>
         /// <returns>Euler</returns>
         /// <remarks>
-        ///     TODO :未対応
+        ///  - MMDの表示に合うように計算してます。
+        ///  - 計算結果の少数がMMDの表示と若干異なっています。
         /// </remarks>
-        private Position<float> QuaternionToEuler(Quaternion<float> value)
+        private AxisOfRotation<float> QuaternionToEuler(Quaternion<float> value)
         {
-            Position<float> euler = new Position<float>();
+            float mmd_display_roll = (float) ( Math.PI );
+            float mmd_display_yaw = -1.0f;
+            AxisOfRotation<float> euler = new AxisOfRotation<float>();
+
+            euler.Set(
+                this.AngleConversions(mmd_display_roll - (float) Math.Atan2(2.0 * ( ( value.Y * value.Z ) + ( value.X * value.W ) ), Math.Pow(value.X, 2) + Math.Pow(value.Y, 2) - Math.Pow(value.Z, 2) - Math.Pow(value.W, 2))),
+                this.AngleConversions((float) Math.Asin(2.0 * ( ( value.X * value.Z ) - ( value.Y * value.W ) ))),
+                this.AngleConversions(mmd_display_yaw * (float) Math.Atan2(2.0 * ( ( value.Z * value.W ) + ( value.X * value.Y ) ), Math.Pow(value.X, 2) - Math.Pow(value.Y, 2) - Math.Pow(value.Z, 2) + Math.Pow(value.W, 2)))
+                );
             return euler;
         }
 
