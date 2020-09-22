@@ -134,7 +134,7 @@ namespace MaSiRoProject
                 // usage
                 CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT,
                     " usage: VMDtoJSON"
-                        + " [--version] [-h | --help]"
+                        + " [-v | --version] [-h | --help]"
                         + " [-F <Input VMD file path>]"
                         + " [-O <Output JSON file path>]"
                         + " [-S <FrameNo>]"
