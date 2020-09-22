@@ -72,7 +72,7 @@ namespace MaSiRoProject
                     // minimum json
                     vmdtojson.SetOutputJsonType(true);
                 }
-                else if (( "--version".Equals(args[i]) ))
+                else if (( "-v".Equals(args[i].ToLower()) || ( "--version".Equals(args[i].ToLower()) ) ))
                 {
                     // バージョン
                     flag_version = true;
@@ -82,7 +82,7 @@ namespace MaSiRoProject
                     // ログを出力させない
                     CommonLogger.OutputBorderLevel = CommonLogger.LEVEL.REPORT;
                 }
-                else if (( "-h".Equals(args[i]) || ( "--help".Equals(args[i]) ) ))
+                else if (( "-h".Equals(args[i].ToLower()) || ( "--help".Equals(args[i].ToLower()) ) ))
                 {
                     // ヘルプ
                     flag_version = true;
@@ -94,25 +94,16 @@ namespace MaSiRoProject
             ////////////////////////
             /// 変換
             ////////////////////////
-            if (true == flag_version)
-            {
-                CommonLogger.Log(CommonLogger.LEVEL.INFO, System.Windows.Forms.Application.ProductName
-                    + " Ver." + System.Windows.Forms.Application.ProductVersion
-                    + System.Environment.NewLine
-                    );
-            }
             if (false == flag_help)
             {
-                if (!string.Empty.Equals(input_filename))
+                if (true == flag_version)
                 {
                     CommonLogger.Log(CommonLogger.LEVEL.INFO, "==================");
-                    if (true != flag_version)
-                    {
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, System.Windows.Forms.Application.ProductName
-                            + " Ver." + System.Windows.Forms.Application.ProductVersion
-                            + System.Environment.NewLine
-                            );
-                    }
+                    CommonLogger.Log(CommonLogger.LEVEL.INFO, System.Windows.Forms.Application.ProductName
+                        + " Ver." + System.Windows.Forms.Application.ProductVersion);
+                }
+                if (!string.Empty.Equals(input_filename))
+                {
                     vmdtojson.Convert(input_filename);
                     if (!string.Empty.Equals(output_filename))
                     {
@@ -134,15 +125,41 @@ namespace MaSiRoProject
             }
             else
             {
-                CommonLogger.Log(Common.CommonLogger.LEVEL.INFO, "usage: VMDtoJSON"
-                + " [--version] [-h |--help]"
-                + " [-F <Input VMD file path>]"
-                + " [-O <Output JSON file path>]"
-                + " [-S <FrameNo>]"
-                + " [-T <TargetID>]"
-                + " [-M]"
-                + " [-q]"
+                CommonLogger.Log(CommonLogger.LEVEL.REPORT,
+                                 "==================" + System.Environment.NewLine
+                               + System.Windows.Forms.Application.ProductName
+                                + " Ver." + System.Windows.Forms.Application.ProductVersion + System.Environment.NewLine
+                               + "==================");
 
+                // usage
+                CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT,
+                    " usage: VMDtoJSON"
+                        + " [--version] [-h | --help]"
+                        + " [-F <Input VMD file path>]"
+                        + " [-O <Output JSON file path>]"
+                        + " [-S <FrameNo>]"
+                        + " [-T <TargetID>]"
+                        + " [-M]"
+                        + " [-q]" + System.Environment.NewLine
+                );
+
+                // Get application information
+                CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT,
+                          " Options and arguments" + System.Environment.NewLine
+                        + "   Get application information" + System.Environment.NewLine
+                        + "     -v             : " + "print this software version number (also --version)" + System.Environment.NewLine
+                        + "     -h             : " + "print this help message and exit (also --help)" + System.Environment.NewLine
+                );
+
+                // Manipulating output data
+                CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT,
+                          "   Manipulating output data" + System.Environment.NewLine
+                        + "     -F input_file  : " + "convert this file. <input_file>" + System.Environment.NewLine
+                        + "     -O output_file : " + "output JSON file to this path. <output_file>" + System.Environment.NewLine
+                        + "     -S frame_no    : " + "start the frame number<frame_no> from the specified number." + System.Environment.NewLine
+                        + "     -T targetID    : " + "set the <targetID> in the extension header." + System.Environment.NewLine
+                        + "     -M             : " + "make a JSON file with no line breaks or spaces." + System.Environment.NewLine
+                        + "     -q             : " + "don't print version and copyright messages on interactive startup." + System.Environment.NewLine
                 );
             }
         }
