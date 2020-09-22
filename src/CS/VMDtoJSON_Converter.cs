@@ -38,7 +38,7 @@ namespace MaSiRoProject
                     // 出力ファイルパス
                     if (i + 1 < args.Length)
                     {
-                        input_filename = args[i + 1];
+                        output_filename = args[i + 1];
 
                         i = i + 1;
                     }
