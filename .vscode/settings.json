@@ -1,0 +1,57 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+	"C_Cpp.addWorkspaceRootToIncludePath": false,
+	"C_Cpp.intelliSenseEngine": "Tag Parser",
+	"git.editor.decorations.enabled": true,
+	"git.decorations.colors": true,
+	"files.exclude": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/CVS": true,
+		"**/.DS_Store": true,
+		"**/*.py": true,
+		"**/*.pyc": true,
+		"BUILD": true,
+		"doxyfile": true,
+		"LICENSE": true,
+		"mbed-os": true,
+		"**/*.md": false,
+		"docs": true,
+		"_template": true,
+		".tools": false
+	},
+	"editor.renderWhitespace": "all",
+	"files.associations": {
+		"system_error": "cpp",
+		"type_traits": "cpp",
+		"typeinfo": "cpp",
+		"array": "cpp",
+		"deque": "cpp",
+		"unordered_map": "cpp",
+		"vector": "cpp",
+		"initializer_list": "cpp",
+		"*.tcc": "cpp"
+	},
+	"git.ignoreLimitWarning": true,
+	"uncrustify.configPath.windows": ".tools/uncrustify/cfg/_cpp.cfg",
+	"astyle.astylerc": "${workspaceRoot}/.tools/AStyle/.astylerc.cfg",
+	"astyle.cpp.enable": true,
+	"astyle.c.enable": true,
+	"astyle.csharp.enable": false,
+	"search.exclude": {
+		".tools": true,
+		"**/node_modules": true,
+		"**/bower_components": true,
+		"**/*.code-search": true
+	},
+	"files.encoding": "utf8bom",
+	"files.autoSave": "onFocusChange",
+	"files.eol": "\n",
+	"doxdocgen.file.copyrightTag": [
+		"@copyright Copyright (c) MaSiRo Project. {year}-."
+	],
+	"editor.rulers": [
+		120
+	]
+}

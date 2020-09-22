@@ -1,0 +1,83 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "echoCommand": true,
+    "problemMatcher": {
+        "owner": "cpp",
+        "fileLocation": [
+            "relative",
+            "${workspaceRoot}"
+        ],
+        "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+        }
+    },
+    "tasks": [
+        {
+            "label": "[debug] build",
+            "type": "shell",
+            "command": "",
+            "args": [
+                "\"${config:project.MSBuild}\" \"${config:project.MSSolution}\" /p:Configuration=debug /t:build /m"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "[debug] REBUILD all",
+            "type": "shell",
+            "command": "",
+            "args": [
+                "\"${config:project.MSBuild}\" \"${config:project.MSSolution}\" /p:Configuration=debug /t:rebuild /m"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "-- RUN [debug] --",
+            "type": "shell",
+            "command": "\"${config:project.outputbin_Debug}\" ",
+            "args": [
+                "\"${config:project.selected}\""
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "<release> REBUILD",
+            "type": "shell",
+            "command": "",
+            "args": [
+                "\"${config:project.MSBuild}\" \"${config:project.MSSolution}\" /p:Configuration=release /t:rebuild /m"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "-- RUN <release> --",
+            "type": "shell",
+            "command": "\"${config:project.outputbin_Release}\" ",
+            "args": [
+                "\"${config:project.selected}\""
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        }
+    ]
+}

@@ -1,0 +1,193 @@
+﻿# VMDファイルの構造
+
+フレームNoなど整数型は符号なし整数型として考えて記載してます。
+  [TODO] : 符号ありか無しか検証すること
+  [TODO] : モーションのRotatationはクオータニオンで保存されているオイラー角に変換してMMDと値が一致していることを確認すること
+
+## Header
+
+| No. | データ名      | サイズ |   型   | 備考                             |
+|:----|:--------------|:------:|:------:|:---------------------------------|
+| 1   | FileSignature |   30   | String | "Vocaloid Motion Data 0002" 固定 |
+| 2   | ModelName     |   20   | String | 保存した際のモデル名             |
+
+
+## Motion
+
+| No. | データ名   |    サイズ    |      型       | 備考 |
+|:----|:-----------|:------------:|:-------------:|:-----|
+| 1   | Count      |      4       |     uint      |      |
+| 2   | MotionData | 111  * Count | ST_MotionData |      |
+
+* ST_MotionData
+
+| No.   | データ名      | サイズ |        型        | 備考 |
+|:------|:--------------|:------:|:----------------:|:-----|
+| 1     | BoneName      |   15   |      string      |      |
+| 2     | FrameNo       |   4    |       uint       |      |
+| 3     | Location      |   12   | three_dimensions |      |
+| 3-1   | - X           |   4    |      float       |      |
+| 3-2   | - Y           |   4    |      float       |      |
+| 3-3   | - Z           |   4    |      float       |      |
+| 4     | Rotatation    |   16   |    Quaternion    |      |
+| 4-1   | - X           |   4    |      float       |      |
+| 4-2   | - Y           |   4    |      float       |      |
+| 4-3   | - Z           |   4    |      float       |      |
+| 4-4   | - W           |   4    |      float       |      |
+| 5     | Interpolation |   64   |  vector * 4 * 2  |      |
+| 5-1   | - X           |   16   |    vector * 2    |      |
+| 5-1-2 | - X [start]   |   8    |      vector      |      |
+| 5-1-3 | - X [end]     |   8    |      vector      |      |
+| 5-2   | - Y           |   16   |    vector * 2    |      |
+| 5-2-1 | - Y [start]   |   8    |      vector      |      |
+| 5-2-2 | - Y [end]     |   8    |      vector      |      |
+| 5-3   | - Z           |   16   |    vector * 2    |      |
+| 5-3-1 | - Z [start]   |   8    |      vector      |      |
+| 5-3-2 | - Z [end]     |   8    |      vector      |      |
+| 5-4   | - R           |   16   |    vector * 2    |      |
+| 5-4-1 | - R [start]   |   8    |      vector      |      |
+| 5-4-2 | - R [end]     |   8    |      vector      |      |
+
+
+## Skin
+
+| No. | データ名 |   サイズ    |     型      | 備考 |
+|:----|:---------|:-----------:|:-----------:|:-----|
+| 1   | Count    |      4      |    uint     |      |
+| 2   | SkinData | 23  * Count | ST_SkinData |      |
+
+
+* ST_SkinData
+
+| No. | データ名 | サイズ |   型   | 備考 |
+|:----|:---------|:------:|:------:|:-----|
+| 1   | SkinName |   15   | string |      |
+| 2   | FlameNo  |   4    |  uint  |      |
+| 3   | Weight   |   4    | float  |      |
+
+
+## Camera
+
+| No. | データ名   |   サイズ    |      型       | 備考 |
+|:---:|:-----------|:-----------:|:-------------:|:-----|
+|  1  | Count      |      4      |      int      |      |
+|  2  | CameraData | 61  * Count | ST_CameraData |      |
+
+* ST_CameraData
+
+| No.  | データ名              | サイズ |        型        | 備考                                       |
+|:-----|:----------------------|:------:|:----------------:|:-------------------------------------------|
+| 1    | FlameNo               |   4    |       uint       |                                            |
+| 2    | Length                |   4    |      float       | ファイル内は MMDの表示から「-1」かけた数値 |
+| 3    | Location              |   12   | three_dimensions |                                            |
+| 3-1  | - X                   |   4    |      float       |                                            |
+| 3-2  | - Y                   |   4    |      float       |                                            |
+| 3-3  | - Z                   |   4    |      float       |                                            |
+| 4    | Rotatation            |   12   | three_dimensions | X軸は符号が反転しているので注意            |
+| 4-1  | - X                   |   4    |      float       |                                            |
+| 4-2  | - Y                   |   4    |      float       |                                            |
+| 4-3  | - Z                   |   4    |      float       |                                            |
+| 5    | Interpolation         |   24   |     byte[24]     |                                            |
+| 5-1  | - XAxis.stat.X        |   1    |       byte       |                                            |
+| 5-2  | - XAxis.end.X         |   1    |       byte       |                                            |
+| 5-3  | - XAxis.stat.Y        |   1    |       byte       |                                            |
+| 5-4  | - XAxis.end.Y         |   1    |       byte       |                                            |
+| 5-5  | - YAxis.stat.X        |   1    |       byte       |                                            |
+| 5-6  | - YAxis.end.X         |   1    |       byte       |                                            |
+| 5-7  | - YAxis.stat.Y        |   1    |       byte       |                                            |
+| 5-8  | - YAxis.end.Y         |   1    |       byte       |                                            |
+| 5-9  | - ZAxis.stat.X        |   1    |       byte       |                                            |
+| 5-10 | - ZAxis.end.X         |   1    |       byte       |                                            |
+| 5-11 | - ZAxis.stat.Y        |   1    |       byte       |                                            |
+| 5-12 | - ZAxis.end.Y         |   1    |       byte       |                                            |
+| 5-13 | - Rotation.stat.X     |   1    |       byte       |                                            |
+| 5-14 | - Rotation.end.X      |   1    |       byte       |                                            |
+| 5-15 | - Rotation.stat.Y     |   1    |       byte       |                                            |
+| 5-16 | - Rotation.end.Y      |   1    |       byte       |                                            |
+| 5-17 | - Length.stat.X       |   1    |       byte       |                                            |
+| 5-18 | - Length.end.X        |   1    |       byte       |                                            |
+| 5-19 | - Length.stat.Y       |   1    |       byte       |                                            |
+| 5-20 | - Length.end.Y        |   1    |       byte       |                                            |
+| 5-21 | - ViewingAngle.stat.X |   1    |       byte       |                                            |
+| 5-22 | - ViewingAngle.end.X  |   1    |       byte       |                                            |
+| 5-23 | - ViewingAngle.stat.Y |   1    |       byte       |                                            |
+| 5-24 | - ViewingAngle.end.Y  |   1    |       byte       |                                            |
+| 6    | ViewingAngle          |   4    |       uint       |                                            |
+| 7    | Perspective           |   1    |       bool       |                                            |
+
+## Illumination
+
+| No. | データ名         |   サイズ    |         型          | 備考 |
+|:---:|:-----------------|:-----------:|:-------------------:|:-----|
+|  1  | Count            |      4      |         int         |      |
+|  2  | IlluminationData | 28  * Count | ST_IlluminationData |      |
+
+* ST_IlluminationData
+
+| No. | データ名 | サイズ |        型        | 備考              |
+|:----|:---------|:------:|:----------------:|:------------------|
+| 1   | FlameNo  |   4    |       uint       |                   |
+| 2   | Length   |   16   |      color       |                   |
+| 2-1 | - R      |   4    |      float       | 計算式： 各値/256 |
+| 2-2 | - G      |   4    |      float       | 計算式： 各値/256 |
+| 2-3 | - B      |   4    |      float       | 計算式： 各値/256 |
+| 3   | Location |   12   | three_dimensions |                   |
+| 3-1 | - X      |   4    |      float       |                   |
+| 3-2 | - Y      |   4    |      float       |                   |
+| 3-3 | - Z      |   4    |      float       |                   |
+
+
+## SelfShadow
+
+| No. | データ名       |   サイズ    |        型         | 備考 |
+|:---:|:---------------|:-----------:|:-----------------:|:-----|
+|  1  | Count          |      4      |        int        |      |
+|  2  | SelfShadowData | 61  * Count | ST_SelfShadowData |      |
+
+
+* ST_SelfShadowData
+
+| No. | データ名 | サイズ |  型   | 備考                             |
+|:----|:---------|:------:|:-----:|:---------------------------------|
+| 1   | FlameNo  |   4    | uint  |                                  |
+| 2   | Mode     |   4    | uint  | 0:影なし、1:モード１、2:モード２ |
+| 3   | Distance |   12   | float | 計算式： (0.1 - dist) / 0.00001  |
+
+
+## IK
+
+| No. | データ名      |   サイズ    |        型        | 備考 |
+|-----|:--------------|:-----------:|:----------------:|:-----|
+| 1   | Count         |      4      |       int        |      |
+| 2   | IKVisibleData | 61  * Count | ST_IKVisibleData |      |
+
+* ST_IKVisibleData
+
+| No. | データ名 | サイズ      | 型        | 備考 |
+|:----|----------|:------------|:----------|:-----|
+| 1   | FlameNo  | 4           | uint      |      |
+| 1   | Visible  | 4           | int       |      |
+| 1   | Count    | 4           | int       |      |
+| 2   | IKData   | 61  * Count | ST_IKData |      |
+
+
+
+* ST_IKData （IKデータ用構造）
+
+| No. | データ名 | サイズ |   型   | 備考 |
+|:----|:---------|:------:|:------:|:-----|
+| 1   | BoneName |   20   | string |      |
+| 2   | Enabled  |   1    |  bool  |      |
+
+
+
+
+## その他
+### Expansion
+
+| No. | データ名   | サイズ | 型 | 備考                               |
+|-----|------------|--------|----|------------------------------------|
+| 1   | Version    | int    |    | ファイルシグニチャを数値化したもの |
+| 2   | TargetID   | int    |    | 切り出した時の                     |
+| 3   | StartFrame | int    |    | 設定したフレーム数                 |
+

@@ -1,0 +1,54 @@
+{
+    "configurations": [
+        {
+            "name": "Windows",
+            "forcedInclude": [],
+            "compilerPath": "arm-none-eabi-g++",
+            "intelliSenseMode": "gcc-x64",
+            "includePath": [
+                "${workspaceFolder}/*",
+                "${workspaceFolder}/src/*",
+                "${workspaceFolder}/src/include*"
+            ],
+            "defines": [
+                "__CORTEX_M4"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        },
+        {
+            "name": "Mac",
+            "compilerPath": "arm-none-eabi-g++",
+            "includePath": [
+                "${workspaceFolder}/*",
+                "${workspaceFolder}/src/*",
+                "${workspaceFolder}/src/include*"
+            ],
+            "defines": [
+                "__CORTEX_M4"
+            ],
+            "macFrameworkPath": [
+                "/System/Library/Frameworks",
+                "/Library/Frameworks"
+            ],
+            "intelliSenseMode": "clang-x64",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        },
+        {
+            "name": "Linux",
+            "compilerPath": "arm-none-eabi-g++",
+            "includePath": [
+                "${workspaceFolder}/*",
+                "${workspaceFolder}/src/*"
+            ],
+            "defines": [
+                "__CORTEX_M4"
+            ],
+            "intelliSenseMode": "clang-x64",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}

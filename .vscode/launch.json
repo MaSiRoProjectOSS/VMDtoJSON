@@ -1,0 +1,63 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C++ Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/${config:project.bin}/${config:project.name}.elf",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": false,
+            "debugServerArgs": "-f \"board/st_nucleo_l476rg.cfg\"",
+            "serverLaunchTimeout": 20000,
+            "filterStderr": true,
+            "filterStdout": false,
+            "serverStarted": "Info : Listening on port 3333 for gdb connections",
+            "setupCommands": [
+                { "text": "-target-select remote localhost:3333", "description": "connect to target", "ignoreFailures": false },
+                { "text": "-file-exec-and-symbols ${workspaceRoot}/${config:project.bin}/${config:project.name}.elf", "description": "load file", "ignoreFailures": false},
+                { "text": "-interpreter-exec console \"monitor endian little\"", "ignoreFailures": false },
+                { "text": "-interpreter-exec console \"monitor reset\"", "ignoreFailures": false },
+                { "text": "-interpreter-exec console \"monitor halt\"", "ignoreFailures": false },
+                { "text": "-interpreter-exec console \"monitor arm semihosting enable\"", "ignoreFailures": false },
+                { "text": "-target-download", "description": "flash target", "ignoreFailures": false }
+            ],
+            "logging": {
+                "moduleLoad": true,
+                "trace": true,
+                "engineLogging": true,
+                "programOutput": true,
+                "exceptions": true
+            },
+            "linux": {
+                "MIMode": "gdb",
+                "MIDebuggerPath": "/usr/bin/arm-none-eabi-gdb",
+                "debugServerPath": "pyocd-gdbserver"
+            },
+            "osx": {
+                "MIMode": "gdb",
+                "MIDebuggerPath": "/usr/local/bin/arm-none-eabi-gdb",
+                "debugServerPath": "pyocd-gdbserver"
+            },
+            "windows": {
+                "MIMode": "gdb",
+                "MIDebuggerPath": "arm-none-eabi-gdb.exe",
+                "debugServerPath": "${config:OpenOCDFolder}\\openocd.exe",
+                "x_debugServerPath": "${config:pyOCDFolder}\\pyocd.exe",
+                "setupCommands": [
+                    { "text": "-environment-cd ${workspaceRoot}/${config:project.bin}/last" },
+                    { "text": "-target-select remote localhost:3333", "description": "connect to target", "ignoreFailures": false },
+                    { "text": "-file-exec-and-symbols ${config:project.name}.elf", "description": "load file", "ignoreFailures": false},
+                    { "text": "-interpreter-exec console \"monitor endian little\"", "ignoreFailures": false },
+                    { "text": "-interpreter-exec console \"monitor reset\"", "ignoreFailures": false },
+                    { "text": "-interpreter-exec console \"monitor halt\"", "ignoreFailures": false },
+                    { "text": "-interpreter-exec console \"monitor arm semihosting enable\"", "ignoreFailures": false },
+                    { "text": "-target-download", "description": "flash target", "ignoreFailures": false }
+                ]
+            }
+        }
+    ]
+}
