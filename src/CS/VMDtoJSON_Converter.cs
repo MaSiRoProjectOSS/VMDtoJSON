@@ -4,11 +4,6 @@ namespace MaSiRoProject
 {
     internal class VMDtoJSON_Converter
     {
-        private void Debug(ref string input_filename, ref string output_filename)
-        {
-            input_filename = "E:/MyBox/Dev/GitHub/MaSiRo_Project/ros_suite/MMD_VMDtoROS/VMDtoJSON/__MMDsample/test.vmd";
-        }
-
         public VMDtoJSON_Converter(string[] args)
         {
             bool flag_help = false;
@@ -95,7 +90,6 @@ namespace MaSiRoProject
                     break;
                 }
             }
-            this.Debug(ref input_filename, ref output_filename);
 
             ////////////////////////
             /// 変換

@@ -66,20 +66,48 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\..\..\src\CS\Common\CommonFunction.cs" />
-    <Compile Include="..\..\..\src\CS\Common\CommonLogger.cs" />
-    <Compile Include="..\..\..\src\CS\Common\CommonStructure.cs" />
-    <Compile Include="..\..\..\src\CS\Format\VMD_Format.cs" />
-    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Camera.cs" />
-    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Expansion.cs" />
-    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Header.cs" />
-    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_IK.cs" />
-    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Illumination.cs" />
-    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Motion.cs" />
-    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_SelfShadow.cs" />
-    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Skin.cs" />
-    <Compile Include="..\..\..\src\CS\VMDtoJSON.cs" />
-    <Compile Include="..\..\..\src\CS\VMDtoJSON_Converter.cs" />
+    <Compile Include="..\..\..\src\CS\Common\CommonFunction.cs">
+      <Link>Common\CommonFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Common\CommonLogger.cs">
+      <Link>Common\CommonLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Common\CommonStructure.cs">
+      <Link>Common\CommonStructure.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format.cs">
+      <Link>src\Format\VMD_Format.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Camera.cs">
+      <Link>src\Format\VMD_Format_Struct_Camera.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Expansion.cs">
+      <Link>src\Format\VMD_Format_Struct_Expansion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Header.cs">
+      <Link>src\Format\VMD_Format_Struct_Header.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_IK.cs">
+      <Link>src\Format\VMD_Format_Struct_IK.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Illumination.cs">
+      <Link>src\Format\VMD_Format_Struct_Illumination.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Motion.cs">
+      <Link>src\Format\VMD_Format_Struct_Motion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_SelfShadow.cs">
+      <Link>src\Format\VMD_Format_Struct_SelfShadow.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Skin.cs">
+      <Link>src\Format\VMD_Format_Struct_Skin.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\VMDtoJSON.cs">
+      <Link>src\VMDtoJSON.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\VMDtoJSON_Converter.cs">
+      <Link>src\VMDtoJSON_Converter.cs</Link>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
