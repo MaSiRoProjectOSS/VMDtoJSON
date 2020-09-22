@@ -28,6 +28,11 @@ namespace MaSiRoProject
         /// </summary>
         private const int DECIMALS_ROTATION = 1;
 
+        /// <summary>
+        /// 少数点の有効な桁数 [ROTATION] with Motion
+        /// </summary>
+        private const int DECIMALS_ROTATION_MOTION = 1;
+
         #endregion 出力設定
 
         #region 文字コード
@@ -143,14 +148,41 @@ namespace MaSiRoProject
         /// <returns></returns>
         public bool OutputFile(string output_filepath)
         {
+            bool flag_notice = false;
+#if DEBUG
+            flag_notice = true;
+#endif
             lock (lock_outputfile)
             {
-                if (string.Empty != output_filepath)
+                try
                 {
-                    // ファイルの書き込み
-                    StreamWriter writer = new StreamWriter(output_filepath, false, text_encoding_utf8);
-                    writer.Write(sb_VMD_Data.ToString());
-                    writer.Close();
+                    if (string.Empty != output_filepath)
+                    {
+                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "==================");
+                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "-- Output file --");
+                        FileInfo fileInfo = new FileInfo(output_filepath);
+                        CommonLogger.Log(CommonLogger.LEVEL.INFO, " File path : " + fileInfo.FullName);
+
+                        // ファイルの書き込み
+                        StreamWriter writer = new StreamWriter(fileInfo.FullName, false, text_encoding_utf8);
+                        writer.Write(sb_VMD_Data.ToString());
+                        writer.Close();
+                    }
+                    DateTime dt = DateTime.Now;
+                    CommonLogger.Log(CommonLogger.LEVEL.INFO,
+                          " Completion time : "
+                        + dt.ToString("yyyy/MM/dd HH:mm:ss"));
+                }
+                catch (Exception ex)
+                {
+                    DateTime dt = DateTime.Now;
+                    Console.WriteLine(dt);
+                    CommonLogger.Log(CommonLogger.LEVEL.ERROR,
+                        "An error occurred while outputting the file." + System.Environment.NewLine
+                        + "  TargetID : " + VMD_Data.Expansion.TargetID.ToString() + System.Environment.NewLine
+                        + "  Happened : " + dt.ToString("yyyy/MM/dd HH:mm:ss") + System.Environment.NewLine
+                    + System.Environment.NewLine
+                        + ex.Message, flag_notice);
                 }
             }
             return true;
@@ -244,56 +276,56 @@ namespace MaSiRoProject
 
                     if (true == retReturn)
                     {
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    - [Header]");
+                        CommonLogger.Log(CommonLogger.LEVEL.DEBUG, "    - [Header]");
 
                         if (false == this.Convert_StructToJson_Header(ref err_message, minimumJson)) { retReturn = false; }
                     }
 
                     if (true == retReturn)
                     {
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    - [Motion]");
+                        CommonLogger.Log(CommonLogger.LEVEL.DEBUG, "    - [Motion]");
 
                         if (false == this.Convert_StructToJson_Motion(ref err_message, minimumJson)) { retReturn = false; }
                     }
 
                     if (true == retReturn)
                     {
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    - [Skin]");
+                        CommonLogger.Log(CommonLogger.LEVEL.DEBUG, "    - [Skin]");
 
                         if (false == this.Convert_StructToJson_Skin(ref err_message, minimumJson)) { retReturn = false; }
                     }
 
                     if (true == retReturn)
                     {
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    - [Camera]");
+                        CommonLogger.Log(CommonLogger.LEVEL.DEBUG, "    - [Camera]");
 
                         if (false == this.Convert_StructToJson_Camera(ref err_message, minimumJson)) { retReturn = false; }
                     }
 
                     if (true == retReturn)
                     {
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    - [Illumination]");
+                        CommonLogger.Log(CommonLogger.LEVEL.DEBUG, "    - [Illumination]");
 
                         if (false == this.Convert_StructToJson_Illumination(ref err_message, minimumJson)) { retReturn = false; }
                     }
 
                     if (true == retReturn)
                     {
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    - [SelfShadow]");
+                        CommonLogger.Log(CommonLogger.LEVEL.DEBUG, "    - [SelfShadow]");
 
                         if (false == this.Convert_StructToJson_SelfShadow(ref err_message, minimumJson)) { retReturn = false; }
                     }
 
                     if (true == retReturn)
                     {
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    - [IK]");
+                        CommonLogger.Log(CommonLogger.LEVEL.DEBUG, "    - [IK]");
 
                         if (false == this.Convert_StructToJson_IK(ref err_message, minimumJson)) { retReturn = false; }
                     }
 
                     if (true == retReturn)
                     {
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    - [Expansion]");
+                        CommonLogger.Log(CommonLogger.LEVEL.DEBUG, "    - [Expansion]");
 
                         if (false == this.Convert_StructToJson_Expansion(ref err_message, minimumJson)) { retReturn = false; }
                     }
@@ -357,16 +389,12 @@ namespace MaSiRoProject
                                      + this.VMD_Data.Motion.Data[i].Quaternion.Y + ", "
                                      + this.VMD_Data.Motion.Data[i].Quaternion.Z + ", "
                                      + this.VMD_Data.Motion.Data[i].Quaternion.W
-                                     + "]" + ( minimumJson ? "" : Environment.NewLine ));
-#if false
-
-                // TODO : 未対応
+                                     + "]," + ( minimumJson ? "" : Environment.NewLine ));
                 sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Euler\": ["
-                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Motion.Data[i].Euler.X) + ", "
-                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Motion.Data[i].Euler.Y) + ", "
-                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Motion.Data[i].Euler.Z)
+                                     + this.GetRound(DECIMALS_ROTATION_MOTION, this.VMD_Data.Motion.Data[i].Euler.Roll) + ", "
+                                     + this.GetRound(DECIMALS_ROTATION_MOTION, this.VMD_Data.Motion.Data[i].Euler.Pitch) + ", "
+                                     + this.GetRound(DECIMALS_ROTATION_MOTION, this.VMD_Data.Motion.Data[i].Euler.Yaw)
                                      + "]" + ( minimumJson ? "" : Environment.NewLine ));
-#endif
                 sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
                 sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Interpolation\": {" + ( minimumJson ? "" : Environment.NewLine ));
                 sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"X\": {" +
@@ -572,9 +600,9 @@ namespace MaSiRoProject
                                      + this.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.Z)
                                      + "]," + ( minimumJson ? "" : Environment.NewLine ));
                 sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Rotation\": ["
-                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Camera.Data[i].Rotation.X) + ", "
-                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Camera.Data[i].Rotation.Y) + ", "
-                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Camera.Data[i].Rotation.Z)
+                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Camera.Data[i].Rotation.Roll) + ", "
+                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Camera.Data[i].Rotation.Pitch) + ", "
+                                     + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Camera.Data[i].Rotation.Yaw)
                                      + "]," + ( minimumJson ? "" : Environment.NewLine ));
                 sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Interpolation\": {" + ( minimumJson ? "" : Environment.NewLine ));
                 sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"X\": {" +
@@ -780,7 +808,7 @@ namespace MaSiRoProject
                     CommonLogger.Log(CommonLogger.LEVEL.INFO, "==================");
                     CommonLogger.Log(CommonLogger.LEVEL.INFO, "-- Open file --");
                     FileInfo fileInfo = new FileInfo(vmd_filepath);
-                    CommonLogger.Log(CommonLogger.LEVEL.INFO, "Load VMD file : " + fileInfo.FullName);
+                    CommonLogger.Log(CommonLogger.LEVEL.INFO, " Load VMD file : " + fileInfo.FullName);
                     reader = new BinaryReader(File.Open(fileInfo.FullName, FileMode.Open));
                     long filelength = reader.BaseStream.Length;
                     CommonLogger.Log(CommonLogger.LEVEL.INFO, " Size : " + filelength);
@@ -805,8 +833,8 @@ namespace MaSiRoProject
                                                                     reader.ReadBytes(20),
                                                                     text_encoding_sjis,
                                                                     text_encoding_utf8);
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    FileSignature :" + VMD_Data.Header.FileSignature.TrimEnd());
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    ModelName     :" + VMD_Data.Header.ModelName.TrimEnd());
+                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    FileSignature : " + VMD_Data.Header.FileSignature.TrimEnd());
+                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    ModelName     : " + VMD_Data.Header.ModelName.TrimEnd());
                     }
 
                     //////////////////////////////
@@ -816,7 +844,7 @@ namespace MaSiRoProject
                     {
                         CommonLogger.Log(CommonLogger.LEVEL.INFO, "-- Loading [Motion] --");
                         uint motion_count = reader.ReadUInt32();
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    Count :" + motion_count);
+                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    count : " + motion_count);
 
                         for (int i = 0; i < motion_count; i++)
                         {
@@ -910,7 +938,7 @@ namespace MaSiRoProject
                     {
                         CommonLogger.Log(CommonLogger.LEVEL.INFO, "-- Loading [Skin] --");
                         uint skin_count = reader.ReadUInt32();
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    Count :" + skin_count);
+                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    count : " + skin_count);
 
                         for (int i = 0; i < skin_count; i++)
                         {
@@ -933,7 +961,7 @@ namespace MaSiRoProject
                     {
                         CommonLogger.Log(CommonLogger.LEVEL.INFO, "-- Loading [Camera] --");
                         uint camera_count = reader.ReadUInt32();
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    Count :" + camera_count);
+                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    count : " + camera_count);
 
                         for (int i = 0; i < camera_count; i++)
                         {
@@ -982,7 +1010,7 @@ namespace MaSiRoProject
                     {
                         CommonLogger.Log(CommonLogger.LEVEL.INFO, "-- Loading [Illumination] --");
                         uint illumination_count = reader.ReadUInt32();
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    Count :" + illumination_count);
+                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    count : " + illumination_count);
 
                         for (int i = 0; i < illumination_count; i++)
                         {
@@ -1006,7 +1034,7 @@ namespace MaSiRoProject
                     {
                         CommonLogger.Log(CommonLogger.LEVEL.INFO, "-- Loading [SelfShadow] --");
                         uint selfshadow_count = reader.ReadUInt32();
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    Count :" + selfshadow_count);
+                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    count : " + selfshadow_count);
 
                         for (int i = 0; i < selfshadow_count; i++)
                         {
@@ -1026,7 +1054,7 @@ namespace MaSiRoProject
                     {
                         CommonLogger.Log(CommonLogger.LEVEL.INFO, "-- Loading [IK] --");
                         uint ik_count = reader.ReadUInt32();
-                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    Count :" + ik_count);
+                        CommonLogger.Log(CommonLogger.LEVEL.INFO, "    count : " + ik_count);
 
                         for (int i = 0; i < ik_count; i++)
                         {
@@ -1036,7 +1064,7 @@ namespace MaSiRoProject
                             visible_data.Visible = reader.ReadBoolean();
                             uint ik_visible_count = reader.ReadUInt32();
                             CommonLogger.Log(CommonLogger.LEVEL.INFO, "  -- Loading [IK_VISIBLE] --");
-                            CommonLogger.Log(CommonLogger.LEVEL.INFO, "      Count :" + ik_visible_count);
+                            CommonLogger.Log(CommonLogger.LEVEL.INFO, "      count : " + ik_visible_count);
 
                             for (int j = 0; j < ik_visible_count; j++)
                             {
@@ -1119,11 +1147,20 @@ namespace MaSiRoProject
         /// <param name="value">Quaternion</param>
         /// <returns>Euler</returns>
         /// <remarks>
-        ///     TODO :未対応
+        ///  - MMDの表示に合うように計算してます。
+        ///  - 計算結果の少数がMMDの表示と若干異なっています。
         /// </remarks>
-        private Position<float> QuaternionToEuler(Quaternion<float> value)
+        private AxisOfRotation<float> QuaternionToEuler(Quaternion<float> value)
         {
-            Position<float> euler = new Position<float>();
+            float mmd_display_roll = (float) ( Math.PI );
+            float mmd_display_yaw = -1.0f;
+            AxisOfRotation<float> euler = new AxisOfRotation<float>();
+
+            euler.Set(
+                this.AngleConversions(mmd_display_roll - (float) Math.Atan2(2.0 * ( ( value.Y * value.Z ) + ( value.X * value.W ) ), Math.Pow(value.X, 2) + Math.Pow(value.Y, 2) - Math.Pow(value.Z, 2) - Math.Pow(value.W, 2))),
+                this.AngleConversions((float) Math.Asin(2.0 * ( ( value.X * value.Z ) - ( value.Y * value.W ) ))),
+                this.AngleConversions(mmd_display_yaw * (float) Math.Atan2(2.0 * ( ( value.Z * value.W ) + ( value.X * value.Y ) ), Math.Pow(value.X, 2) - Math.Pow(value.Y, 2) - Math.Pow(value.Z, 2) + Math.Pow(value.W, 2)))
+                );
             return euler;
         }
 

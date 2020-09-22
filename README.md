@@ -1,6 +1,6 @@
 # VMD to JSON
 
-MikuMikuDance(以下,MMD) のモーションデータを保存形式であるVMDのファイルをJSON形式に変換するコンバーダーです。
+MikuMikuDance(以下,MMD) のモーションデータ保存形式であるVMDのファイルをJSON形式に変換するコンバーダーです。
 
 
 

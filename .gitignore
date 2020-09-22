@@ -51,4 +51,11 @@ __*
 *.zip
 **/.doxygen
 doc/*.html
-doc/test/*.html
+doc/Design.md
+doc/Test/*
+
+
+# Reserve
+_sample/VS2015_cpp/*
+src/CPP/*
+_sample/vs2015_C#/VMDtoJSON/Resources/hotplug.ico
