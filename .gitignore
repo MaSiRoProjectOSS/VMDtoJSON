@@ -48,6 +48,7 @@
 # MY PROJECT
 *.ai
 README.html
+TODO.md
 __*
 *.zip
 **/.doxygen

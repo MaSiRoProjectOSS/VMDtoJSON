@@ -414,7 +414,7 @@ namespace MaSiRoProject
                         sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Euler\": ["
                                              + this.GetRound(DECIMALS_ROTATION_MOTION, this.VMD_Data.Motion.Data[i].Euler.Pitch) + ", "
                                              + this.GetRound(DECIMALS_ROTATION_MOTION, -this.VMD_Data.Motion.Data[i].Euler.Yaw) + ", "
-                                             + this.GetRound(DECIMALS_ROTATION_MOTION, -this.VMD_Data.Motion.Data[i].Euler.Roll)
+                                             + this.GetRound(DECIMALS_ROTATION_MOTION, this.VMD_Data.Motion.Data[i].Euler.Roll)
                                              + "]" + ( minimumJson ? "" : Environment.NewLine ));
                         sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
                         break;
@@ -683,7 +683,7 @@ namespace MaSiRoProject
                                              + this.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.Y)
                                              + "]," + ( minimumJson ? "" : Environment.NewLine ));
                         sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Rotation\": ["
-                                             + this.GetRound(DECIMALS_ROTATION, -this.VMD_Data.Camera.Data[i].Rotation.Roll) + ", "
+                                             + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Camera.Data[i].Rotation.Roll) + ", "
                                              + this.GetRound(DECIMALS_ROTATION, -this.VMD_Data.Camera.Data[i].Rotation.Pitch) + ", "
                                              + this.GetRound(DECIMALS_ROTATION, this.VMD_Data.Camera.Data[i].Rotation.Yaw)
                                              + "]," + ( minimumJson ? "" : Environment.NewLine ));
@@ -790,17 +790,17 @@ namespace MaSiRoProject
                 {
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand:
                         sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Location\": ["
-                                             + this.GetRound(DECIMALS_ILLUMINATION, this.VMD_Data.Illumination.Data[i].Location.X) + ", "
-                                             + this.GetRound(DECIMALS_ILLUMINATION, this.VMD_Data.Illumination.Data[i].Location.Y) + ", "
-                                             + this.GetRound(DECIMALS_ILLUMINATION, this.VMD_Data.Illumination.Data[i].Location.Z)
+                                             + this.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.X) + ", "
+                                             + this.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.Y) + ", "
+                                             + this.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.Z)
                                              + "]" + ( minimumJson ? "" : Environment.NewLine ));
                         break;
 
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.RightHand:
                         sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Location\": ["
-                                             + this.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.Z) + ", "
-                                             + this.GetRound(DECIMALS_ILLUMINATION, this.VMD_Data.Illumination.Data[i].Location.X) + ", "
-                                             + this.GetRound(DECIMALS_ILLUMINATION, this.VMD_Data.Illumination.Data[i].Location.Y)
+                                             + this.GetRound(DECIMALS_ILLUMINATION, this.VMD_Data.Illumination.Data[i].Location.Z) + ", "
+                                             + this.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.X) + ", "
+                                             + this.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.Y)
                                              + "]" + ( minimumJson ? "" : Environment.NewLine ));
                         break;
 
