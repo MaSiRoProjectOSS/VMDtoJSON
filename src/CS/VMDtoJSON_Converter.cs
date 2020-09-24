@@ -77,17 +77,17 @@ namespace MaSiRoProject
                     // minimum json
                     vmdtojson.SetOutputJsonType(true);
                 }
-                else if ("--LeftHand".Equals(args[i].ToLower()))
+                else if ("--lefthand".Equals(args[i].ToLower()))
                 {
                     // 座標を左手系に変更する。(デフォルト)
                     flag_LeftHand_agrs = true;
                 }
-                else if ("--RightHand".Equals(args[i].ToLower()))
+                else if ("--righthand".Equals(args[i].ToLower()))
                 {
                     //  座標を右手系に変更する。 [--LeftHand] が指定されていると無効になります。
                     flag_RightHand_agrs = true;
                 }
-                else if ("--MMDtHand".Equals(args[i].ToLower()))
+                else if ("--mmdhand".Equals(args[i].ToLower()))
                 {
                     //  座標を右手系に変更する。 [--LeftHand] が指定されていると無効になります。
                     flag_MMDHand_agrs = true;

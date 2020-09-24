@@ -46,6 +46,7 @@
 ##############
 
 # MY PROJECT
+*.ai
 README.html
 __*
 *.zip
@@ -53,6 +54,7 @@ __*
 doc/*.html
 doc/Design.md
 doc/Test/*
+doc/SVG/*
 
 
 # Reserve
