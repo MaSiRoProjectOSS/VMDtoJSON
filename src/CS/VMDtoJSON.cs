@@ -9,7 +9,7 @@ namespace MaSiRoProject
     /// <summary>
     /// VMD ファイルからJsonへ変換するためのクラス
     /// </summary>
-    public class VMDtoJSON
+    internal class VMDtoJSON
     {
         #region 出力設定
 
@@ -76,6 +76,18 @@ namespace MaSiRoProject
         #region 設定関数
 
         /// <summary>
+        /// 座標系を指定するための関数
+        /// </summary>
+        /// <param name="coordinatesystem">座標系</param>
+        public void SetCoordinateSystem(VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList value)
+        {
+            if (value != this.VMD_Data.Expansion.CoordinateSystem)
+            {
+                this.VMD_Data.Expansion.CoordinateSystem = value;
+            }
+        }
+
+        /// <summary>
         /// ターゲットIDを指定するための関数
         /// </summary>
         /// <param name="targetid">ターゲットID</param>
@@ -128,10 +140,16 @@ namespace MaSiRoProject
         /// <param name="startframe">スタートフレーム番号</param>
         /// <param name="minimumJson">JSONの出力タイプ：trueならば改行がないタイプのJSON</param>
         /// <param name="targetid">ターゲットID</param>
+        /// <param name="coordinatesystem">座標系</param>
         /// <returns></returns>
-        public bool Setting(int startframe = 0, bool minimumJson = false, int targetid = VMD_Format.FORMAT_Expansion.TARGETID_NONE)
+        public bool Setting(
+            int startframe = 0,
+            bool minimumJson = false,
+            int targetid = VMD_Format.FORMAT_Expansion.TARGETID_NONE,
+            VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList coordinatesystem = VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand)
         {
-            SetOutputJsonType(minimumJson);
+            this.SetCoordinateSystem(coordinatesystem);
+            this.SetOutputJsonType(minimumJson);
             this.SetTargetID(targetid);
             this.SetStartFram(startframe);
             return true;

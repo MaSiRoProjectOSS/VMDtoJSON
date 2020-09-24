@@ -190,4 +190,5 @@
 | 1   | Version    | int    |     | ファイルシグニチャを数値化したもの |
 | 2   | TargetID   | int    |     | 切り出した時の                     |
 | 3   | StartFrame | int    |     | 設定したフレーム数                 |
+| 4   | CoordinateSystem | string    |     | 表示の座標系                 |
 
