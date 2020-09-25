@@ -1004,6 +1004,8 @@ namespace MaSiRoProject
                                 );
 
                             /////////////////////////////////////////////////
+                            data.SetMotionInterpolation(reader.ReadBytes(64));
+                            /*
                             data.Interpolation.Xaxis.Start.X = reader.ReadByte();// OK
                             data.Interpolation.Yaxis.Start.X = reader.ReadByte();// OK
                             data.Interpolation.unkown_15.Start.X = reader.ReadByte();
@@ -1068,6 +1070,8 @@ namespace MaSiRoProject
                             data.Interpolation.unkown_16.Start.Y = reader.ReadByte();
                             data.Interpolation.unkown_16.End.X = reader.ReadByte();
                             data.Interpolation.unkown_16.End.Y = reader.ReadByte();
+                            */
+                            /////////////////////////////////////////////////
                             VMD_Data.Motion.Data.Add(data);
                         }
                     }
