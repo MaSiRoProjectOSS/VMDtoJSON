@@ -64,7 +64,7 @@ namespace MaSiRoProject
         /// <summary>
         /// JSONの出力タイプ
         /// </summary>
-        private bool innner_minimumJson = false;
+        private bool inner_minimumJson = false;
 
         /// <summary>
         /// ファイル出力中のロックオブジェクト
@@ -103,7 +103,7 @@ namespace MaSiRoProject
         /// スタートフレームを設定する関数
         /// </summary>
         /// <param name="startframe"></param>
-        public void SetStartFram(int startframe)
+        public void SetStartFrame(int startframe)
         {
             if (this.VMD_Data.Expansion.StartFrame != startframe)
             {
@@ -117,7 +117,7 @@ namespace MaSiRoProject
         /// <param name="startframe"></param>
         public void SetOutputJsonType(bool minimumJson)
         {
-            innner_minimumJson = minimumJson;
+            inner_minimumJson = minimumJson;
         }
 
         #endregion 設定関数
@@ -151,7 +151,7 @@ namespace MaSiRoProject
             this.SetCoordinateSystem(coordinatesystem);
             this.SetOutputJsonType(minimumJson);
             this.SetTargetID(targetid);
-            this.SetStartFram(startframe);
+            this.SetStartFrame(startframe);
             return true;
         }
 
@@ -262,7 +262,7 @@ namespace MaSiRoProject
 
             if (true == retflag)
             {
-                retflag = this.Convert_StructToJson(innner_minimumJson, ref err_message);
+                retflag = this.Convert_StructToJson(inner_minimumJson, ref err_message);
             }
 
             if (false == retflag)
@@ -673,7 +673,7 @@ namespace MaSiRoProject
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.Z)
                                              + "]," + ( minimumJson ? "" : Environment.NewLine ));
                         sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Rotation\": ["
-                                             + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(this.VMD_Data.Camera.Data[i].Rotation.Pitch)) + ", "
+                                             + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(-this.VMD_Data.Camera.Data[i].Rotation.Pitch)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(-this.VMD_Data.Camera.Data[i].Rotation.Yaw)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(-this.VMD_Data.Camera.Data[i].Rotation.Roll))
                                              + "]," + ( minimumJson ? "" : Environment.NewLine ));
@@ -687,7 +687,7 @@ namespace MaSiRoProject
                                              + "]," + ( minimumJson ? "" : Environment.NewLine ));
                         sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Rotation\": ["
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(this.VMD_Data.Camera.Data[i].Rotation.Roll)) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(-this.VMD_Data.Camera.Data[i].Rotation.Pitch)) + ", "
+                                             + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(this.VMD_Data.Camera.Data[i].Rotation.Pitch)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(this.VMD_Data.Camera.Data[i].Rotation.Yaw))
                                              + "]," + ( minimumJson ? "" : Environment.NewLine ));
                         break;
