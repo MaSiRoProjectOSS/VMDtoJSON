@@ -55,7 +55,7 @@ namespace MaSiRoProject
                     {
                         int startFrameNo = 0;
                         int.TryParse(args[i + 1], out startFrameNo);
-                        vmdtojson.SetStartFram(startFrameNo);
+                        vmdtojson.SetStartFrame(startFrameNo);
 
                         i = i + 1;
                     }

@@ -103,7 +103,7 @@ namespace MaSiRoProject
         /// スタートフレームを設定する関数
         /// </summary>
         /// <param name="startframe"></param>
-        public void SetStartFram(int startframe)
+        public void SetStartFrame(int startframe)
         {
             if (this.VMD_Data.Expansion.StartFrame != startframe)
             {
@@ -151,7 +151,7 @@ namespace MaSiRoProject
             this.SetCoordinateSystem(coordinatesystem);
             this.SetOutputJsonType(minimumJson);
             this.SetTargetID(targetid);
-            this.SetStartFram(startframe);
+            this.SetStartFrame(startframe);
             return true;
         }
 
