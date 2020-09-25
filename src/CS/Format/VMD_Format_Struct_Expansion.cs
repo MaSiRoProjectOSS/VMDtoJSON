@@ -14,6 +14,11 @@
         public class FORMAT_Expansion
         {
             /// <summary>
+            /// 座標系
+            /// </summary>
+            public CoordinateSystemList CoordinateSystem = CoordinateSystemList.LeftHand;
+
+            /// <summary>
             /// モーション開始位置
             /// </summary>
             public int StartFrame = 0;
@@ -84,6 +89,24 @@
             ////////////////////////////////////////////////////////////
             // 列挙子
             ////////////////////////////////////////////////////////////
+            public enum CoordinateSystemList
+            {
+                /// <summary>
+                /// 左手系
+                /// </summary>
+                LeftHand,
+
+                /// <summary>
+                /// 右手系
+                /// </summary>
+                RightHand,
+
+                /// <summary>
+                /// MMDの座標系
+                /// </summary>
+                MMDHand
+            }
+
             public enum EXPANSION_VERSION
             {
                 /// <summary>
@@ -133,7 +156,7 @@
             /// </summary>
             /// <param name="signature">ファイルシグニチャ</param>
             /// <remarks>
-            ///    TODO: 旧バージョンのシグニチャは未確認
+            ///    旧バージョンのシグニチャは未確認
             /// </remarks>
             public void SetFileSignature(string signature)
             {
