@@ -67,6 +67,22 @@ namespace MaSiRoProject
             public Quaternion<float> Quaternion = new Quaternion<float>();
 
             /// <summary>
+            ///  ボーンの回転(Quaternion) 左手系
+            /// </summary>
+            /// <remarks>
+            ///     左手系に変換したクォータニオン
+            /// </remarks>
+            public Quaternion<float> Quaternion_left = new Quaternion<float>();
+
+            /// <summary>
+            ///  ボーンの回転(Quaternion) 右手系
+            /// </summary>
+            /// <remarks>
+            ///     右手系に変換したクォータニオン
+            /// </remarks>
+            public Quaternion<float> Quaternion_right = new Quaternion<float>();
+
+            /// <summary>
             ///  ボーンの回転(オイラー角)
             /// </summary>
             /// <remarks>

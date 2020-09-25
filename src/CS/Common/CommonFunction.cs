@@ -97,6 +97,30 @@ namespace MaSiRoProject.Common
         }
 
         /// <summary>
+        /// オイラー角度からクォータニオンに変換
+        /// </summary>
+        /// <param name="value">オイラー角</param>
+        /// <returns>クォータニオン</returns>
+        public static Quaternion<float> EulerAnglesToQuaternion(float roll, float pitch, float yaw)
+        {
+            Quaternion<float> axis = new Quaternion<float>();
+            double cosRoll = Math.Cos(roll / 2.0);
+            double sinRoll = Math.Sin(roll / 2.0);
+            double cosPitch = Math.Cos(pitch / 2.0);
+            double sinPitch = Math.Sin(pitch / 2.0);
+            double cosYaw = Math.Cos(yaw / 2.0);
+            double sinYaw = Math.Sin(yaw / 2.0);
+
+            axis.Set(
+                (float) ( ( cosRoll * cosPitch * cosYaw ) + ( sinRoll * sinPitch * sinYaw ) ),
+                (float) ( ( sinRoll * cosPitch * cosYaw ) - ( cosRoll * sinPitch * sinYaw ) ),
+                (float) ( ( cosRoll * sinPitch * cosYaw ) + ( sinRoll * cosPitch * sinYaw ) ),
+                (float) ( ( cosRoll * cosPitch * sinYaw ) - ( sinRoll * sinPitch * cosYaw ) )
+            );
+            return axis;
+        }
+
+        /// <summary>
         /// クォータニオンからオイラー角に変換
         /// </summary>
         /// <param name="value">クォータニオン</param>
@@ -113,10 +137,6 @@ namespace MaSiRoProject.Common
                     (float) Math.Asin(2.0 * ( ( value.X * value.Z ) - ( value.Y * value.W ) )),
                     (float) Math.Atan2(2.0 * ( ( value.Y * value.Z ) + ( value.X * value.W ) ), x2z2 + y2w2)
                 );
-
-            Console.WriteLine("pitch : " + CommonFunction.GetRound(3, CommonFunction.RadianToDegree((float) axis.Pitch)));
-            Console.WriteLine("yaw   : " + CommonFunction.GetRound(3, CommonFunction.RadianToDegree((float) axis.Yaw)));
-            Console.WriteLine("roll  : " + CommonFunction.GetRound(3, CommonFunction.RadianToDegree((float) axis.Roll)));
 
             return axis;
         }

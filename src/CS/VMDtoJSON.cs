@@ -396,6 +396,7 @@ namespace MaSiRoProject
                 sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "{" + ( minimumJson ? "" : Environment.NewLine ));
                 sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Motion.Data[i].FrameNo) + "," + ( minimumJson ? "" : Environment.NewLine ));
                 sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Name\": " + "\"" + this.VMD_Data.Motion.Data[i].Name + "\"," + ( minimumJson ? "" : Environment.NewLine ));
+
                 switch (this.VMD_Data.Expansion.CoordinateSystem)
                 {
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand:
@@ -405,16 +406,17 @@ namespace MaSiRoProject
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.Z)
                                              + "]," + ( minimumJson ? "" : Environment.NewLine ));
                         sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Rotation\": {" + ( minimumJson ? "" : Environment.NewLine ));
+
                         sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Quaternion\": ["
-                                             + ( -this.VMD_Data.Motion.Data[i].Quaternion.X ) + ", "
-                                             + this.VMD_Data.Motion.Data[i].Quaternion.Y + ", "
-                                             + this.VMD_Data.Motion.Data[i].Quaternion.Z + ", "
-                                             + ( -this.VMD_Data.Motion.Data[i].Quaternion.W )
+                                             + this.VMD_Data.Motion.Data[i].Quaternion_left.X + ", "
+                                             + ( this.VMD_Data.Motion.Data[i].Quaternion_left.Y ) + ", "
+                                             + this.VMD_Data.Motion.Data[i].Quaternion_left.Z + ", "
+                                             + ( this.VMD_Data.Motion.Data[i].Quaternion_left.W )
                                              + "]," + ( minimumJson ? "" : Environment.NewLine ));
                         sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Euler\": ["
                                              + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(this.VMD_Data.Motion.Data[i].Euler.Pitch)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(-this.VMD_Data.Motion.Data[i].Euler.Yaw)) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(this.VMD_Data.Motion.Data[i].Euler.Roll))
+                                             + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(-this.VMD_Data.Motion.Data[i].Euler.Roll))
                                              + "]" + ( minimumJson ? "" : Environment.NewLine ));
                         sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
                         break;
@@ -426,11 +428,12 @@ namespace MaSiRoProject
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.Y)
                                              + "]," + ( minimumJson ? "" : Environment.NewLine ));
                         sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Rotation\": {" + ( minimumJson ? "" : Environment.NewLine ));
+
                         sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Quaternion\": ["
-                                             + ( -this.VMD_Data.Motion.Data[i].Quaternion.Z ) + ", "
-                                             + this.VMD_Data.Motion.Data[i].Quaternion.X + ", "
-                                             + this.VMD_Data.Motion.Data[i].Quaternion.Y + ", "
-                                             + ( -this.VMD_Data.Motion.Data[i].Quaternion.W )
+                                             + ( this.VMD_Data.Motion.Data[i].Quaternion_right.X ) + ", "
+                                             + this.VMD_Data.Motion.Data[i].Quaternion_right.Y + ", "
+                                             + this.VMD_Data.Motion.Data[i].Quaternion_right.Z + ", "
+                                             + ( this.VMD_Data.Motion.Data[i].Quaternion_right.W )
                                              + "]," + ( minimumJson ? "" : Environment.NewLine ));
                         sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Euler\": ["
                                              + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(-this.VMD_Data.Motion.Data[i].Euler.Roll)) + ", "
@@ -455,9 +458,9 @@ namespace MaSiRoProject
                                              + this.VMD_Data.Motion.Data[i].Quaternion.W
                                              + "]," + ( minimumJson ? "" : Environment.NewLine ));
                         sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Euler\": ["
-                                             + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(-this.VMD_Data.Motion.Data[i].Euler.Pitch)) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(-this.VMD_Data.Motion.Data[i].Euler.Yaw)) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(-this.VMD_Data.Motion.Data[i].Euler.Roll))
+                                             + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(this.VMD_Data.Motion.Data[i].Euler.Pitch)) + ", "
+                                             + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(this.VMD_Data.Motion.Data[i].Euler.Yaw)) + ", "
+                                             + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(this.VMD_Data.Motion.Data[i].Euler.Roll))
                                              + "]" + ( minimumJson ? "" : Environment.NewLine ));
                         sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
                         break;
@@ -987,6 +990,19 @@ namespace MaSiRoProject
                             data.Quaternion.Z = reader.ReadSingle();
                             data.Quaternion.W = reader.ReadSingle();
                             data.Euler = this.QuaternionToEuler(data.Quaternion);
+
+                            // 座標系によりクォータニオンが違うため再計算
+                            data.Quaternion_left = CommonFunction.EulerAnglesToQuaternion(
+                                -data.Euler.Roll,
+                                data.Euler.Pitch,
+                                -data.Euler.Yaw
+                                );
+                            data.Quaternion_right = CommonFunction.EulerAnglesToQuaternion(
+                                -data.Euler.Roll,
+                                -data.Euler.Pitch,
+                                data.Euler.Yaw
+                                );
+
                             /////////////////////////////////////////////////
                             data.Interpolation.Xaxis.Start.X = reader.ReadByte();// OK
                             data.Interpolation.Yaxis.Start.X = reader.ReadByte();// OK
@@ -1258,26 +1274,16 @@ namespace MaSiRoProject
         private AxisOfRotation<float> QuaternionToEuler(Quaternion<float> value)
         {
             AxisOfRotation<float> euler = new AxisOfRotation<float>();
-            Quaternion<float> quaternion = new Quaternion<float>();
-
-            Console.WriteLine("================================================");
-            euler = CommonFunction.QuaternionToEulerAngles(value);
-            CommonFunction.EulerAnglesToQuaternion(euler);
-            Console.WriteLine("================================================");
-
-            Console.WriteLine("================================================");
-            Console.WriteLine("X : " + value.X);
-            Console.WriteLine("Y : " + value.Y);
-            Console.WriteLine("Z : " + value.Z);
-            Console.WriteLine("W : " + value.W);
-            Console.WriteLine("================================================");
-
+            float flag_signinversion = -1;
             euler.Set(
+                flag_signinversion *
                     (float) Math.Atan2(2.0 * ( ( value.X * value.Y ) + ( value.Z * value.W ) ),
                                         Math.Pow(value.X, 2) - Math.Pow(value.Y, 2) - Math.Pow(value.Z, 2) + Math.Pow(value.W, 2)),
 
+                flag_signinversion *
                     (float) Math.Asin(2.0 * ( ( value.X * value.Z ) - ( value.Y * value.W ) )),
 
+                flag_signinversion *
                     (float) ( Math.PI
                           - Math.Atan2(2.0 * ( ( value.Y * value.Z ) + ( value.X * value.W ) ),
                                         Math.Pow(value.X, 2) + Math.Pow(value.Y, 2) - Math.Pow(value.Z, 2) - Math.Pow(value.W, 2)) )
