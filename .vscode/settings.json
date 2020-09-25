@@ -53,5 +53,17 @@
 	],
 	"editor.rulers": [
 		120
+	],
+	"cSpell.words": [
+		"sjis",
+		"Xaxis",
+		"Yaxis",
+		"Zaxis",
+		"TargetID",
+		"TARGETID",
+		"Argb",
+		"foge",
+		"outputbin",
+		"PROGRAMFILES"
 	]
 }
