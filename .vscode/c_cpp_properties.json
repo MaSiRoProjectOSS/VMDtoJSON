@@ -8,7 +8,7 @@
             "includePath": [
                 "${workspaceFolder}/*",
                 "${workspaceFolder}/src/*",
-                "${workspaceFolder}/src/include*"
+                "${workspaceFolder}/src/CPP/include*"
             ],
             "defines": [
                 "__CORTEX_M4"

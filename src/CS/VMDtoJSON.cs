@@ -64,7 +64,7 @@ namespace MaSiRoProject
         /// <summary>
         /// JSONの出力タイプ
         /// </summary>
-        private bool innner_minimumJson = false;
+        private bool inner_minimumJson = false;
 
         /// <summary>
         /// ファイル出力中のロックオブジェクト
@@ -117,7 +117,7 @@ namespace MaSiRoProject
         /// <param name="startframe"></param>
         public void SetOutputJsonType(bool minimumJson)
         {
-            innner_minimumJson = minimumJson;
+            inner_minimumJson = minimumJson;
         }
 
         #endregion 設定関数
@@ -262,7 +262,7 @@ namespace MaSiRoProject
 
             if (true == retflag)
             {
-                retflag = this.Convert_StructToJson(innner_minimumJson, ref err_message);
+                retflag = this.Convert_StructToJson(inner_minimumJson, ref err_message);
             }
 
             if (false == retflag)
