@@ -102,7 +102,7 @@
                 RightHand,
 
                 /// <summary>
-                /// 右手系
+                /// MMDの座標系
                 /// </summary>
                 MMDHand
             }
