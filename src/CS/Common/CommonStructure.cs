@@ -100,19 +100,82 @@
     public class AxisOfRotation<T>
     {
         /// <summary>
+        /// [内部変数] Roll
+        /// </summary>
+        public T inner_roll;
+
+        /// <summary>
+        /// [内部変数]Pitch
+        /// </summary>
+        public T inner_pitch;
+
+        /// <summary>
+        /// [内部変数]Yaw
+        /// </summary>
+        public T inner_yaw;
+
+        /// <summary>
         /// Roll
         /// </summary>
-        public T Roll;
+        public T Roll_degree
+        {
+            get { return this.inner_roll; }
+        }
 
         /// <summary>
         /// Pitch
         /// </summary>
-        public T Pitch;
+        public T Pitch_degree
+        {
+            get { return this.inner_pitch; }
+        }
 
         /// <summary>
         /// Yaw
         /// </summary>
-        public T Yaw;
+        public T Yaw_degree
+        {
+            get { return this.inner_yaw; }
+        }
+
+        /// <summary>
+        /// Roll
+        /// </summary>
+        public T Roll
+        {
+            get { return this.inner_roll; }
+
+            set
+            {
+                this.inner_roll = value;
+            }
+        }
+
+        /// <summary>
+        /// Pitch
+        /// </summary>
+        public T Pitch
+        {
+            get { return this.inner_pitch; }
+
+            set
+            {
+                this.inner_pitch = value;
+            }
+        }
+
+        /// <summary>
+        /// Yaw
+        /// </summary>
+        public T Yaw
+        {
+            get { return this.inner_yaw; }
+
+            set
+            {
+                this.inner_yaw = value;
+            }
+        }
 
         /// <summary>
         /// コンストラクタ
@@ -140,9 +203,9 @@
         /// <param name="yaw">Yaw</param>
         public void Set(T roll, T pitch, T yaw)
         {
-            this.Roll = roll;
-            this.Pitch = pitch;
-            this.Yaw = yaw;
+            this.inner_roll = roll;
+            this.inner_pitch = pitch;
+            this.inner_yaw = yaw;
         }
     }
 

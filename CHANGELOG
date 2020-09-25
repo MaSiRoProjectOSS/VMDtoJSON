@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Added
 - モーションにある角度をクオータニオンとオイラー角の両方を出力するように変更
-
+- 座標系を右手系/左手系/MMDのままの座標系を選択できるオプションコマンドを追加
 
 ## [0.0.1] - 2020-09-22
 ### Added
