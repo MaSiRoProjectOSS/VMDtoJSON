@@ -19,32 +19,28 @@
 
 * ST_MotionData
 
-| No.   | データ名      | サイズ | 型               | 備考 |
-| :---- | :------------ | :----: | :--------------: | :--- |
-| 1     | BoneName      | 15     | string           |      |
-| 2     | FrameNo       | 4      | uint             |      |
-| 3     | Location      | 12     | three_dimensions |      |
-| 3-1   | - X           | 4      | float            |      |
-| 3-2   | - Y           | 4      | float            |      |
-| 3-3   | - Z           | 4      | float            |      |
-| 4     | Rotatation    | 16     | Quaternion       |      |
-| 4-1   | - X           | 4      | float            |      |
-| 4-2   | - Y           | 4      | float            |      |
-| 4-3   | - Z           | 4      | float            |      |
-| 4-4   | - W           | 4      | float            |      |
-| 5     | Interpolation | 64     | vector * 4 * 2   |      |
-| 5-1   | - X           | 16     | vector * 2       |      |
-| 5-1-2 | - X [start]   | 8      | vector           |      |
-| 5-1-3 | - X [end]     | 8      | vector           |      |
-| 5-2   | - Y           | 16     | vector * 2       |      |
-| 5-2-1 | - Y [start]   | 8      | vector           |      |
-| 5-2-2 | - Y [end]     | 8      | vector           |      |
-| 5-3   | - Z           | 16     | vector * 2       |      |
-| 5-3-1 | - Z [start]   | 8      | vector           |      |
-| 5-3-2 | - Z [end]     | 8      | vector           |      |
-| 5-4   | - R           | 16     | vector * 2       |      |
-| 5-4-1 | - R [start]   | 8      | vector           |      |
-| 5-4-2 | - R [end]     | 8      | vector           |      |
+| No.   | データ名            | サイズ | 型               | 備考                                                       |
+| :---- | :------------------ | :----: | :--------------: | :--------------------------------------------------------- |
+| 1     | BoneName            | 15     | string           |                                                            |
+| 2     | FrameNo             | 4      | uint             |                                                            |
+| 3     | Location            | 12     | three_dimensions |                                                            |
+| 3-1   | - X                 | 4      | float            |                                                            |
+| 3-2   | - Y                 | 4      | float            |                                                            |
+| 3-3   | - Z                 | 4      | float            |                                                            |
+| 4     | Rotatation          | 16     | Quaternion       |                                                            |
+| 4-2   | - Y                 | 4      | float            |                                                            |
+| 4-1   | - X                 | 4      | float            | X軸のオイラー角度はMMDが０度の時、計算結果は１８０度となる |
+| 4-3   | - Z                 | 4      | float            |                                                            |
+| 4-4   | - W                 | 4      | float            |                                                            |
+| 5     | Interpolation       | 64     | vector * 4 * 2   | （未検証）並び順のルールが不明                             |
+| 5-1-1 | - Xaxis.Start (x,y) | 8      | vector           |                                                            |
+| 5-1-2 | - Xaxis.End (x,y)   | 8      | vector           |                                                            |
+| 5-2-1 | - Yaxis.Start (x,y) | 8      | vector           |                                                            |
+| 5-2-2 | - Yaxis.End (x,y)   | 8      | vector           |                                                            |
+| 5-3-1 | - Zaxis.Start (x,y) | 8      | vector           |                                                            |
+| 5-3-2 | - Zaxis.End (x,y)   | 8      | vector           |                                                            |
+| 5-4-1 | - Raxis.Start (x,y) | 8      | vector           |                                                            |
+| 5-4-2 | - Raxis.End (x,y)   | 8      | vector           |                                                            |
 
 
 ## Skin
@@ -122,17 +118,17 @@
 
 * ST_IlluminationData
 
-| No. | データ名 | サイズ | 型               | 備考              |
-| :-- | :------- | :----: | :--------------: | :---------------- |
-| 1   | FlameNo  | 4      | uint             |                   |
-| 2   | Length   | 16     | color            |                   |
-| 2-1 | - R      | 4      | float            | 計算式： 各値/256 |
-| 2-2 | - G      | 4      | float            | 計算式： 各値/256 |
-| 2-3 | - B      | 4      | float            | 計算式： 各値/256 |
-| 3   | Location | 12     | three_dimensions |                   |
-| 3-1 | - X      | 4      | float            |                   |
-| 3-2 | - Y      | 4      | float            |                   |
-| 3-3 | - Z      | 4      | float            |                   |
+| No. | データ名 | サイズ | 型               | 備考            |
+| :-- | :------- | :----: | :--------------: | :-------------- |
+| 1   | FlameNo  | 4      | uint             |                 |
+| 2   | Length   | 16     | color            |                 |
+| 2-1 | - R      | 4      | float            | 計算式： 値/256 |
+| 2-2 | - G      | 4      | float            | 計算式： 値/256 |
+| 2-3 | - B      | 4      | float            | 計算式： 値/256 |
+| 3   | Location | 12     | three_dimensions |                 |
+| 3-1 | - X      | 4      | float            |                 |
+| 3-2 | - Y      | 4      | float            |                 |
+| 3-3 | - Z      | 4      | float            |                 |
 
 
 ## SelfShadow
@@ -186,5 +182,5 @@
 | 1   | Version          | int    |     | ファイルシグニチャを数値化したもの |
 | 2   | TargetID         | int    |     | 切り出した時の                     |
 | 3   | StartFrame       | int    |     | 設定したフレーム数                 |
-| 4   | CoordinateSystem | string |     | 出力している座標系                       |
+| 4   | CoordinateSystem | string |     | 出力している座標系                 |
 
