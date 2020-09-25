@@ -69,45 +69,48 @@
 
 * ST_CameraData
 
-| No.  | データ名              | サイズ | 型               | 備考                                       |
-| :--- | :-------------------- | :----: | :--------------: | :----------------------------------------- |
-| 1    | FlameNo               | 4      | uint             |                                            |
-| 2    | Length                | 4      | float            | ファイル内は MMDの表示から「-1」かけた数値 |
-| 3    | Location              | 12     | three_dimensions |                                            |
-| 3-1  | - X                   | 4      | float            |                                            |
-| 3-2  | - Y                   | 4      | float            |                                            |
-| 3-3  | - Z                   | 4      | float            |                                            |
-| 4    | Rotatation            | 12     | three_dimensions | X軸は符号が反転しているので注意            |
-| 4-1  | - X                   | 4      | float            |                                            |
-| 4-2  | - Y                   | 4      | float            |                                            |
-| 4-3  | - Z                   | 4      | float            |                                            |
-| 5    | Interpolation         | 24     | byte[24]         |                                            |
-| 5-1  | - XAxis.stat.X        | 1      | byte             |                                            |
-| 5-2  | - XAxis.end.X         | 1      | byte             |                                            |
-| 5-3  | - XAxis.stat.Y        | 1      | byte             |                                            |
-| 5-4  | - XAxis.end.Y         | 1      | byte             |                                            |
-| 5-5  | - YAxis.stat.X        | 1      | byte             |                                            |
-| 5-6  | - YAxis.end.X         | 1      | byte             |                                            |
-| 5-7  | - YAxis.stat.Y        | 1      | byte             |                                            |
-| 5-8  | - YAxis.end.Y         | 1      | byte             |                                            |
-| 5-9  | - ZAxis.stat.X        | 1      | byte             |                                            |
-| 5-10 | - ZAxis.end.X         | 1      | byte             |                                            |
-| 5-11 | - ZAxis.stat.Y        | 1      | byte             |                                            |
-| 5-12 | - ZAxis.end.Y         | 1      | byte             |                                            |
-| 5-13 | - Rotation.stat.X     | 1      | byte             |                                            |
-| 5-14 | - Rotation.end.X      | 1      | byte             |                                            |
-| 5-15 | - Rotation.stat.Y     | 1      | byte             |                                            |
-| 5-16 | - Rotation.end.Y      | 1      | byte             |                                            |
-| 5-17 | - Length.stat.X       | 1      | byte             |                                            |
-| 5-18 | - Length.end.X        | 1      | byte             |                                            |
-| 5-19 | - Length.stat.Y       | 1      | byte             |                                            |
-| 5-20 | - Length.end.Y        | 1      | byte             |                                            |
-| 5-21 | - ViewingAngle.stat.X | 1      | byte             |                                            |
-| 5-22 | - ViewingAngle.end.X  | 1      | byte             |                                            |
-| 5-23 | - ViewingAngle.stat.Y | 1      | byte             |                                            |
-| 5-24 | - ViewingAngle.end.Y  | 1      | byte             |                                            |
-| 6    | ViewingAngle          | 4      | uint             |                                            |
-| 7    | Perspective           | 1      | bool             |                                            |
+MMDのカメラはLocationの位置を原点に、原点からの距離とカメラの角度で決めている。
+
+
+| No.  | データ名              | サイズ | 型               | 備考                                         |
+| :--- | :-------------------- | :----: | :--------------: | :------------------------------------------- |
+| 1    | FlameNo               | 4      | uint             |                                              |
+| 2    | Length                | 4      | float            | ファイル内は MMDの表示から「-1」かけた数値   |
+| 3    | Location              | 12     | three_dimensions |                                              |
+| 3-1  | - X                   | 4      | float            |                                              |
+| 3-2  | - Y                   | 4      | float            |                                              |
+| 3-3  | - Z                   | 4      | float            |                                              |
+| 4    | Rotatation            | 12     | three_dimensions |                                              |
+| 4-1  | - X                   | 4      | float            | MMDの座標系のX軸は符号が反転しているので注意 |
+| 4-2  | - Y                   | 4      | float            |                                              |
+| 4-3  | - Z                   | 4      | float            |                                              |
+| 5    | Interpolation         | 24     | byte[24]         |                                              |
+| 5-1  | - XAxis.stat.X        | 1      | byte             |                                              |
+| 5-2  | - XAxis.end.X         | 1      | byte             |                                              |
+| 5-3  | - XAxis.stat.Y        | 1      | byte             |                                              |
+| 5-4  | - XAxis.end.Y         | 1      | byte             |                                              |
+| 5-5  | - YAxis.stat.X        | 1      | byte             |                                              |
+| 5-6  | - YAxis.end.X         | 1      | byte             |                                              |
+| 5-7  | - YAxis.stat.Y        | 1      | byte             |                                              |
+| 5-8  | - YAxis.end.Y         | 1      | byte             |                                              |
+| 5-9  | - ZAxis.stat.X        | 1      | byte             |                                              |
+| 5-10 | - ZAxis.end.X         | 1      | byte             |                                              |
+| 5-11 | - ZAxis.stat.Y        | 1      | byte             |                                              |
+| 5-12 | - ZAxis.end.Y         | 1      | byte             |                                              |
+| 5-13 | - Rotation.stat.X     | 1      | byte             |                                              |
+| 5-14 | - Rotation.end.X      | 1      | byte             |                                              |
+| 5-15 | - Rotation.stat.Y     | 1      | byte             |                                              |
+| 5-16 | - Rotation.end.Y      | 1      | byte             |                                              |
+| 5-17 | - Length.stat.X       | 1      | byte             |                                              |
+| 5-18 | - Length.end.X        | 1      | byte             |                                              |
+| 5-19 | - Length.stat.Y       | 1      | byte             |                                              |
+| 5-20 | - Length.end.Y        | 1      | byte             |                                              |
+| 5-21 | - ViewingAngle.stat.X | 1      | byte             |                                              |
+| 5-22 | - ViewingAngle.end.X  | 1      | byte             |                                              |
+| 5-23 | - ViewingAngle.stat.Y | 1      | byte             |                                              |
+| 5-24 | - ViewingAngle.end.Y  | 1      | byte             |                                              |
+| 6    | ViewingAngle          | 4      | uint             |                                              |
+| 7    | Perspective           | 1      | bool             |                                              |
 
 ## Illumination
 
