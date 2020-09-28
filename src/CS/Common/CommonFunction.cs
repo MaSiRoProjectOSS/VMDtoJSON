@@ -9,6 +9,34 @@ namespace MaSiRoProject.Common
     internal class CommonFunction
     {
         /// <summary>
+        /// プロダクト名の取得
+        /// </summary>
+        /// <returns>プロダクト名</returns>
+        public static string ProductName()
+        {
+            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            return fvi.ProductName.ToString();
+            /*
+            System.Reflection.AssemblyProductAttribute asmprd =
+                    (System.Reflection.AssemblyProductAttribute)
+                    Attribute.GetCustomAttribute(
+                    System.Reflection.Assembly.GetExecutingAssembly(),
+                        typeof(System.Reflection.AssemblyProductAttribute));
+            return asmprd.Product;
+            */
+        }
+
+        /// <summary>
+        /// プロダクトバージョンの取得
+        /// </summary>
+        /// <returns>プロダクトバージョン</returns>
+        public static string ProductVersion()
+        {
+            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            return fvi.ProductVersion.ToString();
+        }
+
+        /// <summary>
         /// バイト列を指定した文字コードで文字に変換する関数
         /// </summary>
         /// <param name="bytes">変換したバイト列</param>
@@ -17,10 +45,7 @@ namespace MaSiRoProject.Common
         /// <returns></returns>
         public static string GetTextFromByte(Byte[] bytes, Encoding src_encoding, Encoding dest_encoding)
         {
-            string buffer = dest_encoding.GetString(
-                                    System.Text.Encoding.Convert(src_encoding,
-                                    dest_encoding,
-                                    bytes));
+            string buffer = dest_encoding.GetString(System.Text.Encoding.Convert(src_encoding, dest_encoding, bytes));
             int lastIndex = buffer.IndexOf("\0");
 
             if (0 < lastIndex)

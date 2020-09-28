@@ -18,13 +18,13 @@
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="start_x">開始座標のX軸</param>
-        /// <param name="start_y">開始座標のY軸</param>
-        /// <param name="end_x">終了座標のX軸</param>
-        /// <param name="end_y">終了座標のY軸</param>
-        public Rectangle(T start_x, T start_y, T end_x, T end_y)
+        /// <param name="startX">開始座標のX軸</param>
+        /// <param name="startY">開始座標のY軸</param>
+        /// <param name="endX">終了座標のX軸</param>
+        /// <param name="endY">終了座標のY軸</param>
+        public Rectangle(T startX, T startY, T endX, T endY)
         {
-            this.Set(start_x, start_y, end_x, end_y);
+            this.Set(startX, startY, endX, endY);
         }
 
         /// <summary>
@@ -37,16 +37,16 @@
         /// <summary>
         /// 設定関数
         /// </summary>
-        /// <param name="start_x">開始座標のX軸</param>
-        /// <param name="start_y">開始座標のY軸</param>
-        /// <param name="end_x">終了座標のX軸</param>
-        /// <param name="end_y">終了座標のY軸</param>
-        public void Set(T start_x, T start_y, T end_x, T end_y)
+        /// <param name="startX">開始座標のX軸</param>
+        /// <param name="startY">開始座標のY軸</param>
+        /// <param name="endX">終了座標のX軸</param>
+        /// <param name="endY">終了座標のY軸</param>
+        public void Set(T startX, T startY, T endX, T endY)
         {
-            this.Start.X = start_x;
-            this.Start.Y = start_y;
-            this.End.X = end_x;
-            this.End.Y = end_y;
+            this.Start.X = startX;
+            this.Start.Y = startY;
+            this.End.X = endX;
+            this.End.Y = endY;
         }
     }
 
@@ -117,7 +117,7 @@
         /// <summary>
         /// Roll
         /// </summary>
-        public T Roll_degree
+        public T RollDegree
         {
             get { return this.inner_roll; }
         }
@@ -125,7 +125,7 @@
         /// <summary>
         /// Pitch
         /// </summary>
-        public T Pitch_degree
+        public T PitchDegree
         {
             get { return this.inner_pitch; }
         }
@@ -133,7 +133,7 @@
         /// <summary>
         /// Yaw
         /// </summary>
-        public T Yaw_degree
+        public T YawDegree
         {
             get { return this.inner_yaw; }
         }
