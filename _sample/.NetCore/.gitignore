@@ -4,3 +4,7 @@ VMDtoJSON/obj/*
 
 VMDtoJSON_Package/bin/*
 VMDtoJSON_Package/obj/*
+
+.vs/VMDtoJSON/DesignTimeBuild/*
+.vs/VMDtoJSON/v16/TestStore/*
+
