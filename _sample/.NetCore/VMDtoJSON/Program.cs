@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace VMDtoJSON
+﻿namespace MaSiRoProject
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            VMDtoJSON_Converter obj = new VMDtoJSON_Converter(args);
         }
     }
 }

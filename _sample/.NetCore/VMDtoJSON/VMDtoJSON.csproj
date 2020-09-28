@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <StartupObject>VMDtoJSON.Program</StartupObject>
+    <StartupObject></StartupObject>
     <Nullable>warnings</Nullable>
     <Copyright />
     <Version>0.0.2</Version>
@@ -21,6 +21,52 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+
+    <Compile Include="..\..\..\src\CS\Common\CommonFunction.cs">
+      <Link>Common\CommonFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Common\CommonLogger.cs">
+      <Link>Common\CommonLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Common\CommonStructure.cs">
+      <Link>Common\CommonStructure.cs</Link>
+    </Compile>
+
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format.cs">
+      <Link>src\Format\VMD_Format.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Camera.cs">
+      <Link>src\Format\VMD_Format_Struct_Camera.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Expansion.cs">
+      <Link>src\Format\VMD_Format_Struct_Expansion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Header.cs">
+      <Link>src\Format\VMD_Format_Struct_Header.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_IK.cs">
+      <Link>src\Format\VMD_Format_Struct_IK.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Illumination.cs">
+      <Link>src\Format\VMD_Format_Struct_Illumination.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Motion.cs">
+      <Link>src\Format\VMD_Format_Struct_Motion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_SelfShadow.cs">
+      <Link>src\Format\VMD_Format_Struct_SelfShadow.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\Format\VMD_Format_Struct_Skin.cs">
+      <Link>src\Format\VMD_Format_Struct_Skin.cs</Link>
+    </Compile>
+
+    <Compile Include="..\..\..\src\CS\VMDtoJSON.cs">
+      <Link>src\VMDtoJSON.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\VMDtoJSON_Converter.cs">
+      <Link>src\VMDtoJSON_Converter.cs</Link>
+    </Compile>
+
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +82,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="src\Common\" />
+    <Folder Include="src\Format\" />
   </ItemGroup>
 
 </Project>
