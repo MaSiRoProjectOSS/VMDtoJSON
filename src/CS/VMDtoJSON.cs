@@ -40,7 +40,10 @@ namespace MaSiRoProject
         /// <summary>
         /// VMD ファイル内の文字コード
         /// </summary>
-        private Encoding text_encoding_sjis = Encoding.GetEncoding("Shift_JIS");
+        /// <remarks>
+        ///     設定はコンストラクタで実施
+        /// </remarks>
+        private Encoding text_encoding_sjis;
 
         /// <summary>
         /// JSONの文字コード
@@ -128,7 +131,10 @@ namespace MaSiRoProject
         /// コンストラクタ
         /// </summary>
         public VMDtoJSON()
-        { }
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            text_encoding_sjis = Encoding.GetEncoding("Shift_JIS");
+        }
 
         #endregion コンストラクタ
 
@@ -174,7 +180,7 @@ namespace MaSiRoProject
             {
                 try
                 {
-                    if (string.Empty != output_filepath)
+                    if (0 != output_filepath.Length)
                     {
                         CommonLogger.Log(CommonLogger.LEVEL.INFO, "==================");
                         CommonLogger.Log(CommonLogger.LEVEL.INFO, "-- Output file --");

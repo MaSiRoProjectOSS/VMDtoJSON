@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 
 namespace MaSiRoProject.Common
 {
@@ -80,6 +79,7 @@ namespace MaSiRoProject.Common
                         Console.BackgroundColor = ConsoleColor.White;
                         Console.WriteLine("[" + level.ToString() + "] " + message);
                         Console.ResetColor();// 色のリセット
+                        /*
                         if (notice)
                         {
                             MessageBox.Show("[" + level.ToString() + "] " + Environment.NewLine + Environment.NewLine +
@@ -88,6 +88,7 @@ namespace MaSiRoProject.Common
                                            MessageBoxButtons.OK,
                                            MessageBoxIcon.Error);
                         }
+                        */
                     }
                     else
                     {

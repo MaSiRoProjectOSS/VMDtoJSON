@@ -139,13 +139,12 @@ namespace MaSiRoProject
                 if (true == flag_version)
                 {
                     CommonLogger.Log(CommonLogger.LEVEL.INFO, "==================");
-                    CommonLogger.Log(CommonLogger.LEVEL.INFO, System.Windows.Forms.Application.ProductName
-                        + " Ver." + System.Windows.Forms.Application.ProductVersion);
+                    CommonLogger.Log(CommonLogger.LEVEL.INFO, CommonFunction.ProductName() + " Ver." + CommonFunction.ProductVersion());
                 }
-                if (!string.Empty.Equals(input_filename))
+                if (0 != input_filename.Length)
                 {
                     vmdtojson.Convert(input_filename);
-                    if (!string.Empty.Equals(output_filename))
+                    if (0 != output_filename.Length)
                     {
                         vmdtojson.OutputFile(output_filename);
                     }
@@ -167,8 +166,8 @@ namespace MaSiRoProject
             {
                 CommonLogger.Log(CommonLogger.LEVEL.REPORT,
                                  "==================" + System.Environment.NewLine
-                               + System.Windows.Forms.Application.ProductName
-                                + " Ver." + System.Windows.Forms.Application.ProductVersion + System.Environment.NewLine
+                               + CommonFunction.ProductName()
+                                + " Ver." + CommonFunction.ProductVersion() + System.Environment.NewLine
                                + "==================");
 
                 // usage
