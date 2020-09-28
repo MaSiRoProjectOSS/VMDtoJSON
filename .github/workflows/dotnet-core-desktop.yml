@@ -24,9 +24,9 @@ jobs:
 
     env:
       Solution_Name: _sample/.NetCore/VMDtoJSON.sln
-      Test_Project_Path: _sample/.NetCore/VMDtoJSON_Package/VMDtoJSON.csproj
+      Test_Project_Path: _sample/.NetCore/VMDtoJSON/VMDtoJSON.csproj
       Wap_Project_Directory: _sample/.NetCore/VMDtoJSON
-      Wap_Project_Path: _sample/.NetCore/VMDtoJSON/WAPPackage.wapproj
+      Wap_Project_Path: _sample/.NetCore/VMDtoJSON_Package/WAPPackage.wapproj
 
     steps:
     - name: Checkout
@@ -46,7 +46,7 @@ jobs:
 
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      run: dotnet test
+      run: dotnet test $env:Test_Project_Path
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
