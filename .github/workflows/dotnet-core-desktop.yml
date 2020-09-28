@@ -27,8 +27,8 @@ jobs:
     env:
       Solution_Name: _sample/.NetCore/VMDtoJSON.sln
       Test_Project_Path: _sample/.NetCore/VMDtoJSON_Package/VMDtoJSON.csproj
-      Wap_Project_Directory: _sample/.NetCore/VMDtoJSON
-      Wap_Project_Path: _sample/.NetCore/VMDtoJSON/WAPPackage.wapproj
+      Wap_Project_Directory: _sample/.NetCore/VMDtoJSON_Package
+      Wap_Project_Path: _sample/.NetCore/VMDtoJSON_Package/VMDtoJSON_Package.wapproj
 
     steps:
     - name: Checkout
