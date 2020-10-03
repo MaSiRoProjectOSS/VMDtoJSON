@@ -9,8 +9,6 @@
 name: .NET Core Desktop
 
 on:
-  push:
-    branches: [ release/* ]
   pull_request:
     branches: [ release/* ]
 
@@ -50,17 +48,17 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
 
-    # Build 
+    # Build
     - name: Build the application
       run: dotnet build $env:Solution_Name --configuration $env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
 
-
-    # Publish 
-    - name: Build the application
+    # Publish
+    - name: Publish the application
       run: dotnet publish $env:Solution_Name -o publish -c $env:Configuration -r win-x64 /p:PublishSingleFile=true
       env:
         Configuration: ${{ matrix.configuration }}
+
 
 
