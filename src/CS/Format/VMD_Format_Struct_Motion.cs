@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MaSiRoProject.Common;
 
 namespace MaSiRoProject
@@ -67,6 +68,22 @@ namespace MaSiRoProject
             public Quaternion<float> Quaternion = new Quaternion<float>();
 
             /// <summary>
+            ///  ボーンの回転(Quaternion) 左手系
+            /// </summary>
+            /// <remarks>
+            ///     左手系に変換したクォータニオン
+            /// </remarks>
+            public Quaternion<float> Quaternion_left = new Quaternion<float>();
+
+            /// <summary>
+            ///  ボーンの回転(Quaternion) 右手系
+            /// </summary>
+            /// <remarks>
+            ///     右手系に変換したクォータニオン
+            /// </remarks>
+            public Quaternion<float> Quaternion_right = new Quaternion<float>();
+
+            /// <summary>
             ///  ボーンの回転(オイラー角)
             /// </summary>
             /// <remarks>
@@ -78,6 +95,266 @@ namespace MaSiRoProject
             /// 補間パラメタ
             /// </summary>
             public MotionInterpolation_Data<byte> Interpolation = new MotionInterpolation_Data<byte>();
+
+            /// <summary>
+            /// 補間データのセット関数
+            /// </summary>
+            /// <param name="value">64byteの補間データ</param>
+            public void SetMotionInterpolation(byte[] value)
+            {
+                if (64 != value.Length)
+                {
+                    throw new Exception("Motion.Interpolation : There is not enough data entered.");
+                }
+                /*
+                 *   X  Y  Z  R  X  Y  Z  R  X  Y  Z  R  X  Y  Z  R
+                     x  x  x  x  y  y  y  y  x  x  x  x  y  y  y  y
+                    start------------------ end-------------------
+                    06 15 00 00 49 56 5F 69 0E 1A 27 39 51 5A 63 6F
+                       15 21 30 49 56 5F 69 0E 1A 27 39 51 5A 63 6F
+                       00 21 30 49 56 5F 69 0E 1A 27 39 51 5A 63 6F
+                       00 00 30 49 56 5F 69 0E 1A 27 39 51 5A 63 6F 00 00 00
+               */
+                int index = 0;
+                Interpolation.Xaxis.Start.X = value[index]; index++;
+                Interpolation.Yaxis.Start.X = value[index]; index++;
+                Interpolation.Zaxis.Start.X = value[index]; index++;
+                Interpolation.Rotation.Start.X = value[index]; index++;
+
+                Interpolation.Xaxis.Start.Y = value[index]; index++;
+                Interpolation.Yaxis.Start.Y = value[index]; index++;
+                Interpolation.Zaxis.Start.Y = value[index]; index++;
+                Interpolation.Rotation.Start.Y = value[index]; index++;
+
+                Interpolation.Xaxis.End.X = value[index]; index++;
+                Interpolation.Yaxis.End.X = value[index]; index++;
+                Interpolation.Zaxis.End.X = value[index]; index++;
+                Interpolation.Rotation.End.X = value[index]; index++;
+
+                Interpolation.Xaxis.End.Y = value[index]; index++;
+                Interpolation.Yaxis.End.Y = value[index]; index++;
+                Interpolation.Zaxis.End.Y = value[index]; index++;
+                Interpolation.Rotation.End.Y = value[index]; index++;
+
+                if (0 == Interpolation.Yaxis.Start.X) { Interpolation.Yaxis.Start.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Zaxis.Start.X) { Interpolation.Zaxis.Start.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Rotation.Start.X) { Interpolation.Rotation.Start.X = value[index]; }
+                index++;
+
+                if (0 == Interpolation.Xaxis.Start.Y) { Interpolation.Xaxis.Start.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Yaxis.Start.Y) { Interpolation.Yaxis.Start.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Zaxis.Start.Y) { Interpolation.Zaxis.Start.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Rotation.Start.Y) { Interpolation.Rotation.Start.Y = value[index]; }
+                index++;
+
+                if (0 == Interpolation.Xaxis.End.X) { Interpolation.Xaxis.End.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Yaxis.End.X) { Interpolation.Yaxis.End.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Zaxis.End.X) { Interpolation.Zaxis.End.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Rotation.End.X) { Interpolation.Rotation.End.X = value[index]; }
+                index++;
+
+                if (0 == Interpolation.Xaxis.End.Y) { Interpolation.Xaxis.End.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Yaxis.End.Y) { Interpolation.Yaxis.End.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Zaxis.End.Y) { Interpolation.Zaxis.End.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Rotation.End.Y) { Interpolation.Rotation.End.Y = value[index]; }
+                index++;
+
+                if (0 == Interpolation.Yaxis.Start.X) { Interpolation.Yaxis.Start.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Zaxis.Start.X) { Interpolation.Zaxis.Start.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Rotation.Start.X) { Interpolation.Rotation.Start.X = value[index]; }
+                index++;
+
+                if (0 == Interpolation.Xaxis.Start.Y) { Interpolation.Xaxis.Start.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Yaxis.Start.Y) { Interpolation.Yaxis.Start.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Zaxis.Start.Y) { Interpolation.Zaxis.Start.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Rotation.Start.Y) { Interpolation.Rotation.Start.Y = value[index]; }
+                index++;
+
+                if (0 == Interpolation.Xaxis.End.X) { Interpolation.Xaxis.End.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Yaxis.End.X) { Interpolation.Yaxis.End.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Zaxis.End.X) { Interpolation.Zaxis.End.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Rotation.End.X) { Interpolation.Rotation.End.X = value[index]; }
+                index++;
+
+                if (0 == Interpolation.Xaxis.End.Y) { Interpolation.Xaxis.End.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Yaxis.End.Y) { Interpolation.Yaxis.End.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Zaxis.End.Y) { Interpolation.Zaxis.End.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Rotation.End.Y) { Interpolation.Rotation.End.Y = value[index]; }
+                index++;
+
+                if (0 == Interpolation.Yaxis.Start.X) { Interpolation.Yaxis.Start.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Zaxis.Start.X) { Interpolation.Zaxis.Start.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Rotation.Start.X) { Interpolation.Rotation.Start.X = value[index]; }
+                index++;
+
+                if (0 == Interpolation.Xaxis.Start.Y) { Interpolation.Xaxis.Start.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Yaxis.Start.Y) { Interpolation.Yaxis.Start.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Zaxis.Start.Y) { Interpolation.Zaxis.Start.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Rotation.Start.Y) { Interpolation.Rotation.Start.Y = value[index]; }
+                index++;
+
+                if (0 == Interpolation.Xaxis.End.X) { Interpolation.Xaxis.End.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Yaxis.End.X) { Interpolation.Yaxis.End.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Zaxis.End.X) { Interpolation.Zaxis.End.X = value[index]; }
+                index++;
+                if (0 == Interpolation.Rotation.End.X) { Interpolation.Rotation.End.X = value[index]; }
+                index++;
+
+                if (0 == Interpolation.Xaxis.End.Y) { Interpolation.Xaxis.End.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Yaxis.End.Y) { Interpolation.Yaxis.End.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Zaxis.End.Y) { Interpolation.Zaxis.End.Y = value[index]; }
+                index++;
+                if (0 == Interpolation.Rotation.End.Y) { Interpolation.Rotation.End.Y = value[index]; }
+                index++;
+            }
+
+            /// <summary>
+            /// 補間データ取得
+            /// </summary>
+            /// <returns>64バイトの補間データ</returns>
+            public byte[] GetMotionInterpolation()
+            {
+                /*
+                 *   X  Y  Z  R  X  Y  Z  R  X  Y  Z  R  X  Y  Z  R
+                     x  x  x  x  y  y  y  y  x  x  x  x  y  y  y  y
+                    start------------------ end-------------------
+                    06 15 00 00 49 56 5F 69 0E 1A 27 39 51 5A 63 6F
+                       15 21 30 49 56 5F 69 0E 1A 27 39 51 5A 63 6F
+                       00 21 30 49 56 5F 69 0E 1A 27 39 51 5A 63 6F
+                       00 00 30 49 56 5F 69 0E 1A 27 39 51 5A 63 6F 00 00 00
+               */
+                byte[] value = new byte[64];
+                int index = 0;
+
+                // 1回目
+                value[index++] = Interpolation.Xaxis.Start.X;
+                value[index++] = Interpolation.Yaxis.Start.X;
+                value[index++] = Interpolation.Zaxis.Start.X;
+                value[index++] = Interpolation.Rotation.Start.X;
+
+                value[index++] = Interpolation.Xaxis.Start.Y;
+                value[index++] = Interpolation.Yaxis.Start.Y;
+                value[index++] = Interpolation.Zaxis.Start.Y;
+                value[index++] = Interpolation.Rotation.Start.Y;
+
+                value[index++] = Interpolation.Xaxis.End.X;
+                value[index++] = Interpolation.Yaxis.End.X;
+                value[index++] = Interpolation.Zaxis.End.X;
+                value[index++] = Interpolation.Rotation.End.X;
+
+                value[index++] = Interpolation.Xaxis.End.Y;
+                value[index++] = Interpolation.Yaxis.End.Y;
+                value[index++] = Interpolation.Zaxis.End.Y;
+                value[index++] = Interpolation.Rotation.End.Y;
+
+                // 2回目
+                value[index++] = Interpolation.Yaxis.Start.X;
+                value[index++] = Interpolation.Zaxis.Start.X;
+                value[index++] = Interpolation.Rotation.Start.X;
+
+                value[index++] = Interpolation.Xaxis.Start.Y;
+                value[index++] = Interpolation.Yaxis.Start.Y;
+                value[index++] = Interpolation.Zaxis.Start.Y;
+                value[index++] = Interpolation.Rotation.Start.Y;
+
+                value[index++] = Interpolation.Xaxis.End.X;
+                value[index++] = Interpolation.Yaxis.End.X;
+                value[index++] = Interpolation.Zaxis.End.X;
+                value[index++] = Interpolation.Rotation.End.X;
+
+                value[index++] = Interpolation.Xaxis.End.Y;
+                value[index++] = Interpolation.Yaxis.End.Y;
+                value[index++] = Interpolation.Zaxis.End.Y;
+                value[index++] = Interpolation.Rotation.End.Y;
+
+                /*
+                 *   X  Y  Z  R  X  Y  Z  R  X  Y  Z  R  X  Y  Z  R
+                     x  x  x  x  y  y  y  y  x  x  x  x  y  y  y  y
+                    start------------------ end-------------------
+                    06 15 00 00 49 56 5F 69 0E 1A 27 39 51 5A 63 6F
+                       15 21 30 49 56 5F 69 0E 1A 27 39 51 5A 63 6F
+                       00 21 30 49 56 5F 69 0E 1A 27 39 51 5A 63 6F
+                       00 00 30 49 56 5F 69 0E 1A 27 39 51 5A 63 6F 00 00 00
+               */
+
+                // 3回目
+                value[index++] = 0;
+                value[index++] = Interpolation.Zaxis.Start.X;
+                value[index++] = Interpolation.Rotation.Start.X;
+
+                value[index++] = Interpolation.Xaxis.Start.Y;
+                value[index++] = Interpolation.Yaxis.Start.Y;
+                value[index++] = Interpolation.Zaxis.Start.Y;
+                value[index++] = Interpolation.Rotation.Start.Y;
+
+                value[index++] = Interpolation.Xaxis.End.X;
+                value[index++] = Interpolation.Yaxis.End.X;
+                value[index++] = Interpolation.Zaxis.End.X;
+                value[index++] = Interpolation.Rotation.End.X;
+
+                value[index++] = Interpolation.Xaxis.End.Y;
+                value[index++] = Interpolation.Yaxis.End.Y;
+                value[index++] = Interpolation.Zaxis.End.Y;
+                value[index++] = Interpolation.Rotation.End.Y;
+
+                // 4回目
+                value[index++] = 0;
+                value[index++] = 0;
+                value[index++] = Interpolation.Rotation.Start.X;
+
+                value[index++] = Interpolation.Xaxis.Start.Y;
+                value[index++] = Interpolation.Yaxis.Start.Y;
+                value[index++] = Interpolation.Zaxis.Start.Y;
+                value[index++] = Interpolation.Rotation.Start.Y;
+
+                value[index++] = Interpolation.Xaxis.End.X;
+                value[index++] = Interpolation.Yaxis.End.X;
+                value[index++] = Interpolation.Zaxis.End.X;
+                value[index++] = Interpolation.Rotation.End.X;
+
+                value[index++] = Interpolation.Xaxis.End.Y;
+                value[index++] = Interpolation.Yaxis.End.Y;
+                value[index++] = Interpolation.Zaxis.End.Y;
+                value[index++] = Interpolation.Rotation.End.Y;
+
+                // フッター
+                value[index++] = 0;
+                value[index++] = 0;
+                value[index++] = 0;
+
+                return value;
+            }
         }
 
         /// <summary>
@@ -113,6 +390,7 @@ namespace MaSiRoProject
             /// <bytesize>2つ×1 byte ×2軸</bytesize>
             public Rectangle<T> Rotation = new Rectangle<T>();
 
+            /*
             public Rectangle<T> unkown_5 = new Rectangle<T>();
 
             public Rectangle<T> unkown_6 = new Rectangle<T>();
@@ -136,6 +414,7 @@ namespace MaSiRoProject
             public Rectangle<T> unkown_15 = new Rectangle<T>();
 
             public Rectangle<T> unkown_16 = new Rectangle<T>();
+            */
         }
     }
 }

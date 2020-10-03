@@ -1,0 +1,10 @@
+VMDtoJSON/bin/*
+VMDtoJSON/obj/*
+*.csproj.user
+
+VMDtoJSON_Package/bin/*
+VMDtoJSON_Package/obj/*
+
+.vs/VMDtoJSON/DesignTimeBuild/*
+.vs/VMDtoJSON/v16/TestStore/*
+

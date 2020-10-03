@@ -41,7 +41,7 @@ namespace MaSiRoProject
             /// <summary>
             /// [内部変数] モード
             /// </summary>
-            private SelfShadow_MODE innner_mode = SelfShadow_MODE.MODE_NONE;
+            private SelfShadow_MODE inner_mode = SelfShadow_MODE.MODE_NONE;
 
             /// <summary>
             ///  フレーム番号
@@ -60,7 +60,7 @@ namespace MaSiRoProject
             {
                 get
                 {
-                    return innner_mode;    // 00-02 // モード
+                    return inner_mode;    // 00-02 // モード
                 }
             }
 
@@ -89,15 +89,15 @@ namespace MaSiRoProject
                 switch (mode)
                 {
                     case 1:
-                        innner_mode = SelfShadow_MODE.MODE_FIRST;
+                        inner_mode = SelfShadow_MODE.MODE_FIRST;
                         break;
 
                     case 2:
-                        innner_mode = SelfShadow_MODE.MODE_SECOND;
+                        inner_mode = SelfShadow_MODE.MODE_SECOND;
                         break;
 
                     default:
-                        innner_mode = SelfShadow_MODE.MODE_NONE;
+                        inner_mode = SelfShadow_MODE.MODE_NONE;
                         break;
                 }
             }

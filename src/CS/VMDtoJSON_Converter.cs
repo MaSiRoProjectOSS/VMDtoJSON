@@ -6,6 +6,11 @@ namespace MaSiRoProject
     {
         public VMDtoJSON_Converter(string[] args)
         {
+            VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList
+                coordinate_system = VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand;
+            bool flag_LeftHand_agrs = false;
+            bool flag_RightHand_agrs = false;
+            bool flag_MMDHand_agrs = false;
             bool flag_help = false;
             bool flag_version = false;
             string input_filename = string.Empty;
@@ -15,7 +20,7 @@ namespace MaSiRoProject
             VMDtoJSON vmdtojson = new VMDtoJSON();
             vmdtojson.SetOutputJsonType(false);
 
-            //vmdtojson.Setting(10, true, 30);  関数は用意してますが、この関数では使わない
+            //vmdtojson.Setting(...));  関数は用意してますが、この関数では使わない
 
             ////////////////////////
             /// 設定
@@ -50,7 +55,7 @@ namespace MaSiRoProject
                     {
                         int startFrameNo = 0;
                         int.TryParse(args[i + 1], out startFrameNo);
-                        vmdtojson.SetStartFram(startFrameNo);
+                        vmdtojson.SetStartFrame(startFrameNo);
 
                         i = i + 1;
                     }
@@ -72,6 +77,21 @@ namespace MaSiRoProject
                     // minimum json
                     vmdtojson.SetOutputJsonType(true);
                 }
+                else if ("--lefthand".Equals(args[i].ToLower()))
+                {
+                    // 座標を左手系に変更する。(デフォルト)
+                    flag_LeftHand_agrs = true;
+                }
+                else if ("--righthand".Equals(args[i].ToLower()))
+                {
+                    //  座標を右手系に変更する。 [--LeftHand] が指定されていると無効になります。
+                    flag_RightHand_agrs = true;
+                }
+                else if ("--mmdhand".Equals(args[i].ToLower()))
+                {
+                    //  座標を右手系に変更する。 [--LeftHand] が指定されていると無効になります。
+                    flag_MMDHand_agrs = true;
+                }
                 else if (( "-v".Equals(args[i].ToLower()) || ( "--version".Equals(args[i].ToLower()) ) ))
                 {
                     // バージョン
@@ -90,6 +110,26 @@ namespace MaSiRoProject
                     break;
                 }
             }
+            ////////////////////////
+            /// 入力設定の変更
+            ////////////////////////
+            if (true == flag_LeftHand_agrs)
+            {
+                coordinate_system = VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand;
+            }
+            else if (true == flag_RightHand_agrs)
+            {
+                coordinate_system = VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.RightHand;
+            }
+            else if (true == flag_MMDHand_agrs)
+            {
+                coordinate_system = VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.MMDHand;
+            }
+            else
+            {
+                coordinate_system = VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand;
+            }
+            vmdtojson.SetCoordinateSystem(coordinate_system);
 
             ////////////////////////
             /// 変換
@@ -99,13 +139,12 @@ namespace MaSiRoProject
                 if (true == flag_version)
                 {
                     CommonLogger.Log(CommonLogger.LEVEL.INFO, "==================");
-                    CommonLogger.Log(CommonLogger.LEVEL.INFO, System.Windows.Forms.Application.ProductName
-                        + " Ver." + System.Windows.Forms.Application.ProductVersion);
+                    CommonLogger.Log(CommonLogger.LEVEL.INFO, CommonFunction.ProductName() + " Ver." + CommonFunction.ProductVersion());
                 }
-                if (!string.Empty.Equals(input_filename))
+                if (0 != input_filename.Length)
                 {
                     vmdtojson.Convert(input_filename);
-                    if (!string.Empty.Equals(output_filename))
+                    if (0 != output_filename.Length)
                     {
                         vmdtojson.OutputFile(output_filename);
                     }
@@ -127,8 +166,8 @@ namespace MaSiRoProject
             {
                 CommonLogger.Log(CommonLogger.LEVEL.REPORT,
                                  "==================" + System.Environment.NewLine
-                               + System.Windows.Forms.Application.ProductName
-                                + " Ver." + System.Windows.Forms.Application.ProductVersion + System.Environment.NewLine
+                               + CommonFunction.ProductName()
+                                + " Ver." + CommonFunction.ProductVersion() + System.Environment.NewLine
                                + "==================");
 
                 // usage
@@ -160,6 +199,14 @@ namespace MaSiRoProject
                         + "     -T targetID    : " + "set the <targetID> in the extension header." + System.Environment.NewLine
                         + "     -M             : " + "make a JSON file with no line breaks or spaces." + System.Environment.NewLine
                         + "     -q             : " + "don't print version and copyright messages on interactive startup." + System.Environment.NewLine
+                );
+
+                // Manipulating output data
+                CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT,
+                          "   CoordinateSystem(" + System.Environment.NewLine
+                        + "     --LeftHand     : " + "Output Left hand Coordinate System. Priorty Hight (defalut) " + System.Environment.NewLine
+                        + "     --RightHand    : " + "Output Left hand Coordinate System. Priorty Middle" + System.Environment.NewLine
+                        + "     --MMDtHand     : " + "Output Left hand Coordinate System. Priorty Low" + System.Environment.NewLine
                 );
             }
         }

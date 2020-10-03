@@ -38,7 +38,7 @@
 	"astyle.astylerc": "${workspaceRoot}/.tools/AStyle/.astylerc.cfg",
 	"astyle.cpp.enable": true,
 	"astyle.c.enable": true,
-	"astyle.csharp.enable": false,
+	"astyle.csharp.enable": true,
 	"search.exclude": {
 		".tools": true,
 		"**/node_modules": true,
@@ -53,5 +53,17 @@
 	],
 	"editor.rulers": [
 		120
+	],
+	"cSpell.words": [
+		"sjis",
+		"Xaxis",
+		"Yaxis",
+		"Zaxis",
+		"TargetID",
+		"TARGETID",
+		"Argb",
+		"foge",
+		"outputbin",
+		"PROGRAMFILES"
 	]
 }

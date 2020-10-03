@@ -46,13 +46,16 @@
 ##############
 
 # MY PROJECT
+*.ai
 README.html
+TODO.md
 __*
 *.zip
 **/.doxygen
 doc/*.html
 doc/Design.md
 doc/Test/*
+doc/SVG/*
 
 
 # Reserve
