@@ -9,11 +9,17 @@
     <Version>0.0.2</Version>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <NeutralLanguage>en</NeutralLanguage>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>VMDtoJson.pfx</AssemblyOriginatorKeyFile>
     <PackageProjectUrl>https://github.com/MaSiRo-Project-OSS/VMDtoJSON</PackageProjectUrl>
     <Authors>MaSiRo Project.</Authors>
     <Description>MikuMikuDanceのモーションデータ(VMDファイル)をJSON形式に変換するコンバーダー</Description>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath></OutputPath>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +27,7 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
 
     <Compile Include="..\..\..\src\CS\Common\CommonFunction.cs">
       <Link>Common\CommonFunction.cs</Link>
