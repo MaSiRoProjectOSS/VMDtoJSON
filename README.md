@@ -19,7 +19,7 @@ VMDtoJson -F [変換したいVMDファイル] -O [出力するファイルパス
 
 | コマンド                              | コマンドの略称前       | 動作                                                                     |
 | :------------------------------------ | :--------------------- | ------------------------------------------------------------------------ |
-| -h/-H                                 | **h**elp               | コマンド情報を表示する                                                   |
+| -h/--help                                | **h**elp               | コマンド情報を表示する                                                   |
 | -F [変換したいVMDファイル]            | input **f**ile         | 変換したVMDファイルを指定する。                                          |
 | -O [出力するファイルパス]             | **o**utput file        | 出力したJSONのファイルを指定する。                                       |
 | -S [開始位置を設定したいフレーム番号] | **s**tart frame number | VMDファイルは0フレームから開始するので指定したフレーム数追加値で出力する |
@@ -38,7 +38,7 @@ VMDtoJson -F [変換したいVMDファイル] -O [出力するファイルパス
 actor "オペレータ" as AC
 file VMDファイル as VMDFile
 
-package サンプルソフト {
+package VMDtoJSON {
     rectangle ”入力解析” as input_function
     package VMDtoJson {
         rectangle "VMDを構造体に変換" as vmd_to_struct
