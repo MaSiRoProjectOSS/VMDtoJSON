@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -70,6 +71,11 @@ namespace MaSiRoProject
         private bool inner_minimumJson = false;
 
         /// <summary>
+        /// 出力グループの設定
+        /// </summary>
+        private bool group_by_name = false;
+
+        /// <summary>
         /// ファイル出力中のロックオブジェクト
         /// </summary>
         private readonly object lock_outputfile = new object();
@@ -88,6 +94,15 @@ namespace MaSiRoProject
             {
                 this.VMD_Data.Expansion.CoordinateSystem = value;
             }
+        }
+
+        /// <summary>
+        /// 出力グループの変更する
+        /// </summary>
+        /// <param name="value">trueならばパーツ名でグルーピングする</param>
+        public void GroupByName(bool value)
+        {
+            this.group_by_name = value;
         }
 
         /// <summary>
@@ -296,7 +311,7 @@ namespace MaSiRoProject
                     CommonLogger.Log(CommonLogger.LEVEL.INFO, "==================");
                     CommonLogger.Log(CommonLogger.LEVEL.INFO, "-- Write Json --");
                     this.sb_VMD_Data.Clear();
-                    sb_VMD_Data.Append("{" + ( minimumJson ? "" : Environment.NewLine ));
+                    sb_VMD_Data.Append("{" + (minimumJson ? "" : Environment.NewLine));
 
                     if (true == retReturn)
                     {
@@ -376,10 +391,10 @@ namespace MaSiRoProject
         private bool Convert_StructToJson_Header(ref string err_message, bool minimumJson = false)
         {
             sb_VMD_Data.Append(
-                            ( minimumJson ? "" : "  " ) + "\"Header\": {" + ( minimumJson ? "" : Environment.NewLine ) +
-                            ( minimumJson ? "" : "      " ) + "\"FileSignature\": " + "\"" + this.VMD_Data.Header.FileSignature + "\"," + ( minimumJson ? "" : Environment.NewLine ) +
-                            ( minimumJson ? "" : "      " ) + "\"ModelName\": " + "\"" + this.VMD_Data.Header.ModelName + "\"" + ( minimumJson ? "" : Environment.NewLine ) +
-                            ( minimumJson ? "" : "  " ) + "}," + ( minimumJson ? "" : Environment.NewLine )
+                            (minimumJson ? "" : "  ") + "\"Header\": {" + (minimumJson ? "" : Environment.NewLine) +
+                            (minimumJson ? "" : "      ") + "\"FileSignature\": " + "\"" + this.VMD_Data.Header.FileSignature + "\"," + (minimumJson ? "" : Environment.NewLine) +
+                            (minimumJson ? "" : "      ") + "\"ModelName\": " + "\"" + this.VMD_Data.Header.ModelName + "\"" + (minimumJson ? "" : Environment.NewLine) +
+                            (minimumJson ? "" : "  ") + "}," + (minimumJson ? "" : Environment.NewLine)
             );
             return true;
         }
@@ -392,122 +407,126 @@ namespace MaSiRoProject
         /// <returns>true: エラーなし</returns>
         private bool Convert_StructToJson_Motion(ref string err_message, bool minimumJson = false)
         {
-            sb_VMD_Data.Append(( minimumJson ? "" : "  " ) + "\"Motion\": {" + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "  ") + "\"Motion\": {" + (minimumJson ? "" : Environment.NewLine));
             int count = this.VMD_Data.Motion.Count;
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "\"Count\": " + count + "," + ( minimumJson ? "" : Environment.NewLine ));
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "\"Data\": [" + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Count\": " + count + "," + (minimumJson ? "" : Environment.NewLine));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Data\": [" + (minimumJson ? "" : Environment.NewLine));
+
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            StringBuilder sb = new StringBuilder();
 
             for (int i = 0; i < count; i++)
             {
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "{" + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Motion.Data[i].FrameNo) + "," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Name\": " + "\"" + this.VMD_Data.Motion.Data[i].Name + "\"," + ( minimumJson ? "" : Environment.NewLine ));
+                sb.Clear();
+                sb.Append((minimumJson ? "" : "      ") + "{" + (minimumJson ? "" : Environment.NewLine));
+                sb.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Motion.Data[i].FrameNo) + "," + (minimumJson ? "" : Environment.NewLine));
+                sb.Append((minimumJson ? "" : "        ") + "\"Name\": " + "\"" + this.VMD_Data.Motion.Data[i].Name + "\"," + (minimumJson ? "" : Environment.NewLine));
 
                 switch (this.VMD_Data.Expansion.CoordinateSystem)
                 {
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand:
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Location\": ["
+                        sb.Append((minimumJson ? "" : "        ") + "\"Location\": ["
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.X) + ", "
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.Y) + ", "
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.Z)
-                                             + "]," + ( minimumJson ? "" : Environment.NewLine ));
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Rotation\": {" + ( minimumJson ? "" : Environment.NewLine ));
+                                             + "]," + (minimumJson ? "" : Environment.NewLine));
+                        sb.Append((minimumJson ? "" : "        ") + "\"Rotation\": {" + (minimumJson ? "" : Environment.NewLine));
 
-                        sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Quaternion\": ["
+                        sb.Append((minimumJson ? "" : "          ") + "\"Quaternion\": ["
                                              + this.VMD_Data.Motion.Data[i].Quaternion_left.X + ", "
-                                             + ( this.VMD_Data.Motion.Data[i].Quaternion_left.Y ) + ", "
+                                             + (this.VMD_Data.Motion.Data[i].Quaternion_left.Y) + ", "
                                              + this.VMD_Data.Motion.Data[i].Quaternion_left.Z + ", "
-                                             + ( this.VMD_Data.Motion.Data[i].Quaternion_left.W )
-                                             + "]," + ( minimumJson ? "" : Environment.NewLine ));
-                        sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Euler\": ["
+                                             + (this.VMD_Data.Motion.Data[i].Quaternion_left.W)
+                                             + "]," + (minimumJson ? "" : Environment.NewLine));
+                        sb.Append((minimumJson ? "" : "          ") + "\"Euler\": ["
                                              + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(this.VMD_Data.Motion.Data[i].Euler.Pitch)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(-this.VMD_Data.Motion.Data[i].Euler.Yaw)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(-this.VMD_Data.Motion.Data[i].Euler.Roll))
-                                             + "]" + ( minimumJson ? "" : Environment.NewLine ));
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
+                                             + "]" + (minimumJson ? "" : Environment.NewLine));
+                        sb.Append((minimumJson ? "" : "        ") + "}," + (minimumJson ? "" : Environment.NewLine));
                         break;
 
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.RightHand:
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Location\": ["
+                        sb.Append((minimumJson ? "" : "        ") + "\"Location\": ["
                                              + CommonFunction.GetRound(DECIMALS_POSITION, -this.VMD_Data.Motion.Data[i].Location.Z) + ", "
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.X) + ", "
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.Y)
-                                             + "]," + ( minimumJson ? "" : Environment.NewLine ));
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Rotation\": {" + ( minimumJson ? "" : Environment.NewLine ));
+                                             + "]," + (minimumJson ? "" : Environment.NewLine));
+                        sb.Append((minimumJson ? "" : "        ") + "\"Rotation\": {" + (minimumJson ? "" : Environment.NewLine));
 
-                        sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Quaternion\": ["
-                                             + ( this.VMD_Data.Motion.Data[i].Quaternion_right.X ) + ", "
+                        sb.Append((minimumJson ? "" : "          ") + "\"Quaternion\": ["
+                                             + (this.VMD_Data.Motion.Data[i].Quaternion_right.X) + ", "
                                              + this.VMD_Data.Motion.Data[i].Quaternion_right.Y + ", "
                                              + this.VMD_Data.Motion.Data[i].Quaternion_right.Z + ", "
-                                             + ( this.VMD_Data.Motion.Data[i].Quaternion_right.W )
-                                             + "]," + ( minimumJson ? "" : Environment.NewLine ));
-                        sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Euler\": ["
+                                             + (this.VMD_Data.Motion.Data[i].Quaternion_right.W)
+                                             + "]," + (minimumJson ? "" : Environment.NewLine));
+                        sb.Append((minimumJson ? "" : "          ") + "\"Euler\": ["
                                              + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(-this.VMD_Data.Motion.Data[i].Euler.Roll)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(-this.VMD_Data.Motion.Data[i].Euler.Pitch)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(this.VMD_Data.Motion.Data[i].Euler.Yaw))
-                                             + "]" + ( minimumJson ? "" : Environment.NewLine ));
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
+                                             + "]" + (minimumJson ? "" : Environment.NewLine));
+                        sb.Append((minimumJson ? "" : "        ") + "}," + (minimumJson ? "" : Environment.NewLine));
                         break;
 
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.MMDHand:
                     default:
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Location\": ["
+                        sb.Append((minimumJson ? "" : "        ") + "\"Location\": ["
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.X) + ", "
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.Y) + ", "
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.Z)
-                                             + "]," + ( minimumJson ? "" : Environment.NewLine ));
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Rotation\": {" + ( minimumJson ? "" : Environment.NewLine ));
-                        sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Quaternion\": ["
+                                             + "]," + (minimumJson ? "" : Environment.NewLine));
+                        sb.Append((minimumJson ? "" : "        ") + "\"Rotation\": {" + (minimumJson ? "" : Environment.NewLine));
+                        sb.Append((minimumJson ? "" : "          ") + "\"Quaternion\": ["
                                              + this.VMD_Data.Motion.Data[i].Quaternion.X + ", "
                                              + this.VMD_Data.Motion.Data[i].Quaternion.Y + ", "
                                              + this.VMD_Data.Motion.Data[i].Quaternion.Z + ", "
                                              + this.VMD_Data.Motion.Data[i].Quaternion.W
-                                             + "]," + ( minimumJson ? "" : Environment.NewLine ));
-                        sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Euler\": ["
+                                             + "]," + (minimumJson ? "" : Environment.NewLine));
+                        sb.Append((minimumJson ? "" : "          ") + "\"Euler\": ["
                                              + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(this.VMD_Data.Motion.Data[i].Euler.Pitch)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(this.VMD_Data.Motion.Data[i].Euler.Yaw)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION_MOTION, CommonFunction.RadianToDegree(this.VMD_Data.Motion.Data[i].Euler.Roll))
-                                             + "]" + ( minimumJson ? "" : Environment.NewLine ));
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
+                                             + "]" + (minimumJson ? "" : Environment.NewLine));
+                        sb.Append((minimumJson ? "" : "        ") + "}," + (minimumJson ? "" : Environment.NewLine));
                         break;
                 }
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Interpolation\": {" + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"X\": {" +
+                sb.Append((minimumJson ? "" : "        ") + "\"Interpolation\": {" + (minimumJson ? "" : Environment.NewLine));
+                sb.Append((minimumJson ? "" : "          ") + "\"X\": {" +
                                      "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.Xaxis.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.Xaxis.Start.Y + "], " +
                                      "\"end\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.Xaxis.End.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.Xaxis.End.Y + "]"
-                                     + "}," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Y\": {" +
+                                     + "}," + (minimumJson ? "" : Environment.NewLine));
+                sb.Append((minimumJson ? "" : "          ") + "\"Y\": {" +
                                      "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.Yaxis.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.Yaxis.Start.Y + "], " +
                                      "\"end\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.Yaxis.End.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.Yaxis.End.Y + "]"
-                                     + "}," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Z\": {" +
+                                     + "}," + (minimumJson ? "" : Environment.NewLine));
+                sb.Append((minimumJson ? "" : "          ") + "\"Z\": {" +
                                      "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.Zaxis.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.Zaxis.Start.Y + "], " +
                                      "\"end\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.Zaxis.End.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.Zaxis.End.Y + "]"
-                                     + "}," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Rotation\": {" +
+                                     + "}," + (minimumJson ? "" : Environment.NewLine));
+                sb.Append((minimumJson ? "" : "          ") + "\"Rotation\": {" +
                                      "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.Rotation.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.Rotation.Start.Y + "], " +
                                      "\"end\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.Rotation.End.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.Rotation.End.Y + "]"
-                                     + "}" + ( minimumJson ? "" : Environment.NewLine ));
+                                     + "}" + (minimumJson ? "" : Environment.NewLine));
                 /*
 
                 // 同じ値なので不要なので未出力
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"unkown_5\": {" +
+                sb.Append(( minimumJson ? "" : "          " ) + "\"unkown_5\": {" +
                                     "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.unkown_5.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_5.Start.Y + "], " +
@@ -516,7 +535,7 @@ namespace MaSiRoProject
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_5.End.Y + "]"
                                      + "}," + ( minimumJson ? "" : Environment.NewLine ));
 
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"unkown_6\": {" +
+                sb.Append(( minimumJson ? "" : "          " ) + "\"unkown_6\": {" +
                                     "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.unkown_6.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_6.Start.Y + "], " +
@@ -525,7 +544,7 @@ namespace MaSiRoProject
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_6.End.Y + "]"
                                      + "}," + ( minimumJson ? "" : Environment.NewLine ));
 
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"unkown_7\": {" +
+                sb.Append(( minimumJson ? "" : "          " ) + "\"unkown_7\": {" +
                                     "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.unkown_7.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_7.Start.Y + "], " +
@@ -534,7 +553,7 @@ namespace MaSiRoProject
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_7.End.Y + "]"
                                      + "}," + ( minimumJson ? "" : Environment.NewLine ));
 
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"unkown_8\": {" +
+                sb.Append(( minimumJson ? "" : "          " ) + "\"unkown_8\": {" +
                                     "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.unkown_8.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_8.Start.Y + "], " +
@@ -543,7 +562,7 @@ namespace MaSiRoProject
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_8.End.Y + "]"
                                      + "}," + ( minimumJson ? "" : Environment.NewLine ));
 
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"unkown_9\": {" +
+                sb.Append(( minimumJson ? "" : "          " ) + "\"unkown_9\": {" +
                                     "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.unkown_9.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_9.Start.Y + "], " +
@@ -552,7 +571,7 @@ namespace MaSiRoProject
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_9.End.Y + "]"
                                      + "}," + ( minimumJson ? "" : Environment.NewLine ));
 
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"unkown_10\": {" +
+                sb.Append(( minimumJson ? "" : "          " ) + "\"unkown_10\": {" +
                                     "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.unkown_10.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_10.Start.Y + "], " +
@@ -561,7 +580,7 @@ namespace MaSiRoProject
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_10.End.Y + "]"
                                      + "}," + ( minimumJson ? "" : Environment.NewLine ));
 
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"unkown_11\": {" +
+                sb.Append(( minimumJson ? "" : "          " ) + "\"unkown_11\": {" +
                                     "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.unkown_11.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_11.Start.Y + "], " +
@@ -570,7 +589,7 @@ namespace MaSiRoProject
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_11.End.Y + "]"
                                      + "}," + ( minimumJson ? "" : Environment.NewLine ));
 
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"unkown_12\": {" +
+                sb.Append(( minimumJson ? "" : "          " ) + "\"unkown_12\": {" +
                                     "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.unkown_12.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_12.Start.Y + "], " +
@@ -579,7 +598,7 @@ namespace MaSiRoProject
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_12.End.Y + "]"
                                      + "}," + ( minimumJson ? "" : Environment.NewLine ));
 
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"unkown_13\": {" +
+                sb.Append(( minimumJson ? "" : "          " ) + "\"unkown_13\": {" +
                                     "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.unkown_13.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_13.Start.Y + "], " +
@@ -588,7 +607,7 @@ namespace MaSiRoProject
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_13.End.Y + "]"
                                      + "}," + ( minimumJson ? "" : Environment.NewLine ));
 
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"unkown_14\": {" +
+                sb.Append(( minimumJson ? "" : "          " ) + "\"unkown_14\": {" +
                                     "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.unkown_14.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_14.Start.Y + "], " +
@@ -597,7 +616,7 @@ namespace MaSiRoProject
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_14.End.Y + "]"
                                      + "}," + ( minimumJson ? "" : Environment.NewLine ));
 
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"unkown_15\": {" +
+                sb.Append(( minimumJson ? "" : "          " ) + "\"unkown_15\": {" +
                                     "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.unkown_15.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_15.Start.Y + "], " +
@@ -606,7 +625,7 @@ namespace MaSiRoProject
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_15.End.Y + "]"
                                      + "}," + ( minimumJson ? "" : Environment.NewLine ));
 
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"unkown_16\": {" +
+                sb.Append(( minimumJson ? "" : "          " ) + "\"unkown_16\": {" +
                                     "\"start\":[" +
                                      +this.VMD_Data.Motion.Data[i].Interpolation.unkown_16.Start.X + ", "
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_16.Start.Y + "], " +
@@ -615,12 +634,52 @@ namespace MaSiRoProject
                                      + this.VMD_Data.Motion.Data[i].Interpolation.unkown_16.End.Y + "]"
                                      + "}" + ( minimumJson ? "" : Environment.NewLine ));
                 */
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}" + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "      " ) + "}" + ( ( ( count - 1 ) != i ) ? "," : "" ) + ( minimumJson ? "" : Environment.NewLine ));
+                sb.Append((minimumJson ? "" : "        ") + "}" + (minimumJson ? "" : Environment.NewLine));
+                sb.Append((minimumJson ? "" : "      ") + "}");
+                if (true == group_by_name)
+                {
+                    if (true == dic.ContainsKey(this.VMD_Data.Motion.Data[i].Name))
+                    {
+                        dic[this.VMD_Data.Motion.Data[i].Name] = dic[this.VMD_Data.Motion.Data[i].Name] + "," + (minimumJson ? "" : Environment.NewLine) + sb.ToString();
+                    }
+                    else
+                    {
+                        dic.Add(this.VMD_Data.Motion.Data[i].Name, sb.ToString());
+                    }
+                }
+                else
+                {
+                    sb.Append((((count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
+                    sb_VMD_Data.Append(sb.ToString());
+                }
+            }
+            if (true == group_by_name)
+            {
+                bool flag_comma = false;
+                foreach (string key in dic.Keys)
+                {
+                    sb_VMD_Data.Append(
+                          (flag_comma ? "," + (minimumJson ? "" : Environment.NewLine) : "")
+                        + (minimumJson ? "" : "    ")
+                        + "\"" + key + "\": [" + (minimumJson ? "" : Environment.NewLine)
+                        + dic[key]
+                        + (minimumJson ? "" : Environment.NewLine + "    ")
+                        + "]"
+                        );
+                    flag_comma = true;
+                }
+            }
+            else
+            {
+                sb_VMD_Data.Append((minimumJson ? "" : "    ") + "]");
             }
 
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "]" + ( minimumJson ? "" : Environment.NewLine ));
-            sb_VMD_Data.Append(( minimumJson ? "" : "  " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
+
+            sb_VMD_Data.Append(
+                (minimumJson ? "" : Environment.NewLine)
+                + (minimumJson ? "" : "  ") + "},"
+                + (minimumJson ? "" : Environment.NewLine));
+
             return true;
         }
 
@@ -632,22 +691,63 @@ namespace MaSiRoProject
         /// <returns>true: エラーなし</returns>
         private bool Convert_StructToJson_Skin(ref string err_message, bool minimumJson = false)
         {
-            sb_VMD_Data.Append(( minimumJson ? "" : "  " ) + "\"Skin\": {" + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "  ") + "\"Skin\": {" + (minimumJson ? "" : Environment.NewLine));
             int count = this.VMD_Data.Skin.Count;
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "\"Count\": " + count + "," + ( minimumJson ? "" : Environment.NewLine ));
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "\"Data\": [" + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Count\": " + count + "," + (minimumJson ? "" : Environment.NewLine));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Data\": [" + (minimumJson ? "" : Environment.NewLine));
+
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            StringBuilder sb = new StringBuilder();
 
             for (int i = 0; i < count; i++)
             {
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "{" + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Skin.Data[i].FrameNo) + "," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Name\": " + "\"" + this.VMD_Data.Skin.Data[i].Name + "\"," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Weight\": " + this.VMD_Data.Skin.Data[i].Weight + "" + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}" + ( ( ( count - 1 ) != i ) ? "," : "" ) + ( minimumJson ? "" : Environment.NewLine ));
+                sb.Append((minimumJson ? "" : "      ") + "{" + (minimumJson ? "" : Environment.NewLine));
+                sb.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Skin.Data[i].FrameNo) + "," + (minimumJson ? "" : Environment.NewLine));
+                sb.Append((minimumJson ? "" : "        ") + "\"Name\": " + "\"" + this.VMD_Data.Skin.Data[i].Name + "\"," + (minimumJson ? "" : Environment.NewLine));
+                sb.Append((minimumJson ? "" : "        ") + "\"Weight\": " + this.VMD_Data.Skin.Data[i].Weight + "" + (minimumJson ? "" : Environment.NewLine));
+                sb.Append((minimumJson ? "" : "      ") + "}");
+
+
+                if (true == group_by_name)
+                {
+                    if (true == dic.ContainsKey(this.VMD_Data.Skin.Data[i].Name))
+                    {
+                        dic[this.VMD_Data.Skin.Data[i].Name] = dic[this.VMD_Data.Skin.Data[i].Name] + "," + (minimumJson ? "" : Environment.NewLine) + sb.ToString();
+                    }
+                    else
+                    {
+                        dic.Add(this.VMD_Data.Skin.Data[i].Name, sb.ToString());
+                    }
+                }
+                else
+                {
+                    sb.Append((((count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
+                    sb_VMD_Data.Append(sb.ToString());
+                }
+            }
+            if (true == group_by_name)
+            {
+                bool flag_comma = false;
+                foreach (string key in dic.Keys)
+                {
+                    sb_VMD_Data.Append(
+                          (flag_comma ? "," + (minimumJson ? "" : Environment.NewLine) : "")
+                        + (minimumJson ? "" : "      ")
+                        + "\"" + key + "\": [" + (minimumJson ? "" : Environment.NewLine)
+                        + dic[key]
+                        + (minimumJson ? "" : Environment.NewLine + "      ")
+                        + "]"
+                        );
+                    flag_comma = true;
+                }
             }
 
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "]" + ( minimumJson ? "" : Environment.NewLine ));
-            sb_VMD_Data.Append(( minimumJson ? "" : "  " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
+
+            sb_VMD_Data.Append(
+                (minimumJson ? "" : Environment.NewLine + "    ") + "]" +
+                (minimumJson ? "" : Environment.NewLine)
+                + (minimumJson ? "" : "  ") + "},"
+                + (minimumJson ? "" : Environment.NewLine));
             return true;
         }
 
@@ -659,117 +759,117 @@ namespace MaSiRoProject
         /// <returns>true: エラーなし</returns>
         private bool Convert_StructToJson_Camera(ref string err_message, bool minimumJson = false)
         {
-            sb_VMD_Data.Append(( minimumJson ? "" : "  " ) + "\"Camera\": {" + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "  ") + "\"Camera\": {" + (minimumJson ? "" : Environment.NewLine));
             int count = this.VMD_Data.Camera.Count;
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "\"Count\": " + count + "," + ( minimumJson ? "" : Environment.NewLine ));
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "\"Data\": [" + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Count\": " + count + "," + (minimumJson ? "" : Environment.NewLine));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Data\": [" + (minimumJson ? "" : Environment.NewLine));
 
             for (int i = 0; i < count; i++)
             {
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "{" + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Camera.Data[i].FrameNo) + "," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Length\": " + this.VMD_Data.Camera.Data[i].Length + "," + ( minimumJson ? "" : Environment.NewLine ));
+                sb_VMD_Data.Append((minimumJson ? "" : "      ") + "{" + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Camera.Data[i].FrameNo) + "," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Length\": " + this.VMD_Data.Camera.Data[i].Length + "," + (minimumJson ? "" : Environment.NewLine));
 
                 switch (this.VMD_Data.Expansion.CoordinateSystem)
                 {
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand:
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Location\": ["
+                        sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Location\": ["
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.X) + ", "
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.Y) + ", "
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.Z)
-                                             + "]," + ( minimumJson ? "" : Environment.NewLine ));
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Rotation\": ["
+                                             + "]," + (minimumJson ? "" : Environment.NewLine));
+                        sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Rotation\": ["
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(-this.VMD_Data.Camera.Data[i].Rotation.Pitch)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(-this.VMD_Data.Camera.Data[i].Rotation.Yaw)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(-this.VMD_Data.Camera.Data[i].Rotation.Roll))
-                                             + "]," + ( minimumJson ? "" : Environment.NewLine ));
+                                             + "]," + (minimumJson ? "" : Environment.NewLine));
                         break;
 
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.RightHand:
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Location\": ["
+                        sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Location\": ["
                                              + CommonFunction.GetRound(DECIMALS_POSITION, -this.VMD_Data.Camera.Data[i].Location.Z) + ", "
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.X) + ", "
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.Y)
-                                             + "]," + ( minimumJson ? "" : Environment.NewLine ));
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Rotation\": ["
+                                             + "]," + (minimumJson ? "" : Environment.NewLine));
+                        sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Rotation\": ["
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(this.VMD_Data.Camera.Data[i].Rotation.Roll)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(this.VMD_Data.Camera.Data[i].Rotation.Pitch)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(this.VMD_Data.Camera.Data[i].Rotation.Yaw))
-                                             + "]," + ( minimumJson ? "" : Environment.NewLine ));
+                                             + "]," + (minimumJson ? "" : Environment.NewLine));
                         break;
 
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.MMDHand:
                     default:
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Location\": ["
+                        sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Location\": ["
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.X) + ", "
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.Y) + ", "
                                              + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.Z)
-                                             + "]," + ( minimumJson ? "" : Environment.NewLine ));
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Rotation\": ["
+                                             + "]," + (minimumJson ? "" : Environment.NewLine));
+                        sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Rotation\": ["
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(this.VMD_Data.Camera.Data[i].Rotation.Pitch)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(this.VMD_Data.Camera.Data[i].Rotation.Yaw)) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree(this.VMD_Data.Camera.Data[i].Rotation.Roll))
-                                             + "]," + ( minimumJson ? "" : Environment.NewLine ));
+                                             + "]," + (minimumJson ? "" : Environment.NewLine));
                         break;
                 }
 
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Interpolation\": {" + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"X\": {" +
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Interpolation\": {" + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "          ") + "\"X\": {" +
                                      "\"start\":[" +
                                      +this.VMD_Data.Camera.Data[i].Interpolation.Xaxis.Start.X + ", "
                                      + this.VMD_Data.Camera.Data[i].Interpolation.Xaxis.Start.Y + "], " +
                                      "\"end\":[" +
                                      +this.VMD_Data.Camera.Data[i].Interpolation.Xaxis.End.X + ", "
                                      + this.VMD_Data.Camera.Data[i].Interpolation.Xaxis.End.Y + "]"
-                                     + "}," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Y\": {" +
+                                     + "}," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "          ") + "\"Y\": {" +
                                      "\"start\":[" +
                                      +this.VMD_Data.Camera.Data[i].Interpolation.Yaxis.Start.X + ", "
                                      + this.VMD_Data.Camera.Data[i].Interpolation.Yaxis.Start.Y + "], " +
                                      "\"end\":[" +
                                      +this.VMD_Data.Camera.Data[i].Interpolation.Yaxis.End.X + ", "
                                      + this.VMD_Data.Camera.Data[i].Interpolation.Yaxis.End.Y + "]"
-                                     + "}," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Z\": {" +
+                                     + "}," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "          ") + "\"Z\": {" +
                                      "\"start\":[" +
                                      +this.VMD_Data.Camera.Data[i].Interpolation.Zaxis.Start.X + ", "
                                      + this.VMD_Data.Camera.Data[i].Interpolation.Zaxis.Start.Y + "], " +
                                      "\"end\":[" +
                                      +this.VMD_Data.Camera.Data[i].Interpolation.Zaxis.End.X + ", "
                                      + this.VMD_Data.Camera.Data[i].Interpolation.Zaxis.End.Y + "]"
-                                     + "}," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Rotation\": {" +
+                                     + "}," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "          ") + "\"Rotation\": {" +
                                      "\"start\":[" +
                                      +this.VMD_Data.Camera.Data[i].Interpolation.Rotation.Start.X + ", "
                                      + this.VMD_Data.Camera.Data[i].Interpolation.Rotation.Start.Y + "], " +
                                      "\"end\":[" +
                                      +this.VMD_Data.Camera.Data[i].Interpolation.Rotation.End.X + ", "
                                      + this.VMD_Data.Camera.Data[i].Interpolation.Rotation.End.Y + "]"
-                                     + "}," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"Length\": {" +
+                                     + "}," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "          ") + "\"Length\": {" +
                                      "\"start\":[" +
                                      +this.VMD_Data.Camera.Data[i].Interpolation.Length.Start.X + ", "
                                      + this.VMD_Data.Camera.Data[i].Interpolation.Length.Start.Y + "], " +
                                      "\"end\":[" +
                                      +this.VMD_Data.Camera.Data[i].Interpolation.Length.End.X + ", "
                                      + this.VMD_Data.Camera.Data[i].Interpolation.Length.End.Y + "]"
-                                     + "}," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "\"ViewingAngle\": {" +
+                                     + "}," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "          ") + "\"ViewingAngle\": {" +
                                      "\"start\":[" +
                                      +this.VMD_Data.Camera.Data[i].Interpolation.ViewingAngle.Start.X + ", "
                                      + this.VMD_Data.Camera.Data[i].Interpolation.ViewingAngle.Start.Y + "], " +
                                      "\"end\":[" +
                                      +this.VMD_Data.Camera.Data[i].Interpolation.ViewingAngle.End.X + ", "
                                      + this.VMD_Data.Camera.Data[i].Interpolation.ViewingAngle.End.Y + "]"
-                                     + "}" + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"ViewingAngle\": " + this.VMD_Data.Camera.Data[i].ViewingAngle + "," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Perspective\": " + ( this.VMD_Data.Camera.Data[i].Perspective ? "true" : "false" ) + "" + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}" + ( ( ( count - 1 ) != i ) ? "," : "" ) + ( minimumJson ? "" : Environment.NewLine ));
+                                     + "}" + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "}," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"ViewingAngle\": " + this.VMD_Data.Camera.Data[i].ViewingAngle + "," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Perspective\": " + (this.VMD_Data.Camera.Data[i].Perspective ? "true" : "false") + "" + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "}" + (((count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
             }
 
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "]" + ( minimumJson ? "" : Environment.NewLine ));
-            sb_VMD_Data.Append(( minimumJson ? "" : "  " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "]" + (minimumJson ? "" : Environment.NewLine));
+            sb_VMD_Data.Append((minimumJson ? "" : "  ") + "}," + (minimumJson ? "" : Environment.NewLine));
             return true;
         }
 
@@ -781,53 +881,53 @@ namespace MaSiRoProject
         /// <returns>true: エラーなし</returns>
         private bool Convert_StructToJson_Illumination(ref string err_message, bool minimumJson = false)
         {
-            sb_VMD_Data.Append(( minimumJson ? "" : "  " ) + "\"Illumination\": {" + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "  ") + "\"Illumination\": {" + (minimumJson ? "" : Environment.NewLine));
             int count = this.VMD_Data.Illumination.Count;
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "\"Count\": " + count + "," + ( minimumJson ? "" : Environment.NewLine ));
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "\"Data\": [" + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Count\": " + count + "," + (minimumJson ? "" : Environment.NewLine));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Data\": [" + (minimumJson ? "" : Environment.NewLine));
 
             for (int i = 0; i < count; i++)
             {
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "{" + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Illumination.Data[i].FrameNo) + "," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"RGB\": [" + this.VMD_Data.Illumination.Data[i].RGB.R + ", "
+                sb_VMD_Data.Append((minimumJson ? "" : "      ") + "{" + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Illumination.Data[i].FrameNo) + "," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"RGB\": [" + this.VMD_Data.Illumination.Data[i].RGB.R + ", "
                                      + this.VMD_Data.Illumination.Data[i].RGB.G + ", "
                                      + this.VMD_Data.Illumination.Data[i].RGB.B
-                                     + "]," + ( minimumJson ? "" : Environment.NewLine ));
+                                     + "]," + (minimumJson ? "" : Environment.NewLine));
 
                 switch (this.VMD_Data.Expansion.CoordinateSystem)
                 {
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand:
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Location\": ["
+                        sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Location\": ["
                                              + CommonFunction.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.X) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.Y) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.Z)
-                                             + "]" + ( minimumJson ? "" : Environment.NewLine ));
+                                             + "]" + (minimumJson ? "" : Environment.NewLine));
                         break;
 
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.RightHand:
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Location\": ["
+                        sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Location\": ["
                                              + CommonFunction.GetRound(DECIMALS_ILLUMINATION, this.VMD_Data.Illumination.Data[i].Location.Z) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.X) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.Y)
-                                             + "]" + ( minimumJson ? "" : Environment.NewLine ));
+                                             + "]" + (minimumJson ? "" : Environment.NewLine));
                         break;
 
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.MMDHand:
                     default:
-                        sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Location\": ["
+                        sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Location\": ["
                                              + CommonFunction.GetRound(DECIMALS_ILLUMINATION, this.VMD_Data.Illumination.Data[i].Location.X) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ILLUMINATION, this.VMD_Data.Illumination.Data[i].Location.Y) + ", "
                                              + CommonFunction.GetRound(DECIMALS_ILLUMINATION, this.VMD_Data.Illumination.Data[i].Location.Z)
-                                             + "]" + ( minimumJson ? "" : Environment.NewLine ));
+                                             + "]" + (minimumJson ? "" : Environment.NewLine));
                         break;
                 }
 
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}" + ( ( ( count - 1 ) != i ) ? "," : "" ) + ( minimumJson ? "" : Environment.NewLine ));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "}" + (((count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
             }
 
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "]" + ( minimumJson ? "" : Environment.NewLine ));
-            sb_VMD_Data.Append(( minimumJson ? "" : "  " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "]" + (minimumJson ? "" : Environment.NewLine));
+            sb_VMD_Data.Append((minimumJson ? "" : "  ") + "}," + (minimumJson ? "" : Environment.NewLine));
             return true;
         }
 
@@ -839,23 +939,23 @@ namespace MaSiRoProject
         /// <returns>true: エラーなし</returns>
         private bool Convert_StructToJson_SelfShadow(ref string err_message, bool minimumJson = false)
         {
-            sb_VMD_Data.Append(( minimumJson ? "" : "  " ) + "\"SelfShadow\": {" + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "  ") + "\"SelfShadow\": {" + (minimumJson ? "" : Environment.NewLine));
             int count = this.VMD_Data.SelfShadow.Count;
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "\"Count\": " + count + "," + ( minimumJson ? "" : Environment.NewLine ));
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "\"Data\": [" + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Count\": " + count + "," + (minimumJson ? "" : Environment.NewLine));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Data\": [" + (minimumJson ? "" : Environment.NewLine));
 
             for (int i = 0; i < count; i++)
             {
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "{" + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.SelfShadow.Data[i].FrameNo) + "," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Mode\": " + (int) this.VMD_Data.SelfShadow.Data[i].Mode + "," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Distance_Value\": " + this.VMD_Data.SelfShadow.Data[i].Distance_Value + "," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Distance\": " + this.VMD_Data.SelfShadow.Data[i].Distance + "" + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}" + ( ( ( count - 1 ) != i ) ? "," : "" ) + ( minimumJson ? "" : Environment.NewLine ));
+                sb_VMD_Data.Append((minimumJson ? "" : "      ") + "{" + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.SelfShadow.Data[i].FrameNo) + "," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Mode\": " + (int)this.VMD_Data.SelfShadow.Data[i].Mode + "," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Distance_Value\": " + this.VMD_Data.SelfShadow.Data[i].Distance_Value + "," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Distance\": " + this.VMD_Data.SelfShadow.Data[i].Distance + "" + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "}" + (((count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
             }
 
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "]" + ( minimumJson ? "" : Environment.NewLine ));
-            sb_VMD_Data.Append(( minimumJson ? "" : "  " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "]" + (minimumJson ? "" : Environment.NewLine));
+            sb_VMD_Data.Append((minimumJson ? "" : "  ") + "}," + (minimumJson ? "" : Environment.NewLine));
             return true;
         }
 
@@ -867,34 +967,34 @@ namespace MaSiRoProject
         /// <returns>true: エラーなし</returns>
         private bool Convert_StructToJson_IK(ref string err_message, bool minimumJson = false)
         {
-            sb_VMD_Data.Append(( minimumJson ? "" : "  " ) + "\"IK\": {" + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "  ") + "\"IK\": {" + (minimumJson ? "" : Environment.NewLine));
             int ik_visible_count = this.VMD_Data.IK.Count;
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "\"Count\": " + ik_visible_count + "," + ( minimumJson ? "" : Environment.NewLine ));
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "\"Data\": [" + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Count\": " + ik_visible_count + "," + (minimumJson ? "" : Environment.NewLine));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Data\": [" + (minimumJson ? "" : Environment.NewLine));
 
             for (int i = 0; i < ik_visible_count; i++)
             {
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "{" + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.IK.Data[i].FrameNo) + "," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Visible\": " + ( this.VMD_Data.IK.Data[i].Visible ? "true" : "false" ) + "," + ( minimumJson ? "" : Environment.NewLine ));
+                sb_VMD_Data.Append((minimumJson ? "" : "      ") + "{" + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.IK.Data[i].FrameNo) + "," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Visible\": " + (this.VMD_Data.IK.Data[i].Visible ? "true" : "false") + "," + (minimumJson ? "" : Environment.NewLine));
                 int ik_count = this.VMD_Data.IK.Data[i].IKCount;
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Count\": " + ik_count + "," + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "\"Data\": [" + ( minimumJson ? "" : Environment.NewLine ));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Count\": " + ik_count + "," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Data\": [" + (minimumJson ? "" : Environment.NewLine));
 
                 for (int j = 0; j < ik_count; j++)
                 {
-                    sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "{" + ( minimumJson ? "" : Environment.NewLine ));
-                    sb_VMD_Data.Append(( minimumJson ? "" : "            " ) + "\"BoneName\": " + "\"" + this.VMD_Data.IK.Data[i].Data[j].ikBoneName + "\"," + ( minimumJson ? "" : Environment.NewLine ));
-                    sb_VMD_Data.Append(( minimumJson ? "" : "            " ) + "\"Enabled\": " + ( this.VMD_Data.IK.Data[i].Data[j].ikEnabled ? "true" : "false" ) + "" + ( minimumJson ? "" : Environment.NewLine ));
-                    sb_VMD_Data.Append(( minimumJson ? "" : "          " ) + "}" + ( ( ( ik_count - 1 ) != j ) ? "," : "" ) + ( minimumJson ? "" : Environment.NewLine ));
+                    sb_VMD_Data.Append((minimumJson ? "" : "          ") + "{" + (minimumJson ? "" : Environment.NewLine));
+                    sb_VMD_Data.Append((minimumJson ? "" : "            ") + "\"BoneName\": " + "\"" + this.VMD_Data.IK.Data[i].Data[j].ikBoneName + "\"," + (minimumJson ? "" : Environment.NewLine));
+                    sb_VMD_Data.Append((minimumJson ? "" : "            ") + "\"Enabled\": " + (this.VMD_Data.IK.Data[i].Data[j].ikEnabled ? "true" : "false") + "" + (minimumJson ? "" : Environment.NewLine));
+                    sb_VMD_Data.Append((minimumJson ? "" : "          ") + "}" + (((ik_count - 1) != j) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
                 }
 
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "]" + ( minimumJson ? "" : Environment.NewLine ));
-                sb_VMD_Data.Append(( minimumJson ? "" : "        " ) + "}" + ( ( ( ik_visible_count - 1 ) != i ) ? "," : "" ) + ( minimumJson ? "" : Environment.NewLine ));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "]" + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "}" + (((ik_visible_count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
             }
 
-            sb_VMD_Data.Append(( minimumJson ? "" : "    " ) + "]" + ( minimumJson ? "" : Environment.NewLine ));
-            sb_VMD_Data.Append(( minimumJson ? "" : "  " ) + "}," + ( minimumJson ? "" : Environment.NewLine ));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "]" + (minimumJson ? "" : Environment.NewLine));
+            sb_VMD_Data.Append((minimumJson ? "" : "  ") + "}," + (minimumJson ? "" : Environment.NewLine));
             return true;
         }
 
@@ -908,13 +1008,13 @@ namespace MaSiRoProject
         {
             //this. VMD_Data.  Expansion
             sb_VMD_Data.Append(
-                            ( minimumJson ? "" : "  " ) + "\"Expansion\": {" + ( minimumJson ? "" : Environment.NewLine ) +
-                            ( minimumJson ? "" : "      " ) + "\"TargetID\": " + this.VMD_Data.Expansion.TargetID + "," + ( minimumJson ? "" : Environment.NewLine ) +
-                            ( minimumJson ? "" : "      " ) + "\"StartFrame\": " + this.VMD_Data.Expansion.StartFrame + "," + ( minimumJson ? "" : Environment.NewLine ) +
-                            ( minimumJson ? "" : "      " ) + "\"Version\": " + this.VMD_Data.Expansion.Version + "," + ( minimumJson ? "" : Environment.NewLine ) +
-                            ( minimumJson ? "" : "      " ) + "\"FileType\": " + "\"" + this.VMD_Data.Expansion.FileType + "\"," + ( minimumJson ? "" : Environment.NewLine ) +
-                            ( minimumJson ? "" : "      " ) + "\"CoordinateSystem\": " + "\"" + this.VMD_Data.Expansion.CoordinateSystem.ToString() + "\"" + ( minimumJson ? "" : Environment.NewLine ) +
-                            ( minimumJson ? "" : "  " ) + "}" + ( minimumJson ? "" : Environment.NewLine )
+                            (minimumJson ? "" : "  ") + "\"Expansion\": {" + (minimumJson ? "" : Environment.NewLine) +
+                            (minimumJson ? "" : "      ") + "\"TargetID\": " + this.VMD_Data.Expansion.TargetID + "," + (minimumJson ? "" : Environment.NewLine) +
+                            (minimumJson ? "" : "      ") + "\"StartFrame\": " + this.VMD_Data.Expansion.StartFrame + "," + (minimumJson ? "" : Environment.NewLine) +
+                            (minimumJson ? "" : "      ") + "\"Version\": " + this.VMD_Data.Expansion.Version + "," + (minimumJson ? "" : Environment.NewLine) +
+                            (minimumJson ? "" : "      ") + "\"FileType\": " + "\"" + this.VMD_Data.Expansion.FileType + "\"," + (minimumJson ? "" : Environment.NewLine) +
+                            (minimumJson ? "" : "      ") + "\"CoordinateSystem\": " + "\"" + this.VMD_Data.Expansion.CoordinateSystem.ToString() + "\"" + (minimumJson ? "" : Environment.NewLine) +
+                            (minimumJson ? "" : "  ") + "}" + (minimumJson ? "" : Environment.NewLine)
             );
             return true;
         }
@@ -1172,9 +1272,9 @@ namespace MaSiRoProject
                             data.FrameNo = reader.ReadUInt32();
 
                             // RGB各値/256 // 赤、緑、青 3*4
-                            data.RGB = Color.FromArgb((int) ( reader.ReadSingle() * 256.0f ),
-                                                        (int) ( reader.ReadSingle() * 256.0f ),
-                                                        (int) ( reader.ReadSingle() * 256.0f ));
+                            data.RGB = Color.FromArgb((int)(reader.ReadSingle() * 256.0f),
+                                                        (int)(reader.ReadSingle() * 256.0f),
+                                                        (int)(reader.ReadSingle() * 256.0f));
                             data.Location.Set(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
                             VMD_Data.Illumination.Data.Add(data);
                         }
@@ -1269,7 +1369,7 @@ namespace MaSiRoProject
         /// <returns></returns>
         private string ShiftFrameNo(uint frameNo)
         {
-            return ( frameNo + this.VMD_Data.Expansion.StartFrame ).ToString();
+            return (frameNo + this.VMD_Data.Expansion.StartFrame).ToString();
         }
 
         /// <summary>
@@ -1287,16 +1387,16 @@ namespace MaSiRoProject
             float flag_signinversion = -1;
             euler.Set(
                 flag_signinversion *
-                    (float) Math.Atan2(2.0 * ( ( value.X * value.Y ) + ( value.Z * value.W ) ),
+                    (float)Math.Atan2(2.0 * ((value.X * value.Y) + (value.Z * value.W)),
                                         Math.Pow(value.X, 2) - Math.Pow(value.Y, 2) - Math.Pow(value.Z, 2) + Math.Pow(value.W, 2)),
 
                 flag_signinversion *
-                    (float) Math.Asin(2.0 * ( ( value.X * value.Z ) - ( value.Y * value.W ) )),
+                    (float)Math.Asin(2.0 * ((value.X * value.Z) - (value.Y * value.W))),
 
                 flag_signinversion *
-                    (float) ( Math.PI
-                          - Math.Atan2(2.0 * ( ( value.Y * value.Z ) + ( value.X * value.W ) ),
-                                        Math.Pow(value.X, 2) + Math.Pow(value.Y, 2) - Math.Pow(value.Z, 2) - Math.Pow(value.W, 2)) )
+                    (float)(Math.PI
+                          - Math.Atan2(2.0 * ((value.Y * value.Z) + (value.X * value.W)),
+                                        Math.Pow(value.X, 2) + Math.Pow(value.Y, 2) - Math.Pow(value.Z, 2) - Math.Pow(value.W, 2)))
                 );
             return euler;
         }
