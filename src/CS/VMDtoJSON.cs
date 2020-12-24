@@ -410,7 +410,7 @@ namespace MaSiRoProject
             sb_VMD_Data.Append((minimumJson ? "" : "  ") + "\"Motion\": {" + (minimumJson ? "" : Environment.NewLine));
             int count = this.VMD_Data.Motion.Count;
             sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Count\": " + count + "," + (minimumJson ? "" : Environment.NewLine));
-            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Data\": [" + (minimumJson ? "" : Environment.NewLine));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Data\": " + (group_by_name ? "{" : "[") + (minimumJson ? "" : Environment.NewLine));
 
             Dictionary<string, string> dic = new Dictionary<string, string>();
             StringBuilder sb = new StringBuilder();
@@ -660,25 +660,21 @@ namespace MaSiRoProject
                 {
                     sb_VMD_Data.Append(
                           (flag_comma ? "," + (minimumJson ? "" : Environment.NewLine) : "")
-                        + (minimumJson ? "" + "{" : "    " + "{" + Environment.NewLine)
                         + (minimumJson ? "" : "    ") + "\"" + key + "\": [" + (minimumJson ? "" : Environment.NewLine)
                         + dic[key]
-                        + (minimumJson ? "]" : Environment.NewLine + "    " + "]"+ Environment.NewLine)
-                        + (minimumJson ? "}" : "    " + "}")
+                        + (minimumJson ? "]" : Environment.NewLine + "    " + "]")
                         );
                     flag_comma = true;
                 }
-                if(false == minimumJson)
+                if (false == minimumJson)
                 {
-                    sb_VMD_Data.Append( Environment.NewLine);
+                    sb_VMD_Data.Append(Environment.NewLine);
                 }
             }
 
             sb_VMD_Data.Append(
-                (minimumJson ? "" : "    ") + "]"
-                + (minimumJson ? "" : Environment.NewLine)
-                + (minimumJson ? "" : "  ") + "},"
-                + (minimumJson ? "" : Environment.NewLine));
+                (minimumJson ? "" : "    ") + (group_by_name ? "}" : "]") + (minimumJson ? "" : Environment.NewLine)
+                + (minimumJson ? "" : "  ") + "}," + (minimumJson ? "" : Environment.NewLine));
 
             return true;
         }
