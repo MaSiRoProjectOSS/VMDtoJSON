@@ -92,17 +92,17 @@ namespace MaSiRoProject
                     //  座標を右手系に変更する。 [--LeftHand] が指定されていると無効になります。
                     flag_MMDHand_agrs = true;
                 }
-                else if (( "-v".Equals(args[i].ToLower()) || ( "--version".Equals(args[i].ToLower()) ) ))
+                else if (("-v".Equals(args[i].ToLower()) || ("--version".Equals(args[i].ToLower()))))
                 {
                     // バージョン
                     flag_version = true;
                 }
-                else if (( "-q".Equals(args[i]) ))
+                else if (("-q".Equals(args[i])))
                 {
                     // ログを出力させない
                     CommonLogger.OutputBorderLevel = CommonLogger.LEVEL.REPORT;
                 }
-                else if (( "-h".Equals(args[i].ToLower()) || ( "--help".Equals(args[i].ToLower()) ) ))
+                else if (("-h".Equals(args[i].ToLower()) || ("--help".Equals(args[i].ToLower()))))
                 {
                     // ヘルプ
                     flag_version = true;

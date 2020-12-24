@@ -77,7 +77,7 @@ namespace MaSiRoProject
             {
                 get
                 {
-                    return ( 0.1f - this.Distance_Value ) * 100000;
+                    return (0.1f - this.Distance_Value) * 100000;
                 }
             }
 
