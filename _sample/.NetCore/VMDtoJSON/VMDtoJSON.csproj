@@ -70,6 +70,9 @@
     <Compile Include="..\..\..\src\CS\VMDtoJSON.cs">
       <Link>src\VMDtoJSON.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\src\CS\VMDtoJSON_ToJsonText.cs">
+      <Link>src\VMDtoJSON_ToJsonText.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\src\CS\VMDtoJSON_Converter.cs">
       <Link>src\VMDtoJSON_Converter.cs</Link>
     </Compile>

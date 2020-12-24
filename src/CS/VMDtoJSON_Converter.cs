@@ -17,7 +17,7 @@ namespace MaSiRoProject
             string output_filename = string.Empty;
 
             ////////////////////////
-            VMDtoJSON vmdtojson = new VMDtoJSON();
+            VMDtoJSON_ToJsonText vmdtojson = new VMDtoJSON_ToJsonText();
             vmdtojson.SetOutputJsonType(false);
 
             //vmdtojson.Setting(...));  関数は用意してますが、この関数では使わない

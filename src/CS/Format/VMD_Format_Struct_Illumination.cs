@@ -7,7 +7,7 @@ namespace MaSiRoProject
     /// <summary>
     /// VMD フォーマットの構造
     /// </summary>
-    internal partial class VMD_Format_Struct
+    public partial class VMD_Format_Struct
     {
         /// <summary>
         /// 照明データ フォーマット
