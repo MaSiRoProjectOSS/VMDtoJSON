@@ -34,7 +34,22 @@ namespace MaSiRoProject
                     if (i + 1 < args.Length)
                     {
                         input_filename = args[i + 1];
-
+                        i = i + 1;
+                    }
+                }
+                else if ("-G".Equals(args[i]))
+                {
+                    // 変換対象のVMDファイル
+                    if (i + 1 < args.Length)
+                    {
+                        if ("name".Equals(args[i + 1].ToLower()))
+                        {
+                            vmdtojson.GroupByName(true);
+                        }
+                        else
+                        {
+                            vmdtojson.GroupByName(false);
+                        }
                         i = i + 1;
                     }
                 }
@@ -178,6 +193,7 @@ namespace MaSiRoProject
                         + " [-O <Output JSON file path>]"
                         + " [-S <FrameNo>]"
                         + " [-T <TargetID>]"
+                        + " [-G <NONE | NAME>]"
                         + " [-M]"
                         + " [-q]" + System.Environment.NewLine
                 );
@@ -198,6 +214,7 @@ namespace MaSiRoProject
                         + "     -S frame_no    : " + "start the frame number<frame_no> from the specified number." + System.Environment.NewLine
                         + "     -T targetID    : " + "set the <targetID> in the extension header." + System.Environment.NewLine
                         + "     -M             : " + "make a JSON file with no line breaks or spaces." + System.Environment.NewLine
+                        + "     -G grupe_name  : " + "Group the output" + System.Environment.NewLine
                         + "     -q             : " + "don't print version and copyright messages on interactive startup." + System.Environment.NewLine
                 );
 
