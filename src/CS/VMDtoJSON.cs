@@ -660,19 +660,22 @@ namespace MaSiRoProject
                 {
                     sb_VMD_Data.Append(
                           (flag_comma ? "," + (minimumJson ? "" : Environment.NewLine) : "")
-                        + (minimumJson ? "" : "    ")
-                        + "\"" + key + "\": [" + (minimumJson ? "" : Environment.NewLine)
+                        + (minimumJson ? "" + "{" : "    " + "{" + Environment.NewLine)
+                        + (minimumJson ? "" : "    ") + "\"" + key + "\": [" + (minimumJson ? "" : Environment.NewLine)
                         + dic[key]
-                        + (minimumJson ? "" : Environment.NewLine + "    ")
-                        + "]"
+                        + (minimumJson ? "]" : Environment.NewLine + "    " + "]"+ Environment.NewLine)
+                        + (minimumJson ? "}" : "    " + "}")
                         );
                     flag_comma = true;
                 }
+                if(false == minimumJson)
+                {
+                    sb_VMD_Data.Append( Environment.NewLine);
+                }
             }
 
-
             sb_VMD_Data.Append(
-                (minimumJson ? "" : Environment.NewLine + "    ") + "]"
+                (minimumJson ? "" : "    ") + "]"
                 + (minimumJson ? "" : Environment.NewLine)
                 + (minimumJson ? "" : "  ") + "},"
                 + (minimumJson ? "" : Environment.NewLine));
@@ -693,58 +696,17 @@ namespace MaSiRoProject
             sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Count\": " + count + "," + (minimumJson ? "" : Environment.NewLine));
             sb_VMD_Data.Append((minimumJson ? "" : "    ") + "\"Data\": [" + (minimumJson ? "" : Environment.NewLine));
 
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-            StringBuilder sb = new StringBuilder();
-
             for (int i = 0; i < count; i++)
             {
-                sb.Append((minimumJson ? "" : "      ") + "{" + (minimumJson ? "" : Environment.NewLine));
-                sb.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Skin.Data[i].FrameNo) + "," + (minimumJson ? "" : Environment.NewLine));
-                sb.Append((minimumJson ? "" : "        ") + "\"Name\": " + "\"" + this.VMD_Data.Skin.Data[i].Name + "\"," + (minimumJson ? "" : Environment.NewLine));
-                sb.Append((minimumJson ? "" : "        ") + "\"Weight\": " + this.VMD_Data.Skin.Data[i].Weight + "" + (minimumJson ? "" : Environment.NewLine));
-                sb.Append((minimumJson ? "" : "      ") + "}");
-
-
-                if (true == group_by_name)
-                {
-                    if (true == dic.ContainsKey(this.VMD_Data.Skin.Data[i].Name))
-                    {
-                        dic[this.VMD_Data.Skin.Data[i].Name] = dic[this.VMD_Data.Skin.Data[i].Name] + "," + (minimumJson ? "" : Environment.NewLine) + sb.ToString();
-                    }
-                    else
-                    {
-                        dic.Add(this.VMD_Data.Skin.Data[i].Name, sb.ToString());
-                    }
-                }
-                else
-                {
-                    sb.Append((((count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
-                    sb_VMD_Data.Append(sb.ToString());
-                }
-            }
-            if (true == group_by_name)
-            {
-                bool flag_comma = false;
-                foreach (string key in dic.Keys)
-                {
-                    sb_VMD_Data.Append(
-                          (flag_comma ? "," + (minimumJson ? "" : Environment.NewLine) : "")
-                        + (minimumJson ? "" : "    ")
-                        + "\"" + key + "\": [" + (minimumJson ? "" : Environment.NewLine)
-                        + dic[key]
-                        + (minimumJson ? "" : Environment.NewLine + "    ")
-                        + "]"
-                        );
-                    flag_comma = true;
-                }
+                sb_VMD_Data.Append((minimumJson ? "" : "      ") + "{" + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Skin.Data[i].FrameNo) + "," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Name\": " + "\"" + this.VMD_Data.Skin.Data[i].Name + "\"," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Weight\": " + this.VMD_Data.Skin.Data[i].Weight + "" + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "      ") + "}" + (((count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
             }
 
-
-            sb_VMD_Data.Append(
-                (minimumJson ? "" : Environment.NewLine + "    ") + "]"
-                + (minimumJson ? "" : Environment.NewLine)
-                + (minimumJson ? "" : "  ") + "},"
-                + (minimumJson ? "" : Environment.NewLine));
+            sb_VMD_Data.Append((minimumJson ? "" : "    ") + "]" + (minimumJson ? "" : Environment.NewLine));
+            sb_VMD_Data.Append((minimumJson ? "" : "  ") + "}," + (minimumJson ? "" : Environment.NewLine));
             return true;
         }
 

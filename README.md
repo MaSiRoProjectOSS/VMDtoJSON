@@ -29,7 +29,7 @@ VMDtoJson -F [変換したいVMDファイル] -O [出力するファイルパス
 | --LeftHand                            | Left Hand              | 座標を左手系に変更する。(デフォルト)                                                |
 | --RightHand                           | Right Hand             | 座標を右手系に変更する。 [--LeftHand] が指定されていると無効になります。            |
 | --MMDtHand                            | MMD Hand               | MMD座標に変更する。 [--LeftHand ｜--RightHand  ] が指定されていると無効になります。 |
-| -G [ MMD / NAME ]                     | Group by *             | MMD の並び順(デフォルト)か パーツ名でグルーピングする                               |
+| -G [ MMD / NAME ]                     | Group by *             | モーションの並び順をMMD(時系列：デフォルト)か パーツ名で一回グルーピングする        |
 
 
 ## ソフトウェアの構造
