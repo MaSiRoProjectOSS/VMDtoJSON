@@ -9,7 +9,7 @@ namespace MaSiRoProject
     /// <summary>
     /// VMD ファイルからJsonへ変換するためのクラス
     /// </summary>
-    public class VMDtoJSON
+    public class VMDtoStruct
     {
         #region データ
 
@@ -493,7 +493,7 @@ namespace MaSiRoProject
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public VMDtoJSON()
+        public VMDtoStruct()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             text_encoding_sjis = Encoding.GetEncoding("Shift_JIS");

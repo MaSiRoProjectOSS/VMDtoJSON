@@ -67,8 +67,8 @@
       <Link>src\Format\VMD_Format_Struct_Skin.cs</Link>
     </Compile>
 
-    <Compile Include="..\..\..\src\CS\VMDtoJSON.cs">
-      <Link>src\VMDtoJSON.cs</Link>
+    <Compile Include="..\..\..\src\CS\VMDtoStruct.cs">
+      <Link>src\VMDtoStruct.cs</Link>
     </Compile>
     <Compile Include="..\..\..\src\CS\VMDtoJSON_ToJsonText.cs">
       <Link>src\VMDtoJSON_ToJsonText.cs</Link>

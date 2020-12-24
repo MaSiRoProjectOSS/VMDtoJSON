@@ -9,7 +9,7 @@ namespace MaSiRoProject
     /// <summary>
     /// VMD ファイルからJsonへ変換するためのクラス
     /// </summary>
-    internal class VMDtoJSON_ToJsonText : VMDtoJSON
+    internal class VMDtoJSON_ToJsonText : VMDtoStruct
     {
         #region 出力設定
 
