@@ -193,7 +193,7 @@ namespace MaSiRoProject
                         + " [-O <Output JSON file path>]"
                         + " [-S <FrameNo>]"
                         + " [-T <TargetID>]"
-                        + " [-G <MMD | NAME>]"
+                        + " [-G <NONE | NAME>]"
                         + " [-M]"
                         + " [-q]" + System.Environment.NewLine
                 );

@@ -968,7 +968,8 @@ namespace MaSiRoProject
                             (minimumJson ? "" : "      ") + "\"StartFrame\": " + this.VMD_Data.Expansion.StartFrame + "," + (minimumJson ? "" : Environment.NewLine) +
                             (minimumJson ? "" : "      ") + "\"Version\": " + this.VMD_Data.Expansion.Version + "," + (minimumJson ? "" : Environment.NewLine) +
                             (minimumJson ? "" : "      ") + "\"FileType\": " + "\"" + this.VMD_Data.Expansion.FileType + "\"," + (minimumJson ? "" : Environment.NewLine) +
-                            (minimumJson ? "" : "      ") + "\"CoordinateSystem\": " + "\"" + this.VMD_Data.Expansion.CoordinateSystem.ToString() + "\"" + (minimumJson ? "" : Environment.NewLine) +
+                            (minimumJson ? "" : "      ") + "\"CoordinateSystem\": " + "\"" + this.VMD_Data.Expansion.CoordinateSystem.ToString() + "\"," + (minimumJson ? "" : Environment.NewLine) +
+                            (minimumJson ? "" : "      ") + "\"GroupType\": " + "\"" + (group_by_name ? "NAME" : "NONE") + "\"" + (minimumJson ? "" : Environment.NewLine) +
                             (minimumJson ? "" : "  ") + "}" + (minimumJson ? "" : Environment.NewLine)
             );
             return true;
