@@ -64,7 +64,7 @@
             {
                 get
                 {
-                    return (int) inner_version;
+                    return (int)inner_version;
                 }
             }
 

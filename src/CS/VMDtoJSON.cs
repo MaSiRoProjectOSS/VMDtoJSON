@@ -669,14 +669,11 @@ namespace MaSiRoProject
                     flag_comma = true;
                 }
             }
-            else
-            {
-                sb_VMD_Data.Append((minimumJson ? "" : "    ") + "]");
-            }
 
 
             sb_VMD_Data.Append(
-                (minimumJson ? "" : Environment.NewLine)
+                (minimumJson ? "" : Environment.NewLine + "    ") + "]"
+                + (minimumJson ? "" : Environment.NewLine)
                 + (minimumJson ? "" : "  ") + "},"
                 + (minimumJson ? "" : Environment.NewLine));
 
@@ -732,10 +729,10 @@ namespace MaSiRoProject
                 {
                     sb_VMD_Data.Append(
                           (flag_comma ? "," + (minimumJson ? "" : Environment.NewLine) : "")
-                        + (minimumJson ? "" : "      ")
+                        + (minimumJson ? "" : "    ")
                         + "\"" + key + "\": [" + (minimumJson ? "" : Environment.NewLine)
                         + dic[key]
-                        + (minimumJson ? "" : Environment.NewLine + "      ")
+                        + (minimumJson ? "" : Environment.NewLine + "    ")
                         + "]"
                         );
                     flag_comma = true;
@@ -744,8 +741,8 @@ namespace MaSiRoProject
 
 
             sb_VMD_Data.Append(
-                (minimumJson ? "" : Environment.NewLine + "    ") + "]" +
-                (minimumJson ? "" : Environment.NewLine)
+                (minimumJson ? "" : Environment.NewLine + "    ") + "]"
+                + (minimumJson ? "" : Environment.NewLine)
                 + (minimumJson ? "" : "  ") + "},"
                 + (minimumJson ? "" : Environment.NewLine));
             return true;
@@ -865,7 +862,7 @@ namespace MaSiRoProject
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "}," + (minimumJson ? "" : Environment.NewLine));
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"ViewingAngle\": " + this.VMD_Data.Camera.Data[i].ViewingAngle + "," + (minimumJson ? "" : Environment.NewLine));
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Perspective\": " + (this.VMD_Data.Camera.Data[i].Perspective ? "true" : "false") + "" + (minimumJson ? "" : Environment.NewLine));
-                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "}" + (((count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "      ") + "}" + (((count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
             }
 
             sb_VMD_Data.Append((minimumJson ? "" : "    ") + "]" + (minimumJson ? "" : Environment.NewLine));
@@ -923,7 +920,7 @@ namespace MaSiRoProject
                         break;
                 }
 
-                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "}" + (((count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "      ") + "}" + (((count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
             }
 
             sb_VMD_Data.Append((minimumJson ? "" : "    ") + "]" + (minimumJson ? "" : Environment.NewLine));
@@ -951,7 +948,7 @@ namespace MaSiRoProject
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Mode\": " + (int)this.VMD_Data.SelfShadow.Data[i].Mode + "," + (minimumJson ? "" : Environment.NewLine));
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Distance_Value\": " + this.VMD_Data.SelfShadow.Data[i].Distance_Value + "," + (minimumJson ? "" : Environment.NewLine));
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Distance\": " + this.VMD_Data.SelfShadow.Data[i].Distance + "" + (minimumJson ? "" : Environment.NewLine));
-                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "}" + (((count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "      ") + "}" + (((count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
             }
 
             sb_VMD_Data.Append((minimumJson ? "" : "    ") + "]" + (minimumJson ? "" : Environment.NewLine));
@@ -990,7 +987,7 @@ namespace MaSiRoProject
                 }
 
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "]" + (minimumJson ? "" : Environment.NewLine));
-                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "}" + (((ik_visible_count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "      ") + "}" + (((ik_visible_count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
             }
 
             sb_VMD_Data.Append((minimumJson ? "" : "    ") + "]" + (minimumJson ? "" : Environment.NewLine));

@@ -3,7 +3,7 @@
     /// <summary>
     /// VMD フォーマット
     /// </summary>
-    internal class VMD_Format :VMD_Format_Struct
+    internal class VMD_Format : VMD_Format_Struct
     {
         ////////////////////////////////////////////////////////////
         // 関数
