@@ -1,9 +1,8 @@
+using MaSiRoProject.Common;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Text;
-using MaSiRoProject.Common;
 
 namespace MaSiRoProject
 {
@@ -36,9 +35,7 @@ namespace MaSiRoProject
 
         #endregion 出力設定
 
-
         #region データ
-
 
         /// <summary>
         /// 文字化したVMDフォーマットのデータ
@@ -64,7 +61,6 @@ namespace MaSiRoProject
 
         #region 設定関数
 
-
         /// <summary>
         /// 出力グループの変更する
         /// </summary>
@@ -73,8 +69,6 @@ namespace MaSiRoProject
         {
             this.group_by_name = value;
         }
-
-
 
         /// <summary>
         /// 出力するJSONのタイプを指定する関数
@@ -86,7 +80,6 @@ namespace MaSiRoProject
         }
 
         #endregion 設定関数
-
 
         #region 設定関数
 
@@ -203,7 +196,6 @@ namespace MaSiRoProject
 
             return retflag;
         }
-
 
         /// <summary>
         /// 構造体からJsonへ変換する関数
@@ -887,6 +879,5 @@ namespace MaSiRoProject
         }
 
         #endregion Converter (構造体からJson)
-
     }
 }

@@ -7,7 +7,7 @@ namespace MaSiRoProject
         public VMDtoJSON_Converter(string[] args)
         {
             VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList
-                coordinate_system = VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand;
+            coordinate_system = VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand;
             bool flag_LeftHand_agrs = false;
             bool flag_RightHand_agrs = false;
             bool flag_MMDHand_agrs = false;
@@ -15,7 +15,6 @@ namespace MaSiRoProject
             bool flag_version = false;
             string input_filename = string.Empty;
             string output_filename = string.Empty;
-
             ////////////////////////
             VMDtoJSON_ToJsonText vmdtojson = new VMDtoJSON_ToJsonText();
             vmdtojson.SetOutputJsonType(false);
@@ -50,6 +49,7 @@ namespace MaSiRoProject
                         {
                             vmdtojson.GroupByName(false);
                         }
+
                         i = i + 1;
                     }
                 }
@@ -59,7 +59,6 @@ namespace MaSiRoProject
                     if (i + 1 < args.Length)
                     {
                         output_filename = args[i + 1];
-
                         i = i + 1;
                     }
                 }
@@ -71,7 +70,6 @@ namespace MaSiRoProject
                         int startFrameNo = 0;
                         int.TryParse(args[i + 1], out startFrameNo);
                         vmdtojson.SetStartFrame(startFrameNo);
-
                         i = i + 1;
                     }
                 }
@@ -83,7 +81,6 @@ namespace MaSiRoProject
                         int startFrameNo = 0;
                         int.TryParse(args[i + 1], out startFrameNo);
                         vmdtojson.SetTargetID(startFrameNo);
-
                         i = i + 1;
                     }
                 }
@@ -125,6 +122,7 @@ namespace MaSiRoProject
                     break;
                 }
             }
+
             ////////////////////////
             /// 入力設定の変更
             ////////////////////////
@@ -144,6 +142,7 @@ namespace MaSiRoProject
             {
                 coordinate_system = VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand;
             }
+
             vmdtojson.SetCoordinateSystem(coordinate_system);
 
             ////////////////////////
@@ -156,9 +155,11 @@ namespace MaSiRoProject
                     CommonLogger.Log(CommonLogger.LEVEL.INFO, "==================");
                     CommonLogger.Log(CommonLogger.LEVEL.INFO, CommonFunction.ProductName() + " Ver." + CommonFunction.ProductVersion());
                 }
+
                 if (0 != input_filename.Length)
                 {
                     vmdtojson.Convert(input_filename);
+
                     if (0 != output_filename.Length)
                     {
                         vmdtojson.OutputFile(output_filename);
@@ -180,50 +181,46 @@ namespace MaSiRoProject
             else
             {
                 CommonLogger.Log(CommonLogger.LEVEL.REPORT,
-                                 "==================" + System.Environment.NewLine
-                               + CommonFunction.ProductName()
-                                + " Ver." + CommonFunction.ProductVersion() + System.Environment.NewLine
-                               + "==================");
-
+                    "==================" + System.Environment.NewLine
+                    + CommonFunction.ProductName()
+                    + " Ver." + CommonFunction.ProductVersion() + System.Environment.NewLine
+                    + "==================");
                 // usage
                 CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT,
                     " usage: VMDtoJSON"
-                        + " [-v | --version] [-h | --help]"
-                        + " [-F <Input VMD file path>]"
-                        + " [-O <Output JSON file path>]"
-                        + " [-S <FrameNo>]"
-                        + " [-T <TargetID>]"
-                        + " [-G <NONE | NAME>]"
-                        + " [-M]"
-                        + " [-q]" + System.Environment.NewLine
+                    + " [-v | --version] [-h | --help]"
+                    + " [-F <Input VMD file path>]"
+                    + " [-O <Output JSON file path>]"
+                    + " [-S <FrameNo>]"
+                    + " [-T <TargetID>]"
+                    + " [-G <NONE | NAME>]"
+                    + " [-M]"
+                    + " [-q]" + System.Environment.NewLine
                 );
-
                 // Get application information
                 CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT,
-                          " Options and arguments" + System.Environment.NewLine
-                        + "   Get application information" + System.Environment.NewLine
-                        + "     -v             : " + "print this software version number (also --version)" + System.Environment.NewLine
-                        + "     -h             : " + "print this help message and exit (also --help)" + System.Environment.NewLine
+                    " Options and arguments" + System.Environment.NewLine
+                    + "   Get application information" + System.Environment.NewLine
+                    + "     -v             : " + "print this software version number (also --version)" + System.Environment.NewLine
+                    + "     -h             : " + "print this help message and exit (also --help)" + System.Environment.NewLine
                 );
-
                 // Manipulating output data
                 CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT,
-                          "   Manipulating output data" + System.Environment.NewLine
-                        + "     -F input_file  : " + "convert this file. <input_file>" + System.Environment.NewLine
-                        + "     -O output_file : " + "output JSON file to this path. <output_file>" + System.Environment.NewLine
-                        + "     -S frame_no    : " + "start the frame number<frame_no> from the specified number." + System.Environment.NewLine
-                        + "     -T targetID    : " + "set the <targetID> in the extension header." + System.Environment.NewLine
-                        + "     -M             : " + "make a JSON file with no line breaks or spaces." + System.Environment.NewLine
-                        + "     -G grupe_name  : " + "Group the output" + System.Environment.NewLine
-                        + "     -q             : " + "don't print version and copyright messages on interactive startup." + System.Environment.NewLine
+                    "   Manipulating output data" + System.Environment.NewLine
+                    + "     -F input_file  : " + "convert this file. <input_file>" + System.Environment.NewLine
+                    + "     -O output_file : " + "output JSON file to this path. <output_file>" + System.Environment.NewLine
+                    + "     -S frame_no    : " + "start the frame number<frame_no> from the specified number." + System.Environment.NewLine
+                    + "     -T targetID    : " + "set the <targetID> in the extension header." + System.Environment.NewLine
+                    + "     -M             : " + "make a JSON file with no line breaks or spaces." + System.Environment.NewLine
+                    + "     -G grupe_name  : " + "Group the output" + System.Environment.NewLine
+                    + "     -q             : " + "don't print version and copyright messages on interactive startup." + System.Environment.NewLine
                 );
-
                 // Manipulating output data
                 CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT,
-                          "   CoordinateSystem(" + System.Environment.NewLine
-                        + "     --LeftHand     : " + "Output Left hand Coordinate System. Priorty Hight (defalut) " + System.Environment.NewLine
-                        + "     --RightHand    : " + "Output Left hand Coordinate System. Priorty Middle" + System.Environment.NewLine
-                        + "     --MMDtHand     : " + "Output Left hand Coordinate System. Priorty Low" + System.Environment.NewLine
+                    "   CoordinateSystem(" + System.Environment.NewLine
+                    + "     --LeftHand     : " + "Output Left hand Coordinate System. Priorty Hight (defalut) " + System.Environment.NewLine
+                    + "     --RightHand    : " + "Output Left hand Coordinate System. Priorty Middle" + System.Environment.NewLine
+                    + "     --MMDtHand     : " + "Output Left hand Coordinate System. Priorty Low" + System.Environment.NewLine
                 );
             }
         }
