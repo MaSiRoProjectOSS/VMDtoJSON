@@ -71,6 +71,11 @@ namespace MaSiRoProject
                 return CommonFunction.DegreeLimit180((float)(radian * (180.0f / Math.PI)));
             }
 
+            /// <summary>
+            /// 角度の値を -180～180へ変換
+            /// </summary>
+            /// <param name="value">変換前の値</param>
+            /// <returns>変換後の値</returns>
             public static float DegreeLimit180(float value)
             {
                 while (180.0f < value)

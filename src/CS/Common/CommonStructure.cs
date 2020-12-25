@@ -102,42 +102,87 @@
         public class AxisOfRotation<T>
         {
             /// <summary>
+            /// [内部変数] 設定タイプ
+            /// </summary>
+            private bool flag_radian = true;
+
+            /// <summary>
             /// [内部変数] Roll
             /// </summary>
-            public T inner_roll;
+            private T inner_roll;
 
             /// <summary>
             /// [内部変数]Pitch
             /// </summary>
-            public T inner_pitch;
+            private T inner_pitch;
 
             /// <summary>
             /// [内部変数]Yaw
             /// </summary>
-            public T inner_yaw;
+            private T inner_yaw;
 
             /// <summary>
-            /// Roll
+            /// Degree to Radian 変換
+            /// </summary>
+            /// <param name="value">変換前の値</param>
+            /// <returns>変換後の値</returns>
+            private T DegToRad(T value)
+            {
+                //rad=deg∗(π/180)
+                return (T)((dynamic)value * (dynamic)(System.Math.PI / 180.0));
+            }
+
+            /// <summary>
+            /// Radian to Degree 変換
+            /// </summary>
+            /// <param name="value">変換前の値</param>
+            /// <returns>変換後の値</returns>
+            private T RadToDeg(T value)
+            {
+                //deg=rad∗(180/π)
+                return this.DegreeLimit180((dynamic)value * (dynamic)(180.0 / System.Math.PI));
+            }
+
+            /// <summary>
+            /// 角度の値を -180～180へ変換
+            /// </summary>
+            /// <param name="value">変換前の値</param>
+            /// <returns>変換後の値</returns>
+            private T DegreeLimit180(dynamic value)
+            {
+                while (180.0 < value)
+                {
+                    value = 360.0 - value;
+                }
+                while (-180.0 >= value)
+                {
+                    value = 360.0 + value;
+                }
+                return (T)value;
+            }
+
+            /// <summary>
+            /// Roll [deg]
             /// </summary>
             public T RollDegree
             {
-                get { return this.inner_roll; }
+                get { return this.RadToDeg(this.inner_roll); }
             }
 
             /// <summary>
-            /// Pitch
+            /// Pitch [deg]
             /// </summary>
             public T PitchDegree
             {
-                get { return this.inner_pitch; }
+                get { return this.RadToDeg(this.inner_pitch); }
             }
 
             /// <summary>
-            /// Yaw
+            /// Yaw [deg]
             /// </summary>
             public T YawDegree
             {
-                get { return this.inner_yaw; }
+                get { return this.RadToDeg(this.inner_yaw); }
             }
 
             /// <summary>
@@ -149,7 +194,14 @@
 
                 set
                 {
-                    this.inner_roll = value;
+                    if (true == this.flag_radian)
+                    {
+                        this.inner_roll = value;
+                    }
+                    else
+                    {
+                        this.inner_roll = this.DegToRad(value);
+                    }
                 }
             }
 
@@ -162,7 +214,14 @@
 
                 set
                 {
-                    this.inner_pitch = value;
+                    if (true == this.flag_radian)
+                    {
+                        this.inner_pitch = value;
+                    }
+                    else
+                    {
+                        this.inner_pitch = this.DegToRad(value);
+                    }
                 }
             }
 
@@ -175,7 +234,14 @@
 
                 set
                 {
-                    this.inner_yaw = value;
+                    if (true == this.flag_radian)
+                    {
+                        this.inner_yaw = value;
+                    }
+                    else
+                    {
+                        this.inner_yaw = this.DegToRad(value);
+                    }
                 }
             }
 
@@ -185,9 +251,10 @@
             /// <param name="roll">Roll</param>
             /// <param name="pitch">Pitch</param>
             /// <param name="yaw">Yaw</param>
-            public AxisOfRotation(T roll, T pitch, T yaw)
+            /// <param name="set_radian">ラジアンで設定するか</param>
+            public AxisOfRotation(T roll, T pitch, T yaw, bool set_radian = true)
             {
-                this.Set(roll, pitch, yaw);
+                this.Set(roll, pitch, yaw, set_radian);
             }
 
             /// <summary>
@@ -203,11 +270,23 @@
             /// <param name="roll">Roll</param>
             /// <param name="pitch">Pitch</param>
             /// <param name="yaw">Yaw</param>
-            public void Set(T roll, T pitch, T yaw)
+            /// <param name="set_radian">ラジアンで設定するか</param>
+            public void Set(T roll, T pitch, T yaw, bool set_radian = true)
             {
-                this.inner_roll = roll;
-                this.inner_pitch = pitch;
-                this.inner_yaw = yaw;
+                this.flag_radian = set_radian;
+                if (true == this.flag_radian)
+                {
+                    this.inner_roll = roll;
+                    this.inner_pitch = pitch;
+                    this.inner_yaw = yaw;
+                }
+                else
+                {
+                    //deg=rad∗(180/π)
+                    this.inner_roll = this.DegToRad(roll);
+                    this.inner_pitch = this.DegToRad(pitch);
+                    this.inner_yaw = this.DegToRad(yaw);
+                }
             }
         }
 
