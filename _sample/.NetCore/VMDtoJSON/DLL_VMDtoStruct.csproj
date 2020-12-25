@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <StartupObject></StartupObject>
     <Nullable>warnings</Nullable>
@@ -15,6 +15,12 @@
     <Authors>MaSiRo Project.</Authors>
     <Description>MikuMikuDanceのモーションデータ(VMDファイル)をJSON形式に変換するコンバーダー</Description>
     <DelaySign>false</DelaySign>
+    <AssemblyName>VMDtoStruct</AssemblyName>
+    <RootNamespace>VMDtoStruct</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -23,9 +29,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="src\Common\**" />
-    <EmbeddedResource Remove="src\Common\**" />
-    <None Remove="src\Common\**" />
+    <Compile Remove="Program.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -75,12 +79,6 @@
 
     <Compile Include="..\..\..\src\CS\VMDtoStruct.cs">
       <Link>src\VMDtoStruct.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\src\CS\VMDtoJSON_ToJsonText.cs">
-      <Link>src\VMDtoJSON_ToJsonText.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\src\CS\VMDtoJSON_Converter.cs">
-      <Link>src\VMDtoJSON_Converter.cs</Link>
     </Compile>
 
   </ItemGroup>
