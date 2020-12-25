@@ -50,7 +50,7 @@ namespace MaSiRoProject
             /// </summary>
 #if DEBUG
 
-        public static LEVEL OutputBorderLevel = LEVEL.DEBUG;
+            public static LEVEL OutputBorderLevel = LEVEL.DEBUG;
 
 #else
 

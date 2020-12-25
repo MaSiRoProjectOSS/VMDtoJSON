@@ -12,6 +12,15 @@ namespace MaSiRoProject
         public partial class VMD_Format_Struct
         {
             /// <summary>
+            /// 前後のボーンインデックス
+            /// </summary>
+            public class Index_Info
+            {
+                public int previous = -1;
+                public int next = -1;
+            }
+
+            /// <summary>
             /// モーションデータ フォーマット
             /// </summary>
             public class FORMAT_Motion
@@ -39,6 +48,11 @@ namespace MaSiRoProject
             /// </summary>
             public class Motion_Data
             {
+                /// <summary>
+                /// 同名のボーンの前後インデックス情報
+                /// </summary>
+                public Index_Info IndexInfo = new Index_Info();
+
                 /// <summary>
                 ///  ボーン名
                 /// </summary>

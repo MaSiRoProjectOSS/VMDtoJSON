@@ -1,6 +1,7 @@
 using MaSiRoProject.Common;
 using MaSiRoProject.Format;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
@@ -453,11 +454,62 @@ namespace MaSiRoProject
                 err_message = "'" + vmd_filepath + "'は存在しません。";
                 retReturn = false;
             }
+            if (true == retReturn)
+            {
+                //////////////////////////////
+                // -- Analysis [Motion] --
+                //////////////////////////////
+                retReturn = this.AnalysisMotion();
+            }
 
             return retReturn;
         }
 
         #endregion Converter (VMD Fileから構造体)
+
+        #region 解析関数
+
+        /// <summary>
+        /// Motionのアクセスを簡単にするため解析を行う
+        /// </summary>
+        /// <returns></returns>
+        private bool AnalysisMotion()
+        {
+            bool result = true;
+            try
+            {
+                CommonLogger.Log(CommonLogger.LEVEL.INFO, "-- Analysis [Motion] --");
+                Dictionary<string, int> dic = new Dictionary<string, int>();
+                for (int i = 0; i < this.VMD_Data.Motion.Data.Count; i++)
+                {
+                    if (true == dic.ContainsKey(this.VMD_Data.Motion.Data[i].Name))
+                    {
+                        // すでに登録済み
+
+                        this.VMD_Data.Motion.Data[dic[this.VMD_Data.Motion.Data[i].Name]].IndexInfo.next =
+                            i;
+
+                        this.VMD_Data.Motion.Data[i].IndexInfo.previous =
+                            dic[this.VMD_Data.Motion.Data[i].Name];
+
+                        dic[this.VMD_Data.Motion.Data[i].Name] = i;
+                    }
+                    else
+                    {
+                        // まだ未登録
+                        dic.Add(this.VMD_Data.Motion.Data[i].Name, i);
+                    }
+                }
+            }
+            catch
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+        #endregion 解析関数
 
         #region 変換関数
 
