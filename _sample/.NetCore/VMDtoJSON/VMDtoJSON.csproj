@@ -23,6 +23,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="src\Common\**" />
+    <EmbeddedResource Remove="src\Common\**" />
+    <None Remove="src\Common\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -95,7 +101,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="src\Common\" />
     <Folder Include="src\Format\" />
   </ItemGroup>
 

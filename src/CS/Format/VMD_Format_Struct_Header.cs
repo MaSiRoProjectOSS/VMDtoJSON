@@ -1,51 +1,54 @@
 ﻿namespace MaSiRoProject
 {
-    /// <summary>
-    /// VMD フォーマットの構造
-    /// </summary>
-    public partial class VMD_Format_Struct
+    namespace Format
     {
         /// <summary>
-        /// ヘッダー フォーマット
+        /// VMD フォーマットの構造
         /// </summary>
-        /// <bytesize>50</bytesize>
-        public class FORMAT_Header
+        public partial class VMD_Format_Struct
         {
             /// <summary>
-            /// [内部変数]VMDファイルのシグニチャ
+            /// ヘッダー フォーマット
             /// </summary>
-            /// <bytesize>30</bytesize>
-            private string inner_fileSignature = string.Empty;
-
-            /// <summary>
-            /// [読み取り専用] VMDファイルのシグニチャ
-            /// </summary>
-            public string FileSignature
+            /// <bytesize>50</bytesize>
+            public class FORMAT_Header
             {
-                get
+                /// <summary>
+                /// [内部変数]VMDファイルのシグニチャ
+                /// </summary>
+                /// <bytesize>30</bytesize>
+                private string inner_fileSignature = string.Empty;
+
+                /// <summary>
+                /// [読み取り専用] VMDファイルのシグニチャ
+                /// </summary>
+                public string FileSignature
                 {
-                    return inner_fileSignature;
+                    get
+                    {
+                        return inner_fileSignature;
+                    }
                 }
-            }
 
-            /// <summary>
-            /// VMDファイルのシグニチャを設定する関数
-            /// </summary>
-            /// <param name="signature">ファイルのシグニチャ</param>
-            public void SetFileSignature(string signature)
-            {
-                inner_fileSignature = signature;
-            }
+                /// <summary>
+                /// VMDファイルのシグニチャを設定する関数
+                /// </summary>
+                /// <param name="signature">ファイルのシグニチャ</param>
+                public void SetFileSignature(string signature)
+                {
+                    inner_fileSignature = signature;
+                }
 
-            /// <summary>
-            ///  モーションデータ保存時のモデル名
-            /// </summary>
-            /// <bytesize>20</bytesize>
-            /// <remarks>
-            /// モデルやそのVersionでもボーン名などが違うので
-            /// どのデータで保存したを特定するための情報
-            /// </remarks>
-            public string ModelName = string.Empty;
+                /// <summary>
+                ///  モーションデータ保存時のモデル名
+                /// </summary>
+                /// <bytesize>20</bytesize>
+                /// <remarks>
+                /// モデルやそのVersionでもボーン名などが違うので
+                /// どのデータで保存したを特定するための情報
+                /// </remarks>
+                public string ModelName = string.Empty;
+            }
         }
     }
 }
