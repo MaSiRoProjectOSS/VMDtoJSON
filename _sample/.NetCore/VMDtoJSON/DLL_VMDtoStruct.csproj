@@ -25,6 +25,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Program.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -71,12 +75,6 @@
 
     <Compile Include="..\..\..\src\CS\VMDtoStruct.cs">
       <Link>src\VMDtoStruct.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\src\CS\VMDtoJSON_ToJsonText.cs">
-      <Link>src\VMDtoJSON_ToJsonText.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\src\CS\VMDtoJSON_Converter.cs">
-      <Link>src\VMDtoJSON_Converter.cs</Link>
     </Compile>
 
   </ItemGroup>
