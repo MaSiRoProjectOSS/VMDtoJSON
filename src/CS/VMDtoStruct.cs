@@ -38,7 +38,7 @@ namespace MaSiRoProject
         /// <summary>
         /// 指定されたファイルの変換したVMDフォーマットデータ
         /// </summary>
-        internal VMD_Format VMD_Data = new VMD_Format();
+        public VMD_Format VMD_Data = new VMD_Format();
 
         #endregion データ
 
