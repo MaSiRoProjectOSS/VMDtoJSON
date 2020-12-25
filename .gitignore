@@ -59,6 +59,7 @@ doc/SVG/*
 
 
 # Reserve
-_sample/VS2015_cpp/*
+project/VS2015_cpp/*
+project/VS2015_cs/*
 src/CPP/*
-_sample/vs2015_C#/VMDtoJSON/Resources/hotplug.ico
+project/vs2015_C#/VMDtoJSON/Resources/hotplug.ico

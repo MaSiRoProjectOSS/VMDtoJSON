@@ -41,12 +41,11 @@ file VMDファイル as VMDFile
 
 package サンプルソフト {
     rectangle ”入力解析” as input_function
-    package VMDtoJson {
+    package VMDtoStruct {
         rectangle "VMDを構造体に変換" as vmd_to_struct
-        rectangle "構造体をJSONに変換" as struct_to_json
     }
+    rectangle "構造体をJSON(TEXT)に変換" as struct_to_json
     rectangle "出力機能" as output_function
-    rectangle "タイマー" as timer
 }
 
 file "json ファイル" as json_file
@@ -59,8 +58,6 @@ vmd_to_struct --> struct_to_json
 struct_to_json --> output_function
 output_function -left-> json_file
 
-input_function --> timer
-timer --> output_function
 
 @enduml
 ```
