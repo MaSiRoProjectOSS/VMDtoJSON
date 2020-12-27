@@ -15,18 +15,18 @@
             /// <summary>
             /// 終了座標
             /// </summary>
-            public Coordinate<T> End = new Coordinate<T>();
+            public Coordinate<T> Stop = new Coordinate<T>();
 
             /// <summary>
             /// コンストラクタ
             /// </summary>
             /// <param name="startX">開始座標のX軸</param>
             /// <param name="startY">開始座標のY軸</param>
-            /// <param name="endX">終了座標のX軸</param>
-            /// <param name="endY">終了座標のY軸</param>
-            public Rectangle(T startX, T startY, T endX, T endY)
+            /// <param name="stopX">終了座標のX軸</param>
+            /// <param name="stopY">終了座標のY軸</param>
+            public Rectangle(T startX, T startY, T stopX, T stopY)
             {
-                this.Set(startX, startY, endX, endY);
+                this.Set(startX, startY, stopX, stopY);
             }
 
             /// <summary>
@@ -41,14 +41,14 @@
             /// </summary>
             /// <param name="startX">開始座標のX軸</param>
             /// <param name="startY">開始座標のY軸</param>
-            /// <param name="endX">終了座標のX軸</param>
-            /// <param name="endY">終了座標のY軸</param>
-            public void Set(T startX, T startY, T endX, T endY)
+            /// <param name="stopX">終了座標のX軸</param>
+            /// <param name="stopY">終了座標のY軸</param>
+            public void Set(T startX, T startY, T stopX, T stopY)
             {
                 this.Start.X = startX;
                 this.Start.Y = startY;
-                this.End.X = endX;
-                this.End.Y = endY;
+                this.Stop.X = stopX;
+                this.Stop.Y = stopY;
             }
         }
 
@@ -122,34 +122,11 @@
             private T inner_yaw;
 
             /// <summary>
-            /// Degree to Radian 変換
-            /// </summary>
-            /// <param name="value">変換前の値</param>
-            /// <returns>変換後の値</returns>
-            private T DegToRad(T value)
-            {
-                //rad=deg∗(π/180)
-                return (T)((dynamic)value * (dynamic)(System.Math.PI / 180.0));
-            }
-
-            /// <summary>
-            /// Radian to Degree 変換
-            /// </summary>
-            /// <param name="value">変換前の値</param>
-            /// <returns>変換後の値</returns>
-            private T RadToDeg(T value)
-            {
-                //deg=rad∗(180/π)
-                return CommonFunction.DegreeLimit180<T>((dynamic)value * (dynamic)(180.0 / System.Math.PI));
-            }
-
-
-            /// <summary>
             /// Roll [deg]
             /// </summary>
             public T RollDegree
             {
-                get { return this.RadToDeg(this.inner_roll); }
+                get { return CommonFunction.RadianToDegree<T>(this.inner_roll); }
             }
 
             /// <summary>
@@ -157,7 +134,7 @@
             /// </summary>
             public T PitchDegree
             {
-                get { return this.RadToDeg(this.inner_pitch); }
+                get { return CommonFunction.RadianToDegree<T>(this.inner_pitch); }
             }
 
             /// <summary>
@@ -165,7 +142,7 @@
             /// </summary>
             public T YawDegree
             {
-                get { return this.RadToDeg(this.inner_yaw); }
+                get { return CommonFunction.RadianToDegree<T>(this.inner_yaw); }
             }
 
             /// <summary>
@@ -183,7 +160,7 @@
                     }
                     else
                     {
-                        this.inner_roll = this.DegToRad(value);
+                        this.inner_roll = CommonFunction.DegreeToRadian<T>(value);
                     }
                 }
             }
@@ -203,7 +180,7 @@
                     }
                     else
                     {
-                        this.inner_pitch = this.DegToRad(value);
+                        this.inner_pitch = CommonFunction.DegreeToRadian<T>(value);
                     }
                 }
             }
@@ -223,7 +200,7 @@
                     }
                     else
                     {
-                        this.inner_yaw = this.DegToRad(value);
+                        this.inner_yaw = CommonFunction.DegreeToRadian<T>(value);
                     }
                 }
             }
@@ -266,9 +243,9 @@
                 else
                 {
                     //deg=rad∗(180/π)
-                    this.inner_roll = this.DegToRad(roll);
-                    this.inner_pitch = this.DegToRad(pitch);
-                    this.inner_yaw = this.DegToRad(yaw);
+                    this.inner_roll = CommonFunction.DegreeToRadian<T>(roll);
+                    this.inner_pitch = CommonFunction.DegreeToRadian<T>(pitch);
+                    this.inner_yaw = CommonFunction.DegreeToRadian<T>(yaw);
                 }
             }
         }

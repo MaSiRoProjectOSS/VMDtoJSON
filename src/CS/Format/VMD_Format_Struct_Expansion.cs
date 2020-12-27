@@ -8,6 +8,100 @@
         public partial class VMD_Format_Struct
         {
             /// <summary>
+            /// X軸とY軸をまとめたクラス
+            /// </summary>
+            public class MotionInterpolation_Rectangle<T>
+            {
+                /// <summary>
+                /// 開始座標
+                /// </summary>
+                public MotionInterpolation_Coordinate<T> Start = new MotionInterpolation_Coordinate<T>();
+
+                /// <summary>
+                /// 終了座標
+                /// </summary>
+                public MotionInterpolation_Coordinate<T> Stop = new MotionInterpolation_Coordinate<T>();
+
+                /// <summary>
+                /// コンストラクタ
+                /// </summary>
+                /// <param name="startTime">開始座標のX軸</param>
+                /// <param name="startAmount">開始座標のY軸</param>
+                /// <param name="endTime">終了座標のX軸</param>
+                /// <param name="endAmount">終了座標のY軸</param>
+                public MotionInterpolation_Rectangle(T startTime, T startAmount, T endTime, T endAmount)
+                {
+                    this.Set(startTime, startAmount, endTime, endAmount);
+                }
+
+                /// <summary>
+                /// コンストラクタ
+                /// </summary>
+                public MotionInterpolation_Rectangle()
+                {
+                }
+
+                /// <summary>
+                /// 設定関数
+                /// </summary>
+                /// <param name="startTime">開始座標のX軸</param>
+                /// <param name="startAmount">開始座標のY軸</param>
+                /// <param name="stopTime">終了座標のX軸</param>
+                /// <param name="stopAmount">終了座標のY軸</param>
+                public void Set(T startTime, T startAmount, T stopTime, T stopAmount)
+                {
+                    this.Start.Time = startTime;
+                    this.Start.Amount = startAmount;
+                    this.Stop.Time = stopTime;
+                    this.Stop.Amount = stopAmount;
+                }
+            }
+
+            /// <summary>
+            /// X軸とY軸をまとめたクラス
+            /// </summary>
+            public class MotionInterpolation_Coordinate<T>
+            {
+                /// <summary>
+                /// X軸
+                /// </summary>
+                public T Time;
+
+                /// <summary>
+                /// Y軸
+                /// </summary>
+                public T Amount;
+
+                /// <summary>
+                /// コンストラクタ
+                /// </summary>
+                /// <param name="time">X軸</param>
+                /// <param name="amount">Y軸</param>
+                public MotionInterpolation_Coordinate(T time, T amount)
+                {
+                    this.Set(time, amount);
+                }
+
+                /// <summary>
+                /// コンストラクタ
+                /// </summary>
+                public MotionInterpolation_Coordinate()
+                {
+                }
+
+                /// <summary>
+                /// 設定関数
+                /// </summary>
+                /// <param name="time">X軸</param>
+                /// <param name="amount">Y軸</param>
+                public void Set(T time, T amount)
+                {
+                    this.Time = time;
+                    this.Amount = amount;
+                }
+            }
+
+            /// <summary>
             /// 拡張 フォーマット
             /// </summary>
             /// <remarks>
