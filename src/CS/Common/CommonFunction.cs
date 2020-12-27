@@ -8,7 +8,7 @@ namespace MaSiRoProject
         /// <summary>
         /// 共通関数のまとめたクラス
         /// </summary>
-        internal class CommonFunction
+        public class CommonFunction
         {
             /// <summary>
             /// プロダクト名の取得
@@ -61,14 +61,25 @@ namespace MaSiRoProject
             }
 
             /// <summary>
+            /// Degree to Radian 変換
+            /// </summary>
+            /// <param name="value">変換前の値</param>
+            /// <returns>変換後の値</returns>
+            public static T DegreeToRadian<T>(dynamic value)
+            {
+                //rad=deg∗(π/180)
+                return (T)(value * (System.Math.PI / 180.0));
+            }
+
+            /// <summary>
             /// Radian to Degree 変換
             /// </summary>
             /// <param name="value">変換前の値</param>
             /// <returns>変換後の値</returns>
-            public static float RadianToDegree(float radian)
+            public static T RadianToDegree<T>(dynamic radian)
             {
                 //deg = rad∗( 180 / π )
-                return CommonFunction.DegreeLimit180((float)(radian * (180.0f / Math.PI)));
+                return (T)(CommonFunction.DegreeLimit180<T>(radian * (180.0f / Math.PI)));
             }
 
             /// <summary>
@@ -76,7 +87,7 @@ namespace MaSiRoProject
             /// </summary>
             /// <param name="value">変換前の値</param>
             /// <returns>変換後の値</returns>
-            public static float DegreeLimit180(float value)
+            public static T DegreeLimit180<T>(dynamic value)
             {
                 while (180.0f < value)
                 {
@@ -86,7 +97,7 @@ namespace MaSiRoProject
                 {
                     value = 360.0f + value;
                 }
-                return value;
+                return (T)value;
             }
 
             /// <summary>

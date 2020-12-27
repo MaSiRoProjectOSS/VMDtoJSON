@@ -140,26 +140,9 @@
             private T RadToDeg(T value)
             {
                 //deg=rad∗(180/π)
-                return this.DegreeLimit180((dynamic)value * (dynamic)(180.0 / System.Math.PI));
+                return CommonFunction.DegreeLimit180<T>((dynamic)value * (dynamic)(180.0 / System.Math.PI));
             }
 
-            /// <summary>
-            /// 角度の値を -180～180へ変換
-            /// </summary>
-            /// <param name="value">変換前の値</param>
-            /// <returns>変換後の値</returns>
-            private T DegreeLimit180(dynamic value)
-            {
-                while (180.0 < value)
-                {
-                    value = 360.0 - value;
-                }
-                while (-180.0 >= value)
-                {
-                    value = 360.0 + value;
-                }
-                return (T)value;
-            }
 
             /// <summary>
             /// Roll [deg]

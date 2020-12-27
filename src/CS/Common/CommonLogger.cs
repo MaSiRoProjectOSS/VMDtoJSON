@@ -7,7 +7,7 @@ namespace MaSiRoProject
         /// <summary>
         /// ログ出力用のクラス
         /// </summary>
-        internal class CommonLogger
+        public class CommonLogger
         {
             /// <summary>
             /// ログレベル
