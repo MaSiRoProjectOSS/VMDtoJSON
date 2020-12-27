@@ -25,12 +25,12 @@
                 /// <summary>
                 /// 補間曲線の開始座標
                 /// </summary>
-                public MotionInterpolation_Coordinate<float> Biging = new MotionInterpolation_Coordinate<float>(0, 0);
+                public MotionInterpolation_Coordinate<byte> Biging = new MotionInterpolation_Coordinate<byte>(0, 0);
 
                 /// <summary>
                 /// 補間曲線の開始座標
                 /// </summary>
-                public MotionInterpolation_Coordinate<float> End = new MotionInterpolation_Coordinate<float>(127, 127);
+                public MotionInterpolation_Coordinate<byte> End = new MotionInterpolation_Coordinate<byte>(127, 127);
 
                 /// <summary>
                 /// コンストラクタ
