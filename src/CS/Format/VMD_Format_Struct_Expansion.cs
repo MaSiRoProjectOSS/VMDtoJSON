@@ -23,6 +23,16 @@
                 public MotionInterpolation_Coordinate<T> Stop = new MotionInterpolation_Coordinate<T>();
 
                 /// <summary>
+                /// 補間曲線の開始座標
+                /// </summary>
+                public MotionInterpolation_Coordinate<float> Biging = new MotionInterpolation_Coordinate<float>(0, 0);
+
+                /// <summary>
+                /// 補間曲線の開始座標
+                /// </summary>
+                public MotionInterpolation_Coordinate<float> End = new MotionInterpolation_Coordinate<float>(127, 127);
+
+                /// <summary>
                 /// コンストラクタ
                 /// </summary>
                 /// <param name="startTime">開始座標のX軸</param>
