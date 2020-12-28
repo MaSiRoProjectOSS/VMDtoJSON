@@ -15,18 +15,18 @@
             /// <summary>
             /// 終了座標
             /// </summary>
-            public Coordinate<T> End = new Coordinate<T>();
+            public Coordinate<T> Stop = new Coordinate<T>();
 
             /// <summary>
             /// コンストラクタ
             /// </summary>
             /// <param name="startX">開始座標のX軸</param>
             /// <param name="startY">開始座標のY軸</param>
-            /// <param name="endX">終了座標のX軸</param>
-            /// <param name="endY">終了座標のY軸</param>
-            public Rectangle(T startX, T startY, T endX, T endY)
+            /// <param name="stopX">終了座標のX軸</param>
+            /// <param name="stopY">終了座標のY軸</param>
+            public Rectangle(T startX, T startY, T stopX, T stopY)
             {
-                this.Set(startX, startY, endX, endY);
+                this.Set(startX, startY, stopX, stopY);
             }
 
             /// <summary>
@@ -41,14 +41,14 @@
             /// </summary>
             /// <param name="startX">開始座標のX軸</param>
             /// <param name="startY">開始座標のY軸</param>
-            /// <param name="endX">終了座標のX軸</param>
-            /// <param name="endY">終了座標のY軸</param>
-            public void Set(T startX, T startY, T endX, T endY)
+            /// <param name="stopX">終了座標のX軸</param>
+            /// <param name="stopY">終了座標のY軸</param>
+            public void Set(T startX, T startY, T stopX, T stopY)
             {
                 this.Start.X = startX;
                 this.Start.Y = startY;
-                this.End.X = endX;
-                this.End.Y = endY;
+                this.Stop.X = stopX;
+                this.Stop.Y = stopY;
             }
         }
 
@@ -102,42 +102,47 @@
         public class AxisOfRotation<T>
         {
             /// <summary>
+            /// [内部変数] 設定タイプ
+            /// </summary>
+            private bool flag_radian = true;
+
+            /// <summary>
             /// [内部変数] Roll
             /// </summary>
-            public T inner_roll;
+            private T inner_roll;
 
             /// <summary>
             /// [内部変数]Pitch
             /// </summary>
-            public T inner_pitch;
+            private T inner_pitch;
 
             /// <summary>
             /// [内部変数]Yaw
             /// </summary>
-            public T inner_yaw;
+            private T inner_yaw;
 
             /// <summary>
-            /// Roll
+            /// Roll [deg]
             /// </summary>
             public T RollDegree
             {
-                get { return this.inner_roll; }
+                get { return CommonFunction.RadianToDegree<T>(this.inner_roll); }
             }
 
             /// <summary>
-            /// Pitch
+            /// Pitch [deg]
             /// </summary>
             public T PitchDegree
             {
-                get { return this.inner_pitch; }
+                get { return CommonFunction.RadianToDegree<T>(this.inner_pitch); }
             }
 
             /// <summary>
-            /// Yaw
+            /// Yaw [deg]
             /// </summary>
             public T YawDegree
             {
-                get { return this.inner_yaw; }
+                get { return CommonFunction.RadianToDegree<T>(this.inner_yaw); }
             }
 
             /// <summary>
@@ -149,7 +154,14 @@
 
                 set
                 {
-                    this.inner_roll = value;
+                    if (true == this.flag_radian)
+                    {
+                        this.inner_roll = value;
+                    }
+                    else
+                    {
+                        this.inner_roll = CommonFunction.DegreeToRadian<T>(value);
+                    }
                 }
             }
 
@@ -162,7 +174,14 @@
 
                 set
                 {
-                    this.inner_pitch = value;
+                    if (true == this.flag_radian)
+                    {
+                        this.inner_pitch = value;
+                    }
+                    else
+                    {
+                        this.inner_pitch = CommonFunction.DegreeToRadian<T>(value);
+                    }
                 }
             }
 
@@ -175,7 +194,14 @@
 
                 set
                 {
-                    this.inner_yaw = value;
+                    if (true == this.flag_radian)
+                    {
+                        this.inner_yaw = value;
+                    }
+                    else
+                    {
+                        this.inner_yaw = CommonFunction.DegreeToRadian<T>(value);
+                    }
                 }
             }
 
@@ -185,9 +211,10 @@
             /// <param name="roll">Roll</param>
             /// <param name="pitch">Pitch</param>
             /// <param name="yaw">Yaw</param>
-            public AxisOfRotation(T roll, T pitch, T yaw)
+            /// <param name="set_radian">ラジアンで設定するか</param>
+            public AxisOfRotation(T roll, T pitch, T yaw, bool set_radian = true)
             {
-                this.Set(roll, pitch, yaw);
+                this.Set(roll, pitch, yaw, set_radian);
             }
 
             /// <summary>
@@ -203,11 +230,23 @@
             /// <param name="roll">Roll</param>
             /// <param name="pitch">Pitch</param>
             /// <param name="yaw">Yaw</param>
-            public void Set(T roll, T pitch, T yaw)
+            /// <param name="set_radian">ラジアンで設定するか</param>
+            public void Set(T roll, T pitch, T yaw, bool set_radian = true)
             {
-                this.inner_roll = roll;
-                this.inner_pitch = pitch;
-                this.inner_yaw = yaw;
+                this.flag_radian = set_radian;
+                if (true == this.flag_radian)
+                {
+                    this.inner_roll = roll;
+                    this.inner_pitch = pitch;
+                    this.inner_yaw = yaw;
+                }
+                else
+                {
+                    //deg=rad∗(180/π)
+                    this.inner_roll = CommonFunction.DegreeToRadian<T>(roll);
+                    this.inner_pitch = CommonFunction.DegreeToRadian<T>(pitch);
+                    this.inner_yaw = CommonFunction.DegreeToRadian<T>(yaw);
+                }
             }
         }
 

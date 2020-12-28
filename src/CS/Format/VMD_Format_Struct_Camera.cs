@@ -99,35 +99,35 @@ namespace MaSiRoProject
                 ///      キーフレーム間のモーションを算出するためのパラメタ
                 /// </summary>
                 /// <bytesize>2つ×1 byte ×2軸</bytesize>
-                public Rectangle<T> Xaxis = new Rectangle<T>();
+                public MotionInterpolation_Rectangle<T> Xaxis = new MotionInterpolation_Rectangle<T>();
 
                 /// <summary>
                 ///  Y軸の補間パラメタ
                 ///      キーフレーム間のモーションを算出するためのパラメタ
                 /// </summary>
                 /// <bytesize>2つ×1 byte ×2軸</bytesize>
-                public Rectangle<T> Yaxis = new Rectangle<T>();
+                public MotionInterpolation_Rectangle<T> Yaxis = new MotionInterpolation_Rectangle<T>();
 
                 /// <summary>
                 ///  Z軸の補間パラメタ
                 ///      キーフレーム間のモーションを算出するためのパラメタ
                 /// </summary>
                 /// <bytesize>2つ×1 byte ×2軸</bytesize>
-                public Rectangle<T> Zaxis = new Rectangle<T>();
+                public MotionInterpolation_Rectangle<T> Zaxis = new MotionInterpolation_Rectangle<T>();
 
                 /// <summary>
                 ///  回転の補間パラメタ
                 ///      キーフレーム間のモーションを算出するためのパラメタ
                 /// </summary>
                 /// <bytesize>2つ×1 byte ×2軸</bytesize>
-                public Rectangle<T> Rotation = new Rectangle<T>();
+                public MotionInterpolation_Rectangle<T> Rotation = new MotionInterpolation_Rectangle<T>();
 
                 /// <summary>
                 /// 視界角の補間パラメタ
                 ///      キーフレーム間のモーションを算出するためのパラメタ
                 /// </summary>
                 /// <bytesize>2つ×1 byte ×2軸</bytesize>
-                public Rectangle<T> ViewingAngle = new Rectangle<T>();
+                public MotionInterpolation_Rectangle<T> ViewingAngle = new MotionInterpolation_Rectangle<T>();
 
                 /// <summary>
                 /// 距離の補間パラメタ
