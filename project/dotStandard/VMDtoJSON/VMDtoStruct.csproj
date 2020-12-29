@@ -1,43 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <StartupObject></StartupObject>
-    <Nullable>warnings</Nullable>
-    <Copyright />
-    <Version>0.0.2</Version>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <NeutralLanguage>en</NeutralLanguage>
-    <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>VMDtoJson.pfx</AssemblyOriginatorKeyFile>
-    <PackageProjectUrl>https://github.com/MaSiRo-Project-OSS/VMDtoJSON</PackageProjectUrl>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>MaSiRo Project.</Authors>
-    <Description>MikuMikuDanceのモーションデータ(VMDファイル)をJSON形式に変換するコンバーダー</Description>
-    <DelaySign>false</DelaySign>
-    <AssemblyName>VMDtoStruct</AssemblyName>
-    <RootNamespace>VMDtoStruct</RootNamespace>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Company>MaSiRo Project.</Company>
+    <Product>VMDtoJSON</Product>
+    <Description>MikuMikuDanceのモーションデータ(VMDファイル)をC#として保持するクラスライブラリ</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/MaSiRo-Project-OSS/VMDtoJSON</PackageProjectUrl>
+    <AssemblyVersion>0.0.3.0</AssemblyVersion>
+    <FileVersion>0.0.3.0</FileVersion>
+    <Version>0.0.3</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\..\..\publish\</OutputPath>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Program.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
 
     <Compile Include="..\..\..\src\CS\Common\CommonFunction.cs">
       <Link>Common\CommonFunction.cs</Link>
@@ -81,25 +65,17 @@
       <Link>src\VMDtoStruct.cs</Link>
     </Compile>
 
+    <None Include="..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="src\Format\" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

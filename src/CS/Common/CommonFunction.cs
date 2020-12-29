@@ -76,10 +76,10 @@ namespace MaSiRoProject
             /// </summary>
             /// <param name="value">変換前の値</param>
             /// <returns>変換後の値</returns>
-            public static T RadianToDegree<T>(dynamic radian)
+            public static T RadianToDegree<T>(dynamic value)
             {
                 //deg = rad∗( 180 / π )
-                return (T)(CommonFunction.DegreeLimit180<T>(radian * (180.0f / Math.PI)));
+                return (T)(CommonFunction.DegreeLimit180<T>(value * (180.0f / Math.PI)));
             }
 
             /// <summary>

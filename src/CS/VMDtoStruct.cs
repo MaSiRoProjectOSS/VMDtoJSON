@@ -17,29 +17,6 @@ namespace MaSiRoProject
     /// </summary>
     public class VMDtoStruct
     {
-        /// <summary>
-        /// IsCOMAssembly
-        /// </summary>
-        /// <param name="asm">Assembly</param>
-        /// <returns></returns>
-        public static bool IsCOMAssembly(Assembly asm)
-        {
-            object[] AsmAttributes = asm.GetCustomAttributes(typeof(ImportedFromTypeLibAttribute), true);
-            if (AsmAttributes.Length > 0)
-            {
-                ImportedFromTypeLibAttribute imptlb = (ImportedFromTypeLibAttribute)AsmAttributes[0];
-                string strImportedFrom = imptlb.Value;
-
-                // Print out the name of the DLL from which the assembly is imported.
-                Console.WriteLine("Assembly " + asm.FullName + " is imported from " + strImportedFrom);
-
-                return true;
-            }
-            // This is not asm COM assembly.
-            Console.WriteLine("Assembly " + asm.FullName + " is not imported from COM");
-            return false;
-        }
-
         #region データ
 
         /// <summary>
