@@ -20,11 +20,12 @@ namespace MaSiRoProject
                     VMD_Format.StartFrame = startframe;
                 }
             }
+
             /// <summary>
             /// 単位設定
             /// </summary>
             /// <param name="value">定義</param>
-            public void UnitofLength(VMD_UNIT_LENGTH value)
+            public void SetUnitofLength(VMD_UNIT_LENGTH value)
             {
                 VMD_Format.unit_of_length = value;
             }
@@ -54,6 +55,7 @@ namespace MaSiRoProject
             /// モーション開始位置
             /// </summary>
             public static int StartFrame = 0;
+
             /// <summary>
             /// 出力長さ単位
             /// </summary>
@@ -100,11 +102,12 @@ namespace MaSiRoProject
                 {
                     case VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_MM:
                         return value * 800.0f;
+
                     case VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_CM:
                         return value * 80.0f;
+
                     default:
                         return value;
-
                 }
             }
 

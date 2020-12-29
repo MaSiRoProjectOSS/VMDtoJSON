@@ -65,9 +65,9 @@ namespace MaSiRoProject
         /// 単位設定
         /// </summary>
         /// <param name="value">定義</param>
-        public void UnitofLength(VMD_UNIT_LENGTH value)
+        public void SetUnitofLength(VMD_UNIT_LENGTH value)
         {
-            VMD_Data.UnitofLength(value);
+            VMD_Data.SetUnitofLength(value);
         }
 
         #endregion 設定関数
@@ -558,7 +558,7 @@ namespace MaSiRoProject
         {
             //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             text_encoding_sjis = Encoding.GetEncoding("Shift_JIS");
-            VMD_Data.UnitofLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_DEFUALT);
+            VMD_Data.SetUnitofLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_DEFUALT);
         }
 
         #endregion コンストラクタ

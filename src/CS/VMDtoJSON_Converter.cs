@@ -62,12 +62,12 @@ namespace MaSiRoProject
                     {
                         if ("cm".Equals(args[i + 1].ToLower()))
                         {
-                            vmdtojson.UnitofLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_CM);
+                            vmdtojson.SetUnitofLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_CM);
                         }
                         else
                         if ("mm".Equals(args[i + 1].ToLower()))
                         {
-                            vmdtojson.UnitofLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_MM);
+                            vmdtojson.SetUnitofLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_MM);
                         }
 
                         i = i + 1;
