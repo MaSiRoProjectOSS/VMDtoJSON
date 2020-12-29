@@ -66,7 +66,15 @@ namespace MaSiRoProject
                 /// <remarks>
                 ///     現在のフレーム位置を0とした相対位置だが、構造体上はファイルの値とする
                 /// </remarks>
-                public uint FrameNo = 0; // ByteSize 4 フレーム番号
+                private uint inner_FrameNo = 0;
+                public uint FrameNo
+                {
+                    set { this.inner_FrameNo = value; }
+                    get
+                    {
+                        return VMD_Format.ShiftFrameNo(this.inner_FrameNo);
+                    }
+                }
 
                 /// <summary>
                 ///  ボーンの位置(x, y, z)

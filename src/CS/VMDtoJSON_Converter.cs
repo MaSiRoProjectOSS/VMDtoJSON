@@ -1,5 +1,6 @@
 ﻿using MaSiRoProject.Common;
 using MaSiRoProject.Format;
+using static MaSiRoProject.Format.VMD_Format;
 
 namespace MaSiRoProject
 {
@@ -49,6 +50,24 @@ namespace MaSiRoProject
                         else
                         {
                             vmdtojson.GroupByName(false);
+                        }
+
+                        i = i + 1;
+                    }
+                }
+                else if ("--unit_length".Equals(args[i].ToLower()))
+                {
+                    // 変換対象のVMDファイル
+                    if (i + 1 < args.Length)
+                    {
+                        if ("cm".Equals(args[i + 1].ToLower()))
+                        {
+                            vmdtojson.UnitofLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_CM);
+                        }
+                        else
+                        if ("mm".Equals(args[i + 1].ToLower()))
+                        {
+                            vmdtojson.UnitofLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_MM);
                         }
 
                         i = i + 1;

@@ -323,16 +323,16 @@ namespace MaSiRoProject
             {
                 sb.Clear();
                 sb.Append((minimumJson ? "" : "      ") + "{" + (minimumJson ? "" : Environment.NewLine));
-                sb.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Motion.Data[i].FrameNo) + "," + (minimumJson ? "" : Environment.NewLine));
+                sb.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.VMD_Data.Motion.Data[i].FrameNo+ "," + (minimumJson ? "" : Environment.NewLine));
                 sb.Append((minimumJson ? "" : "        ") + "\"Name\": " + "\"" + this.VMD_Data.Motion.Data[i].Name + "\"," + (minimumJson ? "" : Environment.NewLine));
 
                 switch (this.VMD_Data.Expansion.CoordinateSystem)
                 {
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand:
                         sb.Append((minimumJson ? "" : "        ") + "\"Location\": ["
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.X) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.Y) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.Z)
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Motion.Data[i].Location.X)) + ", "
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Motion.Data[i].Location.Y) )+ ", "
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Motion.Data[i].Location.Z))
                                              + "]," + (minimumJson ? "" : Environment.NewLine));
                         sb.Append((minimumJson ? "" : "        ") + "\"Rotation\": {" + (minimumJson ? "" : Environment.NewLine));
 
@@ -352,9 +352,9 @@ namespace MaSiRoProject
 
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.RightHand:
                         sb.Append((minimumJson ? "" : "        ") + "\"Location\": ["
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, -this.VMD_Data.Motion.Data[i].Location.Z) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.X) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.Y)
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(-this.VMD_Data.Motion.Data[i].Location.Z) )+ ", "
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Motion.Data[i].Location.X) )+ ", "
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Motion.Data[i].Location.Y))
                                              + "]," + (minimumJson ? "" : Environment.NewLine));
                         sb.Append((minimumJson ? "" : "        ") + "\"Rotation\": {" + (minimumJson ? "" : Environment.NewLine));
 
@@ -375,9 +375,9 @@ namespace MaSiRoProject
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.MMDHand:
                     default:
                         sb.Append((minimumJson ? "" : "        ") + "\"Location\": ["
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.X) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.Y) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Motion.Data[i].Location.Z)
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Motion.Data[i].Location.X) )+ ", "
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Motion.Data[i].Location.Y) )+ ", "
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Motion.Data[i].Location.Z))
                                              + "]," + (minimumJson ? "" : Environment.NewLine));
                         sb.Append((minimumJson ? "" : "        ") + "\"Rotation\": {" + (minimumJson ? "" : Environment.NewLine));
                         sb.Append((minimumJson ? "" : "          ") + "\"Quaternion\": ["
@@ -599,7 +599,7 @@ namespace MaSiRoProject
             for (int i = 0; i < count; i++)
             {
                 sb_VMD_Data.Append((minimumJson ? "" : "      ") + "{" + (minimumJson ? "" : Environment.NewLine));
-                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Skin.Data[i].FrameNo) + "," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.VMD_Data.Skin.Data[i].FrameNo + "," + (minimumJson ? "" : Environment.NewLine));
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Name\": " + "\"" + this.VMD_Data.Skin.Data[i].Name + "\"," + (minimumJson ? "" : Environment.NewLine));
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Weight\": " + this.VMD_Data.Skin.Data[i].Weight + "" + (minimumJson ? "" : Environment.NewLine));
                 sb_VMD_Data.Append((minimumJson ? "" : "      ") + "}" + (((count - 1) != i) ? "," : "") + (minimumJson ? "" : Environment.NewLine));
@@ -626,16 +626,16 @@ namespace MaSiRoProject
             for (int i = 0; i < count; i++)
             {
                 sb_VMD_Data.Append((minimumJson ? "" : "      ") + "{" + (minimumJson ? "" : Environment.NewLine));
-                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Camera.Data[i].FrameNo) + "," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.VMD_Data.Camera.Data[i].FrameNo + "," + (minimumJson ? "" : Environment.NewLine));
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Length\": " + this.VMD_Data.Camera.Data[i].Length + "," + (minimumJson ? "" : Environment.NewLine));
 
                 switch (this.VMD_Data.Expansion.CoordinateSystem)
                 {
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand:
                         sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Location\": ["
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.X) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.Y) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.Z)
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Camera.Data[i].Location.X)) + ", "
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Camera.Data[i].Location.Y)) + ", "
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Camera.Data[i].Location.Z))
                                              + "]," + (minimumJson ? "" : Environment.NewLine));
                         sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Rotation\": ["
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree<float>(-this.VMD_Data.Camera.Data[i].Rotation.Pitch)) + ", "
@@ -646,9 +646,9 @@ namespace MaSiRoProject
 
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.RightHand:
                         sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Location\": ["
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, -this.VMD_Data.Camera.Data[i].Location.Z) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.X) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.Y)
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(-this.VMD_Data.Camera.Data[i].Location.Z)) + ", "
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Camera.Data[i].Location.X) )+ ", "
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Camera.Data[i].Location.Y))
                                              + "]," + (minimumJson ? "" : Environment.NewLine));
                         sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Rotation\": ["
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree<float>(this.VMD_Data.Camera.Data[i].Rotation.Roll)) + ", "
@@ -660,9 +660,9 @@ namespace MaSiRoProject
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.MMDHand:
                     default:
                         sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Location\": ["
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.X) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.Y) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_POSITION, this.VMD_Data.Camera.Data[i].Location.Z)
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Camera.Data[i].Location.X) )+ ", "
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Camera.Data[i].Location.Y) )+ ", "
+                                             + CommonFunction.GetRound(DECIMALS_POSITION, VMD_Format.GetLength(this.VMD_Data.Camera.Data[i].Location.Z))
                                              + "]," + (minimumJson ? "" : Environment.NewLine));
                         sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Rotation\": ["
                                              + CommonFunction.GetRound(DECIMALS_ROTATION, CommonFunction.RadianToDegree<float>(this.VMD_Data.Camera.Data[i].Rotation.Pitch)) + ", "
@@ -748,7 +748,7 @@ namespace MaSiRoProject
             for (int i = 0; i < count; i++)
             {
                 sb_VMD_Data.Append((minimumJson ? "" : "      ") + "{" + (minimumJson ? "" : Environment.NewLine));
-                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.Illumination.Data[i].FrameNo) + "," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.VMD_Data.Illumination.Data[i].FrameNo + "," + (minimumJson ? "" : Environment.NewLine));
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"RGB\": [" + this.VMD_Data.Illumination.Data[i].RGB.R + ", "
                                      + this.VMD_Data.Illumination.Data[i].RGB.G + ", "
                                      + this.VMD_Data.Illumination.Data[i].RGB.B
@@ -758,26 +758,26 @@ namespace MaSiRoProject
                 {
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand:
                         sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Location\": ["
-                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.X) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.Y) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.Z)
+                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, VMD_Format.GetLength(-this.VMD_Data.Illumination.Data[i].Location.X)) + ", "
+                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, VMD_Format.GetLength(-this.VMD_Data.Illumination.Data[i].Location.Y)) + ", "
+                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, VMD_Format.GetLength(-this.VMD_Data.Illumination.Data[i].Location.Z))
                                              + "]" + (minimumJson ? "" : Environment.NewLine));
                         break;
 
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.RightHand:
                         sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Location\": ["
-                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, this.VMD_Data.Illumination.Data[i].Location.Z) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.X) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, -this.VMD_Data.Illumination.Data[i].Location.Y)
+                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, VMD_Format.GetLength(this.VMD_Data.Illumination.Data[i].Location.Z) )+ ", "
+                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, VMD_Format.GetLength(-this.VMD_Data.Illumination.Data[i].Location.X)) + ", "
+                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, VMD_Format.GetLength(-this.VMD_Data.Illumination.Data[i].Location.Y))
                                              + "]" + (minimumJson ? "" : Environment.NewLine));
                         break;
 
                     case VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.MMDHand:
                     default:
                         sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Location\": ["
-                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, this.VMD_Data.Illumination.Data[i].Location.X) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, this.VMD_Data.Illumination.Data[i].Location.Y) + ", "
-                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, this.VMD_Data.Illumination.Data[i].Location.Z)
+                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, VMD_Format.GetLength(this.VMD_Data.Illumination.Data[i].Location.X)) + ", "
+                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, VMD_Format.GetLength(this.VMD_Data.Illumination.Data[i].Location.Y)) + ", "
+                                             + CommonFunction.GetRound(DECIMALS_ILLUMINATION, VMD_Format.GetLength(this.VMD_Data.Illumination.Data[i].Location.Z))
                                              + "]" + (minimumJson ? "" : Environment.NewLine));
                         break;
                 }
@@ -806,7 +806,7 @@ namespace MaSiRoProject
             for (int i = 0; i < count; i++)
             {
                 sb_VMD_Data.Append((minimumJson ? "" : "      ") + "{" + (minimumJson ? "" : Environment.NewLine));
-                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.SelfShadow.Data[i].FrameNo) + "," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.VMD_Data.SelfShadow.Data[i].FrameNo + "," + (minimumJson ? "" : Environment.NewLine));
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Mode\": " + (int)this.VMD_Data.SelfShadow.Data[i].Mode + "," + (minimumJson ? "" : Environment.NewLine));
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Distance_Value\": " + this.VMD_Data.SelfShadow.Data[i].Distance_Value + "," + (minimumJson ? "" : Environment.NewLine));
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Distance\": " + this.VMD_Data.SelfShadow.Data[i].Distance + "" + (minimumJson ? "" : Environment.NewLine));
@@ -834,7 +834,7 @@ namespace MaSiRoProject
             for (int i = 0; i < ik_visible_count; i++)
             {
                 sb_VMD_Data.Append((minimumJson ? "" : "      ") + "{" + (minimumJson ? "" : Environment.NewLine));
-                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.ShiftFrameNo(this.VMD_Data.IK.Data[i].FrameNo) + "," + (minimumJson ? "" : Environment.NewLine));
+                sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"FrameNo\": " + this.VMD_Data.IK.Data[i].FrameNo + "," + (minimumJson ? "" : Environment.NewLine));
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Visible\": " + (this.VMD_Data.IK.Data[i].Visible ? "true" : "false") + "," + (minimumJson ? "" : Environment.NewLine));
                 int ik_count = this.VMD_Data.IK.Data[i].IKCount;
                 sb_VMD_Data.Append((minimumJson ? "" : "        ") + "\"Count\": " + ik_count + "," + (minimumJson ? "" : Environment.NewLine));

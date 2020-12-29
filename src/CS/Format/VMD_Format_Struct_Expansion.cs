@@ -119,6 +119,7 @@
             /// </remarks>
             public class FORMAT_Expansion
             {
+
                 /// <summary>
                 /// 座標系
                 /// </summary>
@@ -127,8 +128,10 @@
                 /// <summary>
                 /// モーション開始位置
                 /// </summary>
-                public int StartFrame = 0;
-
+                public int StartFrame
+                {
+                    get { return VMD_Format.StartFrame; }
+                }
                 /// <summary>
                 /// ファイルタイプ
                 /// </summary>

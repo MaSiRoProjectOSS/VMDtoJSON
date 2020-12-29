@@ -7,6 +7,8 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using static MaSiRoProject.Format.VMD_Format;
+using static MaSiRoProject.Format.VMD_Format_Struct.FORMAT_Expansion;
 
 namespace MaSiRoProject
 {
@@ -15,21 +17,26 @@ namespace MaSiRoProject
     /// </summary>
     public class VMDtoStruct
     {
-        public static bool IsCOMAssembly(Assembly a)
+        /// <summary>
+        /// IsCOMAssembly
+        /// </summary>
+        /// <param name="asm">Assembly</param>
+        /// <returns></returns>
+        public static bool IsCOMAssembly(Assembly asm)
         {
-            object[] AsmAttributes = a.GetCustomAttributes(typeof(ImportedFromTypeLibAttribute), true);
+            object[] AsmAttributes = asm.GetCustomAttributes(typeof(ImportedFromTypeLibAttribute), true);
             if (AsmAttributes.Length > 0)
             {
                 ImportedFromTypeLibAttribute imptlb = (ImportedFromTypeLibAttribute)AsmAttributes[0];
                 string strImportedFrom = imptlb.Value;
 
                 // Print out the name of the DLL from which the assembly is imported.
-                Console.WriteLine("Assembly " + a.FullName + " is imported from " + strImportedFrom);
+                Console.WriteLine("Assembly " + asm.FullName + " is imported from " + strImportedFrom);
 
                 return true;
             }
-            // This is not a COM assembly.
-            Console.WriteLine("Assembly " + a.FullName + " is not imported from COM");
+            // This is not asm COM assembly.
+            Console.WriteLine("Assembly " + asm.FullName + " is not imported from COM");
             return false;
         }
 
@@ -67,28 +74,23 @@ namespace MaSiRoProject
                 this.VMD_Data.Expansion.TargetID = targetid;
             }
         }
-
         /// <summary>
         /// スタートフレームを設定する関数
         /// </summary>
         /// <param name="startframe"></param>
         public void SetStartFrame(int startframe)
         {
-            if (this.VMD_Data.Expansion.StartFrame != startframe)
-            {
-                this.VMD_Data.Expansion.StartFrame = startframe;
-            }
+            VMD_Data.SetStartFrame(startframe);
+        }
+        /// <summary>
+        /// 単位設定
+        /// </summary>
+        /// <param name="value">定義</param>
+        public void UnitofLength(VMD_UNIT_LENGTH value)
+        {
+            VMD_Data.UnitofLength(value);
         }
 
-        /// <summary>
-        /// 設定したスタートフレーム数分スライドさせる関数
-        /// </summary>
-        /// <param name="frameNo">フレーム番号</param>
-        /// <returns></returns>
-        internal string ShiftFrameNo(uint frameNo)
-        {
-            return (frameNo + this.VMD_Data.Expansion.StartFrame).ToString();
-        }
 
         #endregion 設定関数
 
@@ -557,7 +559,7 @@ namespace MaSiRoProject
         /// <summary>
         /// JSONの文字コード
         /// </summary>
-        internal Encoding text_encoding_utf8 = new UTF8Encoding(false);
+        public Encoding text_encoding_utf8 = new UTF8Encoding(false);
 
         #endregion 文字コード
 
@@ -570,6 +572,7 @@ namespace MaSiRoProject
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             text_encoding_sjis = Encoding.GetEncoding("Shift_JIS");
+            VMD_Data.UnitofLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_DEFUALT);
         }
 
         #endregion コンストラクタ
