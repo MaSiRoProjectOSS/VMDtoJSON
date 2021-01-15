@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "VMDtoJSON": {
-      "commandName": "Project",
-      "commandLineArgs": "--version"
-    }
-  }
-}
