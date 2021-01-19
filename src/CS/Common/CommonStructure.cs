@@ -102,11 +102,6 @@
         public class AxisOfRotation<T>
         {
             /// <summary>
-            /// [内部変数] 設定タイプ
-            /// </summary>
-            private bool flag_radian = true;
-
-            /// <summary>
             /// [内部変数] Roll
             /// </summary>
             private T inner_roll;
@@ -154,14 +149,7 @@
 
                 set
                 {
-                    if (true == this.flag_radian)
-                    {
-                        this.inner_roll = value;
-                    }
-                    else
-                    {
-                        this.inner_roll = CommonFunction.DegreeToRadian<T>(value);
-                    }
+                    this.inner_roll = value;
                 }
             }
 
@@ -174,14 +162,7 @@
 
                 set
                 {
-                    if (true == this.flag_radian)
-                    {
-                        this.inner_pitch = value;
-                    }
-                    else
-                    {
-                        this.inner_pitch = CommonFunction.DegreeToRadian<T>(value);
-                    }
+                    this.inner_pitch = value;
                 }
             }
 
@@ -194,14 +175,7 @@
 
                 set
                 {
-                    if (true == this.flag_radian)
-                    {
-                        this.inner_yaw = value;
-                    }
-                    else
-                    {
-                        this.inner_yaw = CommonFunction.DegreeToRadian<T>(value);
-                    }
+                    this.inner_yaw = value;
                 }
             }
 
@@ -233,8 +207,7 @@
             /// <param name="set_radian">ラジアンで設定するか</param>
             public void Set(T roll, T pitch, T yaw, bool set_radian = true)
             {
-                this.flag_radian = set_radian;
-                if (true == this.flag_radian)
+                if (true == set_radian)
                 {
                     this.inner_roll = roll;
                     this.inner_pitch = pitch;
