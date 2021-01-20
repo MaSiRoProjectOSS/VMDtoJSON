@@ -34,8 +34,8 @@
 		"*.tcc": "cpp"
 	},
 	"git.ignoreLimitWarning": true,
-	"uncrustify.configPath.windows": ".tools/uncrustify/cfg/_cpp.cfg",
-	"astyle.astylerc": "${workspaceRoot}/.tools/AStyle/.astylerc.cfg",
+	"uncrustify.configPath.windows": "${workspaceRoot}/.vscode/tools/uncrustify/cfg/cpp.cfg",
+	"astyle.astylerc": "${workspaceRoot}/.vscode/tools/AStyle/astylerc.cfg",
 	"astyle.cpp.enable": true,
 	"astyle.c.enable": true,
 	"astyle.csharp.enable": true,
