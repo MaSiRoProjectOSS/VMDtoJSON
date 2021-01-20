@@ -1,0 +1,9 @@
+VMDtoJSON/bin/*
+VMDtoJSON/obj/*
+*.csproj.user
+
+VMDtoJSON_Package/bin/*
+VMDtoJSON_Package/obj/*
+
+.vs/*
+
