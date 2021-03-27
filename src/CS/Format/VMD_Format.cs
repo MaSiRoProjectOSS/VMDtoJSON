@@ -25,7 +25,7 @@ namespace MaSiRoProject
             /// 単位設定
             /// </summary>
             /// <param name="value">定義</param>
-            public void SetUnitofLength(VMD_UNIT_LENGTH value)
+            public void SetUnitOfLength(VMD_UNIT_LENGTH value)
             {
                 VMD_Format.unit_of_length = value;
             }
@@ -38,7 +38,7 @@ namespace MaSiRoProject
                 /// <summary>
                 /// MMDのデフォルトのまま
                 /// </summary>
-                VMD_UNIT_LENGTH_DEFUALT = 0,
+                VMD_UNIT_LENGTH_DEFAULT = 0,
 
                 /// <summary>
                 /// 単位を[cm]へ
@@ -59,7 +59,7 @@ namespace MaSiRoProject
             /// <summary>
             /// 出力長さ単位
             /// </summary>
-            private static VMD_UNIT_LENGTH unit_of_length = VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_DEFUALT;
+            private static VMD_UNIT_LENGTH unit_of_length = VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_DEFAULT;
 
             ////////////////////////////////////////////////////////////
             // 関数

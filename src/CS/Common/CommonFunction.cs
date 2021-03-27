@@ -19,12 +19,12 @@ namespace MaSiRoProject
                 System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
                 return fvi.ProductName.ToString();
                 /*
-                System.Reflection.AssemblyProductAttribute asmprd =
+                System.Reflection.AssemblyProductAttribute asm_prd =
                         (System.Reflection.AssemblyProductAttribute)
                         Attribute.GetCustomAttribute(
                         System.Reflection.Assembly.GetExecutingAssembly(),
                             typeof(System.Reflection.AssemblyProductAttribute));
-                return asmprd.Product;
+                return asm_prd.Product;
                 */
             }
 
