@@ -1,6 +1,4 @@
-﻿using static MaSiRoProject.Format.VMD_Format_Struct.FORMAT_Expansion;
-
-namespace MaSiRoProject
+﻿namespace MaSiRoProject
 {
     namespace Format
     {

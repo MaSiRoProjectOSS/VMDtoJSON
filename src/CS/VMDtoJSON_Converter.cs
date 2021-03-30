@@ -17,6 +17,7 @@ namespace MaSiRoProject
             bool flag_version = false;
             string input_filename = string.Empty;
             string output_filename = string.Empty;
+            string base_filename = string.Empty;
             ////////////////////////
             VMDtoJSON_ToJsonText vmdtojson = new VMDtoJSON_ToJsonText();
             vmdtojson.SetOutputJsonType(false);
@@ -35,6 +36,15 @@ namespace MaSiRoProject
                     if (i + 1 < args.Length)
                     {
                         input_filename = args[i + 1];
+                        i = i + 1;
+                    }
+                }
+                else if ("-B".Equals(args[i]))
+                {
+                    // 変換対象のVMDファイル
+                    if (i + 1 < args.Length)
+                    {
+                        base_filename = args[i + 1];
                         i = i + 1;
                     }
                 }
@@ -178,16 +188,12 @@ namespace MaSiRoProject
 
                 if (0 != input_filename.Length)
                 {
-                    vmdtojson.Convert(input_filename);
+                    vmdtojson.Convert(input_filename, base_filename, output_filename);
 
-                    if (0 != output_filename.Length)
-                    {
-                        vmdtojson.OutputFile(output_filename);
-                    }
-                    else
+                    if (0 == output_filename.Length)
                     {
                         CommonLogger.Log(CommonLogger.LEVEL.INFO, "==================");
-                        CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT, vmdtojson.GetJsonTest());
+                        CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT, vmdtojson.GetJsonText());
                     }
                 }
                 else
@@ -240,7 +246,7 @@ namespace MaSiRoProject
 
                 // Manipulating output data
                 CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT,
-                    "   CoordinateSystem(" + System.Environment.NewLine
+                    "   CoordinateSystem" + System.Environment.NewLine
                     + "     --LeftHand     : " + "Output Left hand Coordinate System. Priority Hight (default) " + System.Environment.NewLine
                     + "     --RightHand    : " + "Output Left hand Coordinate System. Priority Middle" + System.Environment.NewLine
                     + "     --MMDtHand     : " + "Output Left hand Coordinate System. Priority Low" + System.Environment.NewLine
