@@ -523,6 +523,10 @@ namespace MaSiRoProject
                     - Math.Atan2(2.0 * ((value.Y * value.Z) + (value.X * value.W)),
                         Math.Pow(value.X, 2) + Math.Pow(value.Y, 2) - Math.Pow(value.Z, 2) - Math.Pow(value.W, 2)))
             );
+            if (Math.Abs(euler.Pitch) > 10000000) { euler.Pitch = 0; }
+            if (Math.Abs(euler.Roll) > 10000000) { euler.Roll = 0; }
+            if (Math.Abs(euler.Yaw) > 10000000) { euler.Yaw = 0; }
+
             return euler;
         }
 
