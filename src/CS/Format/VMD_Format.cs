@@ -99,10 +99,10 @@
                 switch (VMD_Format.unit_of_length)
                 {
                     case VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_MM:
-                        return value * 800.0f;
+                        return value * 80.0f;
 
                     case VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_CM:
-                        return value * 80.0f;
+                        return value * 8.0f;
 
                     default:
                         return value;
