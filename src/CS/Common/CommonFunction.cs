@@ -89,6 +89,9 @@ namespace MaSiRoProject
             /// <returns>変換後の値</returns>
             public static T DegreeLimit180<T>(dynamic value)
             {
+                if (value >= 1000000000) { value = 0; }
+                if (value <= -1000000000) { value = 0; }
+
                 while (180.0f < value)
                 {
                     value = 360.0f - value;
