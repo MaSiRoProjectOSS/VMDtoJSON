@@ -1,0 +1,4 @@
+**/*.deps.json
+**/*.dev.json
+**/*.runtimeconfig.json
+**/*.nupkg

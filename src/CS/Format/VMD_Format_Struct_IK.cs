@@ -2,84 +2,103 @@
 
 namespace MaSiRoProject
 {
-    /// <summary>
-    /// VMD フォーマットの構造
-    /// </summary>
-    internal partial class VMD_Format_Struct
+    namespace Format
     {
         /// <summary>
-        /// IKデータ フォーマット
+        /// VMD フォーマットの構造
         /// </summary>
-        public class FORMAT_IK
+        public partial class VMD_Format_Struct
         {
             /// <summary>
-            /// データ数
+            /// IKデータ フォーマット
             /// </summary>
-            public int Count
+            public class FORMAT_IK
             {
-                get
+                /// <summary>
+                /// データ数
+                /// </summary>
+                public int Count
                 {
-                    return Data.Count;
+                    get
+                    {
+                        return Data.Count;
+                    }
                 }
+
+                /// <summary>
+                /// フレーム毎に記録されたIKデータ
+                /// </summary>
+                public List<IK_VISIBLE_Data> Data = new List<IK_VISIBLE_Data>();
             }
 
             /// <summary>
-            /// フレーム毎に記録されたIKデータ
+            /// IK データ
             /// </summary>
-            public List<IK_VISIBLE_Data> Data = new List<IK_VISIBLE_Data>();
-        }
-
-        /// <summary>
-        /// IK データ
-        /// </summary>
-        public class IK_VISIBLE_Data
-        {
-            /// <summary>
-            ///  フレーム番号
-            ///  (現在のフレーム位置を0とした相対位置だが、構造体上はファイルの値とする)
-            /// </summary>
-            /// <bytesize>4</bytesize>
-            public uint FrameNo = 0; // フレーム番号
-
-            /// <summary>
-            /// 表示
-            ///     0:off 1:on
-            /// </summary>
-            public bool Visible = false;
-
-            /// <summary>
-            /// データ数
-            /// </summary>
-            public int IKCount
+            public class IK_VISIBLE_Data
             {
-                get
+                /// <summary>
+                ///  フレーム番号
+                ///  (現在のフレーム位置を0とした相対位置だが、構造体上はファイルの値とする)
+                /// </summary>
+                /// <bytesize>4</bytesize>
+                private uint inner_FrameNo = 0;
+
+                /// <summary>
+                ///  フレーム番号
+                /// </summary>
+                /// <bytesize>4</bytesize>
+                /// <remarks>
+                ///     現在のフレーム位置を0とした相対位置だが、構造体上はファイルの値とする
+                /// </remarks>
+                public uint FrameNo
                 {
-                    return Data.Count;
+                    set { this.inner_FrameNo = value; }
+                    get
+                    {
+                        return VMD_Format.ShiftFrameNo(this.inner_FrameNo);
+                    }
                 }
+
+                /// <summary>
+                /// 表示
+                ///     0:off 1:on
+                /// </summary>
+                public bool Visible = false;
+
+                /// <summary>
+                /// データ数
+                /// </summary>
+                public int IKCount
+                {
+                    get
+                    {
+                        return Data.Count;
+                    }
+                }
+
+                /// <summary>
+                /// フレーム毎に記録されたIKデータ
+                /// </summary>
+                public List<IK_Data> Data = new List<IK_Data>();
             }
 
             /// <summary>
-            /// フレーム毎に記録されたIKデータ
+            /// 有効IK データ
             /// </summary>
-            public List<IK_Data> Data = new List<IK_Data>();
-        }
 
-        /// <summary>
-        /// 有効IK データ
-        /// </summary>
+            public class IK_Data
+            {
+                /// <summary>
+                /// IKボーン名
+                /// </summary>
+                public string ikBoneName = string.Empty;
 
-        public class IK_Data
-        {
-            /// <summary>
-            /// IKボーン名
-            /// </summary>
-            public string ikBoneName = string.Empty;
-
-            /// <summary>
-            /// IK有効
-            ///      0:off 1:on
-            /// </summary>
-            public bool ikEnabled = false;
+                /// <summary>
+                /// IK有効
+                ///      0:off 1:on
+                /// </summary>
+                public bool ikEnabled = false;
+            }
         }
     }
 }

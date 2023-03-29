@@ -17,18 +17,20 @@ VMDtoJson -F [変換したいVMDファイル] -O [出力するファイルパス
 ### コマンド
 
 
-| コマンド                              | コマンドの略称前       | 動作                                                                     |
-| :------------------------------------ | :--------------------- | ------------------------------------------------------------------------ |
-| -h/-H                                 | **h**elp               | コマンド情報を表示する                                                   |
-| -F [変換したいVMDファイル]            | input **f**ile         | 変換したVMDファイルを指定する。                                          |
-| -O [出力するファイルパス]             | **o**utput file        | 出力したJSONのファイルを指定する。                                       |
-| -S [開始位置を設定したいフレーム番号] | **s**tart frame number | VMDファイルは0フレームから開始するので指定したフレーム数追加値で出力する |
-| -M                                    | **m**inimum json       | データサイズを小さくしたい場合用の改行がないJsonにする                   |
-| -T [ターゲットID]                     | **t**arget ID          | どのモデルに対しての操作か変わりやすいようにIDを付与が可能               |
-| -q                                    | **q**uit               | 動作ログを出力しない                                                     |
-| --LeftHand                                   | Left Hand               | 座標を左手系に変更する。(デフォルト)                                                  |
-| --RightHand                                   | Right Hand               | 座標を右手系に変更する。 [--LeftHand] が指定されていると無効になります。                                                  |
-| --MMDtHand                                   | MMD Hand               | MMD座標に変更する。 [--LeftHand　｜--RightHand  ] が指定されていると無効になります。                                                  |
+| コマンド                              | コマンドの略称前       | 動作                                                                                |
+| :------------------------------------ | :--------------------- | ----------------------------------------------------------------------------------- |
+| -h/--help                             | **h**elp               | コマンド情報を表示する                                                              |
+| -F [変換したいVMDファイル]            | input **f**ile         | 変換したVMDファイルを指定する。                                                     |
+| -O [出力するファイルパス]             | **o**utput file        | 出力したJSONのファイルを指定する。                                                  |
+| -S [開始位置を設定したいフレーム番号] | **s**tart frame number | VMDファイルは0フレームから開始するので指定したフレーム数追加値で出力する            |
+| -M                                    | **m**inimum json       | データサイズを小さくしたい場合用の改行がないJsonにする                              |
+| -T [ターゲットID]                     | **t**arget ID          | どのモデルに対しての操作か変わりやすいようにIDを付与が可能                          |
+| -q                                    | **q**uit               | 動作ログを出力しない                                                                |
+| --LeftHand                            | Left Hand              | 座標を左手系に変更する。(デフォルト)                                                |
+| --RightHand                           | Right Hand             | 座標を右手系に変更する。 [--LeftHand] が指定されていると無効になります。            |
+| --MMDtHand                            | MMD Hand               | MMD座標に変更する。 [--LeftHand ｜--RightHand  ] が指定されていると無効になります。 |
+| -G [ NONE / NAME ]                    | Group by *             | モーションの並び順をMMD(時系列：デフォルト)か パーツ名で一回グルーピングする        |
+| --unit_length [ cm / mm ]             | Unit of length         | Lengthの出力を[cm]/[mm]に変更する。                                                 |
 
 
 ## ソフトウェアの構造
@@ -38,14 +40,13 @@ VMDtoJson -F [変換したいVMDファイル] -O [出力するファイルパス
 actor "オペレータ" as AC
 file VMDファイル as VMDFile
 
-package サンプルソフト {
+package VMDtoJSON {
     rectangle ”入力解析” as input_function
-    package VMDtoJson {
+    package VMDtoStruct {
         rectangle "VMDを構造体に変換" as vmd_to_struct
-        rectangle "構造体をJSONに変換" as struct_to_json
     }
+    rectangle "構造体をJSON(TEXT)に変換" as struct_to_json
     rectangle "出力機能" as output_function
-    rectangle "タイマー" as timer
 }
 
 file "json ファイル" as json_file
@@ -58,8 +59,6 @@ vmd_to_struct --> struct_to_json
 struct_to_json --> output_function
 output_function -left-> json_file
 
-input_function --> timer
-timer --> output_function
 
 @enduml
 ```

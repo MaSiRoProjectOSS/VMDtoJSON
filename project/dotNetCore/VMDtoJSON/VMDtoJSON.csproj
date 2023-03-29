@@ -1,0 +1,73 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <StartupObject></StartupObject>
+    <Nullable>warnings</Nullable>
+    <Copyright />
+    <Version>0.0.3</Version>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <NeutralLanguage>en</NeutralLanguage>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>VMDtoJson.pfx</AssemblyOriginatorKeyFile>
+    <PackageProjectUrl>https://github.com/MaSiRo-Project-OSS/VMDtoJSON</PackageProjectUrl>
+    <Authors>MaSiRo Project.</Authors>
+    <Description>MikuMikuDanceのモーションデータ(VMDファイル)をJSON形式に変換するコンバーダー</Description>
+    <DelaySign>false</DelaySign>
+    <AssemblyVersion>0.0.3.0</AssemblyVersion>
+    <FileVersion>0.0.3.0</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\..\publish\</OutputPath>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="src\Common\**" />
+    <EmbeddedResource Remove="src\Common\**" />
+    <None Remove="src\Common\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+    <Compile Include="..\..\..\src\CS\VMDtoJSON_ToJsonText.cs">
+      <Link>src\VMDtoJSON_ToJsonText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\src\CS\VMDtoJSON_Converter.cs">
+      <Link>src\VMDtoJSON_Converter.cs</Link>
+    </Compile>
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\dotStandard\VMDtoJSON\VMDtoStruct.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
