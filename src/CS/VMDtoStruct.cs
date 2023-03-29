@@ -4,11 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using static MaSiRoProject.Format.VMD_Format;
-using static MaSiRoProject.Format.VMD_Format_Struct.FORMAT_Expansion;
 
 namespace MaSiRoProject
 {
@@ -58,16 +55,16 @@ namespace MaSiRoProject
         /// <param name="startframe"></param>
         public void SetStartFrame(int startframe)
         {
-            VMD_Data.SetStartFrame(startframe);
+            this.VMD_Data.SetStartFrame(startframe);
         }
 
         /// <summary>
         /// 単位設定
         /// </summary>
         /// <param name="value">定義</param>
-        public void SetUnitofLength(VMD_UNIT_LENGTH value)
+        public void SetUnitOfLength(VMD_UNIT_LENGTH value)
         {
-            VMD_Data.SetUnitofLength(value);
+            this.VMD_Data.SetUnitOfLength(value);
         }
 
         #endregion 設定関数
@@ -143,12 +140,12 @@ namespace MaSiRoProject
                         if (filelength > reader.BaseStream.Position)
                         {
                             CommonLogger.Log(CommonLogger.LEVEL.INFO, "-- Loading [Header] --");
-                            VMD_Data.SetFileSignature(CommonFunction.GetTextFromByte(
+                            this.VMD_Data.SetFileSignature(CommonFunction.GetTextFromByte(
                                     reader.ReadBytes(30),
                                     text_encoding_sjis,
                                     text_encoding_utf8));
 
-                            if (!VMD_Format.FORMAT_Expansion.FILETYPE_VMD.Equals(VMD_Data.Expansion.FileType))
+                            if (!VMD_Format.FORMAT_Expansion.FILETYPE_VMD.Equals(this.VMD_Data.Expansion.FileType))
                             {
                                 throw new Exception("Is this a VMD file ? ");
                             }
@@ -157,8 +154,8 @@ namespace MaSiRoProject
                                     reader.ReadBytes(20),
                                     text_encoding_sjis,
                                     text_encoding_utf8);
-                            CommonLogger.Log(CommonLogger.LEVEL.INFO, "    FileSignature : " + VMD_Data.Header.FileSignature.TrimEnd());
-                            CommonLogger.Log(CommonLogger.LEVEL.INFO, "    ModelName     : " + VMD_Data.Header.ModelName.TrimEnd());
+                            CommonLogger.Log(CommonLogger.LEVEL.INFO, "    FileSignature : " + this.VMD_Data.Header.FileSignature.TrimEnd());
+                            CommonLogger.Log(CommonLogger.LEVEL.INFO, "    ModelName     : " + this.VMD_Data.Header.ModelName.TrimEnd());
                         }
 
                         //////////////////////////////
@@ -177,7 +174,8 @@ namespace MaSiRoProject
                                 data.Name = CommonFunction.GetTextFromByte(
                                         reader.ReadBytes(15),
                                         text_encoding_sjis,
-                                        text_encoding_utf8);
+                                        text_encoding_utf8).Replace("\0", "");
+
                                 data.FrameNo = reader.ReadUInt32();
                                 data.Location.Set(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
                                 /////////////////////////////////////////////////
@@ -266,7 +264,7 @@ namespace MaSiRoProject
                                 data.Interpolation.unkown_16.Stop.Amount = reader.ReadByte();
                                 */
                                 /////////////////////////////////////////////////
-                                VMD_Data.Motion.Data.Add(data);
+                                this.VMD_Data.Motion.Data.Add(data);
                             }
                         }
 
@@ -289,7 +287,7 @@ namespace MaSiRoProject
                                         text_encoding_utf8);
                                 data.FrameNo = reader.ReadUInt32();
                                 data.Weight = reader.ReadSingle();
-                                VMD_Data.Skin.Data.Add(data);
+                                this.VMD_Data.Skin.Data.Add(data);
                             }
                         }
 
@@ -363,7 +361,7 @@ namespace MaSiRoProject
                                         (int)(reader.ReadSingle() * 256.0f),
                                         (int)(reader.ReadSingle() * 256.0f));
                                 data.Location.Set(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
-                                VMD_Data.Illumination.Data.Add(data);
+                                this.VMD_Data.Illumination.Data.Add(data);
                             }
                         }
 
@@ -383,7 +381,7 @@ namespace MaSiRoProject
                                 data.FrameNo = reader.ReadUInt32(); // 4 // フレーム番号(読込時は現在のフレーム位置を0とした相対位置)
                                 data.SetMode(reader.ReadByte()); // 00-02 // モード
                                 data.Distance_Value = reader.ReadSingle();
-                                VMD_Data.SelfShadow.Data.Add(data);
+                                this.VMD_Data.SelfShadow.Data.Add(data);
                             }
                         }
 
@@ -417,7 +415,7 @@ namespace MaSiRoProject
                                     visible_data.Data.Add(data);
                                 }
 
-                                VMD_Data.IK.Data.Add(visible_data);
+                                this.VMD_Data.IK.Data.Add(visible_data);
                             }
                         }
                     }
@@ -525,6 +523,10 @@ namespace MaSiRoProject
                     - Math.Atan2(2.0 * ((value.Y * value.Z) + (value.X * value.W)),
                         Math.Pow(value.X, 2) + Math.Pow(value.Y, 2) - Math.Pow(value.Z, 2) - Math.Pow(value.W, 2)))
             );
+            if (Math.Abs(euler.Pitch) > 10000000) { euler.Pitch = 0; }
+            if (Math.Abs(euler.Roll) > 10000000) { euler.Roll = 0; }
+            if (Math.Abs(euler.Yaw) > 10000000) { euler.Yaw = 0; }
+
             return euler;
         }
 
@@ -556,9 +558,15 @@ namespace MaSiRoProject
         /// </summary>
         public VMDtoStruct()
         {
-            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            text_encoding_sjis = Encoding.GetEncoding("Shift_JIS");
-            VMD_Data.SetUnitofLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_DEFUALT);
+            try
+            {
+                //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                text_encoding_sjis = Encoding.GetEncoding("Shift_JIS");
+            }
+            catch
+            {
+            }
+            this.VMD_Data.SetUnitOfLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_DEFAULT);
         }
 
         #endregion コンストラクタ

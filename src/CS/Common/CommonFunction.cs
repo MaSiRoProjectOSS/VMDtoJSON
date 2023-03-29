@@ -19,12 +19,12 @@ namespace MaSiRoProject
                 System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
                 return fvi.ProductName.ToString();
                 /*
-                System.Reflection.AssemblyProductAttribute asmprd =
+                System.Reflection.AssemblyProductAttribute asm_prd =
                         (System.Reflection.AssemblyProductAttribute)
                         Attribute.GetCustomAttribute(
                         System.Reflection.Assembly.GetExecutingAssembly(),
                             typeof(System.Reflection.AssemblyProductAttribute));
-                return asmprd.Product;
+                return asm_prd.Product;
                 */
             }
 
@@ -89,6 +89,9 @@ namespace MaSiRoProject
             /// <returns>変換後の値</returns>
             public static T DegreeLimit180<T>(dynamic value)
             {
+                if (value >= 1000000000) { value = 0; }
+                if (value <= -1000000000) { value = 0; }
+
                 while (180.0f < value)
                 {
                     value = 360.0f - value;

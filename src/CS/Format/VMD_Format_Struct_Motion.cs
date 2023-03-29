@@ -67,6 +67,14 @@ namespace MaSiRoProject
                 ///     現在のフレーム位置を0とした相対位置だが、構造体上はファイルの値とする
                 /// </remarks>
                 private uint inner_FrameNo = 0;
+
+                /// <summary>
+                ///  フレーム番号
+                /// </summary>
+                /// <bytesize>4</bytesize>
+                /// <remarks>
+                ///     現在のフレーム位置を0とした相対位置だが、構造体上はファイルの値とする
+                /// </remarks>
                 public uint FrameNo
                 {
                     set { this.inner_FrameNo = value; }

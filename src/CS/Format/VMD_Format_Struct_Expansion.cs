@@ -119,7 +119,6 @@
             /// </remarks>
             public class FORMAT_Expansion
             {
-
                 /// <summary>
                 /// 座標系
                 /// </summary>
@@ -132,6 +131,7 @@
                 {
                     get { return VMD_Format.StartFrame; }
                 }
+
                 /// <summary>
                 /// ファイルタイプ
                 /// </summary>

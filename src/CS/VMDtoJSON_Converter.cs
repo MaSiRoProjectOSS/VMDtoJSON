@@ -10,13 +10,14 @@ namespace MaSiRoProject
         {
             VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList
             coordinate_system = VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand;
-            bool flag_LeftHand_agrs = false;
-            bool flag_RightHand_agrs = false;
-            bool flag_MMDHand_agrs = false;
+            bool flag_LeftHand_args = false;
+            bool flag_RightHand_args = false;
+            bool flag_MMDHand_args = false;
             bool flag_help = false;
             bool flag_version = false;
             string input_filename = string.Empty;
             string output_filename = string.Empty;
+            string base_filename = string.Empty;
             ////////////////////////
             VMDtoJSON_ToJsonText vmdtojson = new VMDtoJSON_ToJsonText();
             vmdtojson.SetOutputJsonType(false);
@@ -35,6 +36,15 @@ namespace MaSiRoProject
                     if (i + 1 < args.Length)
                     {
                         input_filename = args[i + 1];
+                        i = i + 1;
+                    }
+                }
+                else if ("-B".Equals(args[i]))
+                {
+                    // 変換対象のVMDファイル
+                    if (i + 1 < args.Length)
+                    {
+                        base_filename = args[i + 1];
                         i = i + 1;
                     }
                 }
@@ -62,12 +72,12 @@ namespace MaSiRoProject
                     {
                         if ("cm".Equals(args[i + 1].ToLower()))
                         {
-                            vmdtojson.SetUnitofLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_CM);
+                            vmdtojson.SetUnitOfLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_CM);
                         }
                         else
                         if ("mm".Equals(args[i + 1].ToLower()))
                         {
-                            vmdtojson.SetUnitofLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_MM);
+                            vmdtojson.SetUnitOfLength(VMD_UNIT_LENGTH.VMD_UNIT_LENGTH_MM);
                         }
 
                         i = i + 1;
@@ -112,17 +122,17 @@ namespace MaSiRoProject
                 else if ("--lefthand".Equals(args[i].ToLower()))
                 {
                     // 座標を左手系に変更する。(デフォルト)
-                    flag_LeftHand_agrs = true;
+                    flag_LeftHand_args = true;
                 }
                 else if ("--righthand".Equals(args[i].ToLower()))
                 {
                     //  座標を右手系に変更する。 [--LeftHand] が指定されていると無効になります。
-                    flag_RightHand_agrs = true;
+                    flag_RightHand_args = true;
                 }
                 else if ("--mmdhand".Equals(args[i].ToLower()))
                 {
                     //  座標を右手系に変更する。 [--LeftHand] が指定されていると無効になります。
-                    flag_MMDHand_agrs = true;
+                    flag_MMDHand_args = true;
                 }
                 else if (("-v".Equals(args[i].ToLower()) || ("--version".Equals(args[i].ToLower()))))
                 {
@@ -146,15 +156,15 @@ namespace MaSiRoProject
             ////////////////////////
             /// 入力設定の変更
             ////////////////////////
-            if (true == flag_LeftHand_agrs)
+            if (true == flag_LeftHand_args)
             {
                 coordinate_system = VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.LeftHand;
             }
-            else if (true == flag_RightHand_agrs)
+            else if (true == flag_RightHand_args)
             {
                 coordinate_system = VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.RightHand;
             }
-            else if (true == flag_MMDHand_agrs)
+            else if (true == flag_MMDHand_args)
             {
                 coordinate_system = VMD_Format_Struct.FORMAT_Expansion.CoordinateSystemList.MMDHand;
             }
@@ -178,16 +188,12 @@ namespace MaSiRoProject
 
                 if (0 != input_filename.Length)
                 {
-                    vmdtojson.Convert(input_filename);
+                    vmdtojson.Convert(input_filename, base_filename, output_filename);
 
-                    if (0 != output_filename.Length)
-                    {
-                        vmdtojson.OutputFile(output_filename);
-                    }
-                    else
+                    if (0 == output_filename.Length)
                     {
                         CommonLogger.Log(CommonLogger.LEVEL.INFO, "==================");
-                        CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT, vmdtojson.GetJsonTest());
+                        CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT, vmdtojson.GetJsonText());
                     }
                 }
                 else
@@ -233,17 +239,17 @@ namespace MaSiRoProject
                     + "     -S frame_no        : " + "start the frame number<frame_no> from the specified number." + System.Environment.NewLine
                     + "     -T targetID        : " + "set the <targetID> in the extension header." + System.Environment.NewLine
                     + "     -M                 : " + "make a JSON file with no line breaks or spaces." + System.Environment.NewLine
-                    + "     -G grupe_name      : " + "Group the output" + System.Environment.NewLine
+                    + "     -G group_name      : " + "Group the output" + System.Environment.NewLine
                     + "     --unit_length unit : " + "Set Unit of length" + System.Environment.NewLine
                     + "     -q             : " + "don't print version and copyright messages on interactive startup." + System.Environment.NewLine
                 );
 
                 // Manipulating output data
                 CommonLogger.Log(Common.CommonLogger.LEVEL.REPORT,
-                    "   CoordinateSystem(" + System.Environment.NewLine
-                    + "     --LeftHand     : " + "Output Left hand Coordinate System. Priorty Hight (defalut) " + System.Environment.NewLine
-                    + "     --RightHand    : " + "Output Left hand Coordinate System. Priorty Middle" + System.Environment.NewLine
-                    + "     --MMDtHand     : " + "Output Left hand Coordinate System. Priorty Low" + System.Environment.NewLine
+                    "   CoordinateSystem" + System.Environment.NewLine
+                    + "     --LeftHand     : " + "Output Left hand Coordinate System. Priority Hight (default) " + System.Environment.NewLine
+                    + "     --RightHand    : " + "Output Left hand Coordinate System. Priority Middle" + System.Environment.NewLine
+                    + "     --MMDtHand     : " + "Output Left hand Coordinate System. Priority Low" + System.Environment.NewLine
                 );
             }
         }

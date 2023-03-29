@@ -30,7 +30,7 @@ VMDtoJson -F [変換したいVMDファイル] -O [出力するファイルパス
 | --RightHand                           | Right Hand             | 座標を右手系に変更する。 [--LeftHand] が指定されていると無効になります。            |
 | --MMDtHand                            | MMD Hand               | MMD座標に変更する。 [--LeftHand ｜--RightHand  ] が指定されていると無効になります。 |
 | -G [ NONE / NAME ]                    | Group by *             | モーションの並び順をMMD(時系列：デフォルト)か パーツ名で一回グルーピングする        |
-| --unit_length [ cm / mm ]             | Unit of length         | Lenghtの出力を[cm]/[mm]に変更する。                                                 |
+| --unit_length [ cm / mm ]             | Unit of length         | Lengthの出力を[cm]/[mm]に変更する。                                                 |
 
 
 ## ソフトウェアの構造
